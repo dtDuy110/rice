@@ -1,20 +1,64 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { TrendingUp, Package, Truck, MoreVertical } from 'lucide-react'
-import { orders } from '../../data/mockData'
 import Badge from '../../components/ui/Badge'
+import api from '../../services/api'
 
 const tabs = ['Tất cả', 'Đang chờ', 'Đã giao', 'Đã hủy']
 const statusMap = { processing: 'Đang xử lý', delivery: 'Đang giao', delivered: 'Đã giao', cancelled: 'Đã hủy' }
 
-const orderStats = [
-  { label: "ĐƠN HÀNG HÔM NAY", value: '142', change: '+12%', color: 'bg-surface' },
-  { label: "CHỜ XỬ LÝ", value: '38', color: 'bg-surface' },
-  { label: "ĐANG GIAO", value: '24', color: 'bg-surface' },
-  { label: "DOANH THU HÔM NAY", value: '4.2 Tr', color: 'bg-primary text-on-primary' },
-]
-
 export default function OrdersPage() {
   const [activeTab, setActiveTab] = useState('Tất cả')
+  const [orders, setOrders] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const res = await api.get('/admin/orders')
+        if (res.data.success) {
+          setOrders(res.data.data)
+        }
+      } catch (error) {
+        console.error('Error fetching admin orders:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchOrders()
+  }, [])
+
+  // Calculate Stats
+  const todayOrders = orders.filter(o => new Date(o.createdAt).toDateString() === new Date().toDateString())
+  const pendingOrders = orders.filter(o => o.status === 'processing')
+  const deliveryOrders = orders.filter(o => o.status === 'delivery')
+  const todayRevenue = todayOrders.reduce((acc, o) => acc + o.totalAmount, 0)
+
+  const orderStats = [
+    { label: "ĐƠN HÀNG HÔM NAY", value: todayOrders.length.toString(), color: 'bg-surface' },
+    { label: "CHỜ XỬ LÝ", value: pendingOrders.length.toString(), color: 'bg-surface' },
+    { label: "ĐANG GIAO", value: deliveryOrders.length.toString(), color: 'bg-surface' },
+    { label: "DOANH THU HÔM NAY", value: `$${todayRevenue.toFixed(2)}`, color: 'bg-primary text-on-primary' },
+  ]
+
+  // Filter orders by tab
+  const getTabStatus = (tab) => {
+    if (tab === 'Đang chờ') return 'processing'
+    if (tab === 'Đã giao') return 'delivered'
+    if (tab === 'Đã hủy') return 'cancelled'
+    return 'all'
+  }
+  
+  const filteredOrders = getTabStatus(activeTab) === 'all' 
+    ? orders 
+    : orders.filter(o => o.status === getTabStatus(activeTab))
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-[50vh]">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
+      </div>
+    )
+  }
 
   return (
     <div className="animate-fade-in space-y-6">
@@ -54,23 +98,29 @@ export default function OrdersPage() {
               </tr>
             </thead>
             <tbody>
-              {orders.map((order, i) => (
-                <tr key={i} className="border-b border-outline-variant/10 last:border-0 hover:bg-surface-container-low/50 transition-colors">
-                  <td className="py-5 px-6 text-body-md text-on-surface font-medium">{order.id}</td>
-                  <td className="py-5 px-6 text-body-md text-on-surface-variant">{order.customer}</td>
-                  <td className="py-5 px-6 text-body-md text-on-surface-variant">{order.date}</td>
-                  <td className="py-5 px-6 text-body-md text-on-surface font-medium">${order.total.toFixed(2)}</td>
-                  <td className="py-5 px-6"><Badge type={order.status}>{statusMap[order.status]}</Badge></td>
-                  <td className="py-5 px-6"><button className="text-on-surface-variant hover:text-on-surface"><MoreVertical size={18} /></button></td>
+              {filteredOrders.length === 0 ? (
+                <tr>
+                  <td colSpan="6" className="py-12 text-center text-on-surface-variant">Không có đơn hàng nào.</td>
                 </tr>
-              ))}
+              ) : (
+                filteredOrders.map((order) => (
+                  <tr key={order._id} className="border-b border-outline-variant/10 last:border-0 hover:bg-surface-container-low/50 transition-colors">
+                    <td className="py-5 px-6 text-body-md text-on-surface font-medium">#{order._id.slice(-6).toUpperCase()}</td>
+                    <td className="py-5 px-6 text-body-md text-on-surface-variant">{order.shippingAddress?.fullName || order.user?.name || 'Khách hàng'}</td>
+                    <td className="py-5 px-6 text-body-md text-on-surface-variant">{new Date(order.createdAt).toLocaleDateString('vi-VN')}</td>
+                    <td className="py-5 px-6 text-body-md text-on-surface font-medium">${order.totalAmount.toFixed(2)}</td>
+                    <td className="py-5 px-6"><Badge type={order.status}>{statusMap[order.status] || order.status}</Badge></td>
+                    <td className="py-5 px-6"><button className="text-on-surface-variant hover:text-on-surface"><MoreVertical size={18} /></button></td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
 
         {/* Pagination */}
         <div className="px-6 py-4 border-t border-outline-variant/20 flex items-center justify-between">
-          <span className="text-label-sm text-on-surface-variant">Hiển thị 1 đến 4 / 142 mục</span>
+          <span className="text-label-sm text-on-surface-variant">Hiển thị {filteredOrders.length} đơn hàng</span>
           <div className="flex gap-2">
             <button className="px-4 py-2 border border-outline-variant rounded-lg text-label-sm text-on-surface-variant hover:bg-surface-container-high transition-colors">Trước</button>
             <button className="px-4 py-2 border border-outline-variant rounded-lg text-label-sm text-on-surface-variant hover:bg-surface-container-high transition-colors">Tiếp</button>

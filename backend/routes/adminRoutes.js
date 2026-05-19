@@ -4,6 +4,7 @@ const {
   getDashboardStats,
   getOrders,
   updateOrderStatus,
+  getAdminProducts,
   createProduct,
   updateProduct,
   deleteProduct
@@ -21,6 +22,7 @@ router.route('/orders/:id/status')
   .put(updateOrderStatus);
 
 router.route('/products')
+  .get(getAdminProducts)
   .post(createProduct);
 
 router.route('/products/:id')

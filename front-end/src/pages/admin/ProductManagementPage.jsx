@@ -1,10 +1,30 @@
+import { useState, useEffect } from 'react'
 import { Search, Plus, ChevronDown, Filter, MoreVertical } from 'lucide-react'
-import { adminProducts } from '../../data/mockData'
 import Badge from '../../components/ui/Badge'
 import Pagination from '../../components/ui/Pagination'
 import Button from '../../components/ui/Button'
+import api from '../../services/api'
 
 export default function ProductManagementPage() {
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await api.get('/admin/products')
+        if (res.data.success) {
+          setProducts(res.data.data)
+        }
+      } catch (error) {
+        console.error('Error fetching admin products:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchProducts()
+  }, [])
+
   return (
     <div className="animate-fade-in space-y-6">
       {/* Header */}
@@ -55,14 +75,25 @@ export default function ProductManagementPage() {
               </tr>
             </thead>
             <tbody>
-              {adminProducts.map((product) => {
-                const stockPct = (product.stock / product.maxStock) * 100
-                const stockColor = stockPct > 50 ? 'bg-primary' : stockPct > 10 ? 'bg-secondary-container' : 'bg-outline-variant'
-                return (
-                  <tr key={product.id} className="border-b border-outline-variant/10 last:border-0 hover:bg-surface-container-low/50 transition-colors">
-                    <td className="py-4 px-6">
-                      <img src={product.image} alt={product.name} className="w-12 h-12 rounded-lg object-cover" />
-                    </td>
+              {loading ? (
+                <tr>
+                  <td colSpan="7" className="py-12 text-center">
+                    <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-primary border-t-transparent"></div>
+                  </td>
+                </tr>
+              ) : products.length === 0 ? (
+                <tr>
+                  <td colSpan="7" className="py-12 text-center text-on-surface-variant">Không có sản phẩm nào.</td>
+                </tr>
+              ) : (
+                products.map((product) => {
+                  const stockPct = product.maxStock ? (product.stock / product.maxStock) * 100 : Math.min((product.stock / 100) * 100, 100)
+                  const stockColor = stockPct > 50 ? 'bg-primary' : stockPct > 10 ? 'bg-secondary-container' : 'bg-outline-variant'
+                  return (
+                    <tr key={product._id} className="border-b border-outline-variant/10 last:border-0 hover:bg-surface-container-low/50 transition-colors">
+                      <td className="py-4 px-6">
+                        <img src={product.images?.[0] || 'https://via.placeholder.com/150'} alt={product.name} className="w-12 h-12 rounded-lg object-cover" />
+                      </td>
                     <td className="py-4 px-6">
                       <p className="text-body-md text-on-surface font-medium">{product.name}</p>
                       <p className="text-label-sm text-on-surface-variant">SKU: {product.sku}</p>
@@ -76,20 +107,22 @@ export default function ProductManagementPage() {
                         <span className="text-body-md text-on-surface-variant whitespace-nowrap">{product.stock} {product.unit}</span>
                       </div>
                     </td>
-                    <td className="py-4 px-6 text-body-md text-on-surface font-medium">${product.price.toFixed(2)}/{product.unit}</td>
-                    <td className="py-4 px-6"><Badge type={product.status}>{product.status === 'active' ? 'Active' : 'Draft'}</Badge></td>
-                    <td className="py-4 px-6"><button className="text-on-surface-variant hover:text-on-surface"><MoreVertical size={18} /></button></td>
-                  </tr>
-                )
-              })}
+                      <td className="py-4 px-6 text-body-md text-on-surface font-medium">${product.price.toFixed(2)}/{product.unit}</td>
+                      <td className="py-4 px-6"><Badge type={product.status === 'active' ? 'active' : 'draft'}>{product.status === 'active' ? 'Active' : 'Draft'}</Badge></td>
+                      <td className="py-4 px-6"><button className="text-on-surface-variant hover:text-on-surface"><MoreVertical size={18} /></button></td>
+                    </tr>
+                  )
+                })
+              )}
             </tbody>
           </table>
         </div>
 
         {/* Pagination */}
         <div className="px-6 py-4 border-t border-outline-variant/20 flex items-center justify-between">
-          <span className="text-label-sm text-on-surface-variant">Hiển thị 1 đến 10 / 48 mục</span>
-          <Pagination currentPage={1} totalPages={3} />
+          <span className="text-label-sm text-on-surface-variant">Hiển thị {products.length} sản phẩm</span>
+          {/* Mock Pagination for now since API doesn't paginate yet */}
+          <Pagination currentPage={1} totalPages={1} />
         </div>
       </div>
     </div>

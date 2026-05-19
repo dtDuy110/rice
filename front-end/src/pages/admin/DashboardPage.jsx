@@ -1,15 +1,43 @@
-import { TrendingUp, Wallet, Package, Users, Target, Eye, MoreVertical } from 'lucide-react'
-import { dashboardStats, recentOrders, lowStockItems } from '../../data/mockData'
+import { useState, useEffect } from 'react'
+import { TrendingUp, Wallet, Package, Users, Target, MoreVertical } from 'lucide-react'
 import Badge from '../../components/ui/Badge'
+import api from '../../services/api'
 
 const iconMap = { wallet: Wallet, package: Package, users: Users, target: Target }
 
 export default function DashboardPage() {
+  const [data, setData] = useState({ stats: [], recentOrders: [], lowStockItems: [] })
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchDashboard = async () => {
+      try {
+        const res = await api.get('/admin/dashboard')
+        if (res.data.success) {
+          setData(res.data.data)
+        }
+      } catch (error) {
+        console.error('Error fetching dashboard stats:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchDashboard()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-[50vh]">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
+      </div>
+    )
+  }
+
   return (
     <div className="animate-fade-in space-y-6">
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {dashboardStats.map((stat, i) => {
+        {data.stats.map((stat, i) => {
           const Icon = iconMap[stat.icon] || Wallet
           return (
             <div key={i} className="bg-surface rounded-2xl p-6 border border-surface-variant shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all">
@@ -85,13 +113,13 @@ export default function DashboardPage() {
                 </tr>
               </thead>
               <tbody>
-                {recentOrders.map((order, i) => (
-                  <tr key={i} className="border-b border-outline-variant/10 last:border-0 hover:bg-surface-container-low/50 transition-colors">
-                    <td className="py-4 px-2 text-body-md text-on-surface font-medium">{order.id}</td>
-                    <td className="py-4 px-2 text-body-md text-on-surface-variant">{order.customer}</td>
-                    <td className="py-4 px-2 text-body-md text-on-surface-variant">{order.date}</td>
-                    <td className="py-4 px-2 text-body-md text-on-surface font-medium">${order.total.toFixed(2)}</td>
-                    <td className="py-4 px-2"><Badge type={order.status}>{order.status === 'success' ? 'Thành công' : 'Đang chờ'}</Badge></td>
+                {data.recentOrders.map((order, i) => (
+                  <tr key={order._id} className="border-b border-outline-variant/10 last:border-0 hover:bg-surface-container-low/50 transition-colors">
+                    <td className="py-4 px-2 text-body-md text-on-surface font-medium">#{order._id.slice(-6).toUpperCase()}</td>
+                    <td className="py-4 px-2 text-body-md text-on-surface-variant">{order.shippingAddress?.fullName || 'Khách hàng'}</td>
+                    <td className="py-4 px-2 text-body-md text-on-surface-variant">{new Date(order.createdAt).toLocaleDateString('vi-VN')}</td>
+                    <td className="py-4 px-2 text-body-md text-on-surface font-medium">${order.totalAmount.toFixed(2)}</td>
+                    <td className="py-4 px-2"><Badge type={order.status}>{order.status === 'processing' ? 'Đang chờ' : order.status === 'delivered' ? 'Thành công' : order.status}</Badge></td>
                   </tr>
                 ))}
               </tbody>
@@ -106,7 +134,7 @@ export default function DashboardPage() {
             <span className="bg-error text-on-error text-xs font-bold px-2 py-0.5 rounded-full">3</span>
           </div>
           <div className="space-y-4">
-            {lowStockItems.map((item, i) => (
+            {data.lowStockItems.map((item, i) => (
               <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-surface-container-low/50">
                 <div className="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-lg">{item.icon}</div>
                 <div className="flex-1 min-w-0">

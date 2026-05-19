@@ -68,6 +68,18 @@ const updateOrderStatus = async (req, res) => {
   }
 };
 
+// @desc    Get all products for admin
+// @route   GET /api/admin/products
+// @access  Private/Admin
+const getAdminProducts = async (req, res) => {
+  try {
+    const products = await Product.find().sort({ createdAt: -1 });
+    res.json({ success: true, data: products });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 // @desc    Create a product
 // @route   POST /api/admin/products
 // @access  Private/Admin
@@ -118,6 +130,7 @@ module.exports = {
   getDashboardStats,
   getOrders,
   updateOrderStatus,
+  getAdminProducts,
   createProduct,
   updateProduct,
   deleteProduct
