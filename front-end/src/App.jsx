@@ -9,16 +9,23 @@ import SignInPage from './pages/SignInPage'
 import DashboardPage from './pages/admin/DashboardPage'
 import OrdersPage from './pages/admin/OrdersPage'
 import ProductManagementPage from './pages/admin/ProductManagementPage'
+import { AuthProvider } from './context/AuthContext'
+import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
   return (
-    <Router>
+    <AuthProvider>
+      <Router>
       <Routes>
         {/* Auth - no layout */}
         <Route path="/dang-nhap" element={<SignInPage />} />
 
         {/* Admin layout */}
-        <Route path="/admin" element={<AdminLayout />}>
+        <Route path="/admin" element={
+          <ProtectedRoute requireAdmin={true}>
+            <AdminLayout />
+          </ProtectedRoute>
+        }>
           <Route index element={<DashboardPage />} />
           <Route path="don-hang" element={<OrdersPage />} />
           <Route path="san-pham" element={<ProductManagementPage />} />
@@ -33,6 +40,7 @@ function App() {
         </Route>
       </Routes>
     </Router>
+    </AuthProvider>
   )
 }
 

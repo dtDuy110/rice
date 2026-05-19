@@ -1,10 +1,38 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Button from '../components/ui/Button'
+import { useAuth } from '../context/AuthContext'
 
 export default function SignInPage() {
   const [showPassword, setShowPassword] = useState(false)
+  const [email, setEmail] = useState('admin@thanhphat.vn') // Default for testing
+  const [password, setPassword] = useState('password123')
+  const [localError, setLocalError] = useState('')
+  
+  const { login, error, loading, user } = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (user) {
+      navigate(user.role === 'admin' ? '/admin' : '/')
+    }
+  }, [user, navigate])
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setLocalError('')
+    try {
+      const loggedUser = await login(email, password)
+      if (loggedUser.role === 'admin') {
+        navigate('/admin')
+      } else {
+        navigate('/')
+      }
+    } catch (err) {
+      setLocalError(err.message)
+    }
+  }
 
   return (
     <div className="min-h-screen flex">
@@ -38,13 +66,27 @@ export default function SignInPage() {
             Vui lòng nhập thông tin để đăng nhập.
           </p>
 
-          <form className="space-y-5">
+          <form className="space-y-5" onSubmit={handleSubmit}>
+            {/* Error Message */}
+            {(error || localError) && (
+              <div className="p-3 bg-error/10 text-error text-body-md rounded-xl border border-error/20">
+                {error || localError}
+              </div>
+            )}
+
             {/* Email */}
             <div>
               <label className="text-label-md text-on-surface font-semibold mb-2 block">Email</label>
               <div className="relative">
                 <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-outline" />
-                <input type="email" placeholder="Nhập email của bạn" className="w-full bg-surface border border-outline-variant/50 rounded-xl pl-11 pr-4 py-3 text-body-md placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" />
+                <input 
+                  type="email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="Nhập email của bạn" 
+                  className="w-full bg-surface border border-outline-variant/50 rounded-xl pl-11 pr-4 py-3 text-body-md placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" 
+                />
               </div>
             </div>
 
@@ -53,7 +95,14 @@ export default function SignInPage() {
               <label className="text-label-md text-on-surface font-semibold mb-2 block">Mật khẩu</label>
               <div className="relative">
                 <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-outline" />
-                <input type={showPassword ? 'text' : 'password'} placeholder="••••••••" className="w-full bg-surface border border-outline-variant/50 rounded-xl pl-11 pr-12 py-3 text-body-md placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" />
+                <input 
+                  type={showPassword ? 'text' : 'password'} 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  placeholder="••••••••" 
+                  className="w-full bg-surface border border-outline-variant/50 rounded-xl pl-11 pr-12 py-3 text-body-md placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" 
+                />
                 <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors">
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
@@ -69,7 +118,9 @@ export default function SignInPage() {
               <a href="#" className="text-label-md text-on-surface font-semibold hover:text-primary transition-colors text-sm">Quên mật khẩu?</a>
             </div>
 
-            <Button variant="primary" size="lg" className="w-full">Đăng nhập</Button>
+            <Button type="submit" variant="primary" size="lg" className="w-full" disabled={loading}>
+              {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
+            </Button>
           </form>
 
           {/* Divider */}

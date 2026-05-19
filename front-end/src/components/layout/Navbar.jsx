@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
-import { Link, NavLink } from 'react-router-dom'
-import { ShoppingCart, User, Menu, X } from 'lucide-react'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { ShoppingCart, User, Menu, X, LogOut } from 'lucide-react'
+import { useAuth } from '../../context/AuthContext'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -65,12 +68,25 @@ export default function Navbar() {
           >
             <ShoppingCart size={22} />
           </Link>
-          <Link
-            to="/dang-nhap"
-            className="text-primary hover:text-primary-container transition-colors p-2 rounded-lg hover:bg-surface-container-high"
-          >
-            <User size={22} />
-          </Link>
+          {user ? (
+            <div className="flex items-center gap-2">
+              <span className="hidden md:block text-label-sm font-semibold">{user.name}</span>
+              <button
+                onClick={() => { logout(); navigate('/dang-nhap'); }}
+                className="text-primary hover:text-primary-container transition-colors p-2 rounded-lg hover:bg-surface-container-high"
+                title="Đăng xuất"
+              >
+                <LogOut size={22} />
+              </button>
+            </div>
+          ) : (
+            <Link
+              to="/dang-nhap"
+              className="text-primary hover:text-primary-container transition-colors p-2 rounded-lg hover:bg-surface-container-high"
+            >
+              <User size={22} />
+            </Link>
+          )}
 
           {/* Mobile Hamburger */}
           <button

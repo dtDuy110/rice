@@ -6,7 +6,10 @@ import {
   Users,
   BarChart3,
   Settings,
+  LogOut
 } from 'lucide-react'
+import { useAuth } from '../../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const navItems = [
   { to: '/admin', icon: LayoutDashboard, label: 'Dashboard', end: true },
@@ -18,6 +21,14 @@ const navItems = [
 ]
 
 export default function AdminSidebar() {
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    logout()
+    navigate('/dang-nhap')
+  }
+
   return (
     <aside className="w-[220px] min-h-screen bg-surface flex flex-col border-r border-outline-variant/20 fixed left-0 top-0 z-40">
       {/* Brand */}
@@ -66,15 +77,21 @@ export default function AdminSidebar() {
 
       {/* User Profile */}
       <div className="px-4 py-6 border-t border-outline-variant/20">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-sm">
-            TP
+            {user ? user.name.substring(0, 2).toUpperCase() : 'AD'}
           </div>
-          <div>
-            <p className="text-body-md font-medium text-on-surface text-sm">Store Admin</p>
-            <p className="text-label-sm text-on-surface-variant">admin@thanhphat.vn</p>
+          <div className="min-w-0">
+            <p className="text-body-md font-medium text-on-surface text-sm truncate">{user ? user.name : 'Store Admin'}</p>
+            <p className="text-label-sm text-on-surface-variant truncate">{user ? user.email : 'admin@thanhphat.vn'}</p>
           </div>
         </div>
+        <button 
+          onClick={handleLogout}
+          className="w-full flex items-center justify-center gap-2 py-2 border border-outline-variant rounded-lg text-error hover:bg-error/10 transition-colors text-sm font-semibold"
+        >
+          <LogOut size={16} /> Đăng xuất
+        </button>
       </div>
     </aside>
   )
