@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Search, ChevronDown } from 'lucide-react'
 import ProductCard from '../components/ui/ProductCard'
 import Pagination from '../components/ui/Pagination'
-import { products } from '../data/mockData'
 import useScrollAnimation from '../hooks/useScrollAnimation'
+import api from '../services/api'
 
 const categories = ['Jasmine', 'Basmati', 'Gạo lứt', 'Gạo nếp']
 const origins = ['Việt Nam', 'Thái Lan', 'Ấn Độ']
@@ -12,19 +12,75 @@ export default function ProductsPage() {
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedCategories, setSelectedCategories] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
+  const [sortOption, setSortOption] = useState('Mới nhất')
+  
+  const [products, setProducts] = useState([])
+  const [totalPages, setTotalPages] = useState(1)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+
   const { ref, isVisible } = useScrollAnimation(0.05)
 
+  const fetchProducts = useCallback(async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      let queryParams = new URLSearchParams()
+      
+      queryParams.append('page', currentPage)
+      if (searchTerm) queryParams.append('search', searchTerm)
+      if (sortOption) queryParams.append('sort', sortOption)
+      if (selectedCategories.length === 1) {
+        queryParams.append('category', selectedCategories[0])
+      }
+
+      const { data } = await api.get(`/products?${queryParams.toString()}`)
+      
+      if (data.success) {
+        // If multiple categories are selected, the API doesn't currently support multiple ?category=... out of the box in our basic setup.
+        // But for this simple implementation, we pass the first one, or we filter client-side if multiple are selected.
+        // Actually, our API does: if (category) query.category = category; (String).
+        // If they select multiple, we'll just filter client side for now to keep it simple and match frontend behavior,
+        // OR we can fetch all and filter client side if multiple are selected.
+        // To be perfectly matched with our backend, let's just fetch from API and do client-side category filtering 
+        // if they select multiple, OR we just let the API handle 1 category and if > 1, we fetch all and filter.
+        // Best approach: fetch what API returns, filter further if needed.
+        let result = data.data
+        if (selectedCategories.length > 1) {
+          result = result.filter(p => selectedCategories.includes(p.category))
+        }
+        setProducts(result)
+        setTotalPages(data.pagination.totalPages)
+      }
+    } catch (err) {
+      setError('Lỗi khi tải sản phẩm. Vui lòng thử lại.')
+      console.error(err)
+    } finally {
+      setLoading(false)
+    }
+  }, [currentPage, searchTerm, sortOption, selectedCategories])
+
+  useEffect(() => {
+    fetchProducts()
+  }, [fetchProducts])
+
   const toggleCategory = (cat) => {
-    setSelectedCategories((prev) =>
-      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
-    )
+    setSelectedCategories((prev) => {
+      const newCats = prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
+      setCurrentPage(1) // Reset page on filter change
+      return newCats
+    })
   }
 
-  const filteredProducts = products.filter((p) => {
-    const matchCat = selectedCategories.length === 0 || selectedCategories.includes(p.category)
-    const matchSearch = !searchTerm || p.name.toLowerCase().includes(searchTerm.toLowerCase())
-    return matchCat && matchSearch
-  })
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value)
+    setCurrentPage(1)
+  }
+
+  const handleSort = (e) => {
+    setSortOption(e.target.value)
+    setCurrentPage(1)
+  }
 
   return (
     <div
@@ -125,14 +181,18 @@ export default function ProductsPage() {
                 type="text"
                 placeholder="Tìm kiếm sản phẩm..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={handleSearch}
                 className="w-full bg-surface border border-outline-variant/50 rounded-xl pl-11 pr-4 py-3 text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
               />
             </div>
             <div className="flex items-center gap-3">
               <span className="text-label-sm text-on-surface-variant uppercase tracking-wider">Sắp xếp</span>
               <div className="relative">
-                <select className="bg-surface border border-outline-variant/50 rounded-xl px-4 py-3 text-body-md text-on-surface appearance-none focus:outline-none focus:border-primary transition-colors pr-10">
+                <select 
+                  value={sortOption}
+                  onChange={handleSort}
+                  className="bg-surface border border-outline-variant/50 rounded-xl px-4 py-3 text-body-md text-on-surface appearance-none focus:outline-none focus:border-primary transition-colors pr-10"
+                >
                   <option>Mới nhất</option>
                   <option>Giá tăng</option>
                   <option>Giá giảm</option>
@@ -144,26 +204,38 @@ export default function ProductsPage() {
           </div>
 
           {/* Product Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProducts.map((product, index) => (
-              <div
-                key={product.id}
-                className="animate-fade-in-up"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <ProductCard product={product} variant="shop" />
-              </div>
-            ))}
-          </div>
-
-          {filteredProducts.length === 0 && (
-            <div className="text-center py-20">
-              <p className="text-body-lg text-on-surface-variant">Không tìm thấy sản phẩm phù hợp.</p>
+          {error && <div className="text-center py-8 text-error">{error}</div>}
+          
+          {loading ? (
+            <div className="flex justify-center py-20">
+              <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
             </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {products.map((product, index) => (
+                  <div
+                    key={product._id}
+                    className="animate-fade-in-up"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
+                    <ProductCard product={product} variant="shop" />
+                  </div>
+                ))}
+              </div>
+
+              {products.length === 0 && !error && (
+                <div className="text-center py-20">
+                  <p className="text-body-lg text-on-surface-variant">Không tìm thấy sản phẩm phù hợp.</p>
+                </div>
+              )}
+            </>
           )}
 
           {/* Pagination */}
-          <Pagination currentPage={currentPage} totalPages={3} onPageChange={setCurrentPage} />
+          {!loading && products.length > 0 && totalPages > 1 && (
+            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+          )}
         </div>
       </div>
     </div>

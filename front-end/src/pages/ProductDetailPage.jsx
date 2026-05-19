@@ -1,24 +1,70 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Plus, ShieldCheck, Truck, ArrowRight } from 'lucide-react'
-import { Link } from 'react-router-dom'
-import { productDetail, relatedProducts } from '../data/mockData'
+import { Link, useParams } from 'react-router-dom'
 import Badge from '../components/ui/Badge'
 import Button from '../components/ui/Button'
 import QuantitySelector from '../components/ui/QuantitySelector'
 import useScrollAnimation from '../hooks/useScrollAnimation'
+import api from '../services/api'
 
 export default function ProductDetailPage() {
+  const { id } = useParams()
   const [selectedImage, setSelectedImage] = useState(0)
   const [quantity, setQuantity] = useState(1)
   const [activeTab, setActiveTab] = useState('description')
-  const product = productDetail
   const { ref, isVisible } = useScrollAnimation(0.05)
+  
+  const [product, setProduct] = useState(null)
+  const [relatedProducts, setRelatedProducts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    const fetchProductDetails = async () => {
+      try {
+        setLoading(true)
+        const [productRes, relatedRes] = await Promise.all([
+          api.get(`/products/${id}`),
+          api.get(`/products/${id}/related`)
+        ])
+        if (productRes.data.success) {
+          setProduct(productRes.data.data)
+        }
+        if (relatedRes.data.success) {
+          setRelatedProducts(relatedRes.data.data)
+        }
+      } catch (err) {
+        setError('Sản phẩm không tồn tại hoặc có lỗi xảy ra.')
+        console.error(err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchProductDetails()
+  }, [id])
 
   const tabs = [
     { id: 'description', label: 'Mô tả sản phẩm' },
     { id: 'nutrition', label: 'Thông tin dinh dưỡng' },
-    { id: 'reviews', label: 'Đánh giá (12)' },
+    { id: 'reviews', label: `Đánh giá (${product?.reviews || 0})` },
   ]
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-[50vh]">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
+      </div>
+    )
+  }
+
+  if (error || !product) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[50vh]">
+        <h2 className="text-2xl font-bold mb-4">{error || 'Không tìm thấy sản phẩm'}</h2>
+        <Link to="/san-pham" className="text-primary hover:underline">Quay lại cửa hàng</Link>
+      </div>
+    )
+  }
 
   return (
     <div
@@ -33,21 +79,20 @@ export default function ProductDetailPage() {
         <div>
           <div className="relative rounded-2xl overflow-hidden bg-surface-container-low mb-4 aspect-square">
             <img
-              src={product.images[selectedImage]}
+              src={product.images?.[selectedImage] || product.image}
               alt={product.name}
               className="w-full h-full object-cover"
             />
-            <div className="absolute top-4 left-4 flex gap-2">
-              {product.badges.map((badge, i) => (
-                <Badge key={i} type={i === 0 ? 'organic' : 'in-stock'}>
-                  {badge}
-                </Badge>
-              ))}
-            </div>
+            {product.badge && (
+              <div className="absolute top-4 left-4 flex gap-2">
+                <Badge type={product.badgeType}>{product.badge}</Badge>
+              </div>
+            )}
           </div>
           {/* Thumbnails */}
-          <div className="flex gap-3">
-            {product.images.map((img, i) => (
+          {product.images && product.images.length > 1 && (
+            <div className="flex gap-3">
+              {product.images.map((img, i) => (
               <button
                 key={i}
                 onClick={() => setSelectedImage(i)}
@@ -61,6 +106,7 @@ export default function ProductDetailPage() {
               </button>
             ))}
           </div>
+          )}
         </div>
 
         {/* Product Info */}
@@ -155,7 +201,7 @@ export default function ProductDetailPage() {
               ))}
             </div>
             <ul className="mt-6 space-y-2">
-              {product.features.map((feat, i) => (
+              {product.features?.map((feat, i) => (
                 <li key={i} className="flex items-start gap-2 text-body-md text-on-surface-variant">
                   <span className="text-primary mt-1">•</span>
                   {feat}
@@ -172,17 +218,22 @@ export default function ProductDetailPage() {
             >
               Chi tiết nông trại
             </h3>
-            <div className="space-y-4">
-              {Object.entries(product.farmDetails).map(([key, value]) => {
-                const labels = { origin: 'Nguồn gốc', harvest: 'Thu hoạch', processing: 'Chế biến' }
-                return (
-                  <div key={key} className="flex justify-between items-center py-2 border-b border-outline-variant/20 last:border-0">
-                    <span className="text-body-md text-on-surface-variant">{labels[key]}</span>
-                    <span className="text-body-md text-on-surface font-medium text-right">{value}</span>
-                  </div>
-                )
-              })}
-            </div>
+            {product.farmDetails && Object.keys(product.farmDetails).length > 0 ? (
+              <div className="space-y-4">
+                {Object.entries(product.farmDetails).map(([key, value]) => {
+                  const labels = { origin: 'Nguồn gốc', harvest: 'Thu hoạch', processing: 'Chế biến' }
+                  if (!value) return null;
+                  return (
+                    <div key={key} className="flex justify-between items-center py-2 border-b border-outline-variant/20 last:border-0">
+                      <span className="text-body-md text-on-surface-variant">{labels[key] || key}</span>
+                      <span className="text-body-md text-on-surface font-medium text-right">{value}</span>
+                    </div>
+                  )
+                })}
+              </div>
+            ) : (
+              <p className="text-body-md text-on-surface-variant">Chưa có thông tin chi tiết.</p>
+            )}
           </div>
         </div>
       </div>
@@ -202,10 +253,10 @@ export default function ProductDetailPage() {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {relatedProducts.map((item) => (
-            <div key={item.id} className="group">
+            <Link to={`/san-pham/${item._id}`} key={item._id} className="group">
               <div className="rounded-2xl overflow-hidden mb-3 aspect-square bg-surface-container-low">
                 <img
-                  src={item.image}
+                  src={item.images?.[0] || item.image}
                   alt={item.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -221,11 +272,14 @@ export default function ProductDetailPage() {
                 <span className="text-primary font-bold" style={{ fontFamily: 'var(--font-family-heading)' }}>
                   ${item.price.toFixed(2)}
                 </span>
-                <button className="w-8 h-8 rounded-lg border border-outline-variant flex items-center justify-center text-on-surface-variant hover:border-primary hover:text-primary transition-colors">
+                <button 
+                  onClick={(e) => { e.preventDefault(); /* TODO: Add to cart */ }}
+                  className="w-8 h-8 rounded-lg border border-outline-variant flex items-center justify-center text-on-surface-variant hover:border-primary hover:text-primary transition-colors"
+                >
                   <Plus size={16} />
                 </button>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

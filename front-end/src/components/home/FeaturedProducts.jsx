@@ -1,11 +1,29 @@
+import { useState, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import ProductCard from '../ui/ProductCard'
-import { products } from '../../data/mockData'
 import useScrollAnimation from '../../hooks/useScrollAnimation'
+import api from '../../services/api'
 
 export default function FeaturedProducts() {
   const { ref, isVisible } = useScrollAnimation(0.1)
-  const featured = products.slice(0, 3)
+  const [featured, setFeatured] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      try {
+        const { data } = await api.get('/products/featured')
+        if (data.success) {
+          setFeatured(data.data)
+        }
+      } catch (error) {
+        console.error('Error fetching featured products:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchFeatured()
+  }, [])
 
   return (
     <section className="py-16 md:py-20 px-4 md:px-12 max-w-[1280px] mx-auto">
@@ -39,17 +57,23 @@ export default function FeaturedProducts() {
         </div>
 
         {/* Product Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-          {featured.map((product, index) => (
-            <div
-              key={product.id}
-              className="transition-all duration-500"
-              style={{ transitionDelay: `${index * 150}ms` }}
-            >
-              <ProductCard product={product} variant="home" />
-            </div>
-          ))}
-        </div>
+        {loading ? (
+          <div className="flex justify-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            {featured.map((product, index) => (
+              <div
+                key={product._id}
+                className="transition-all duration-500"
+                style={{ transitionDelay: `${index * 150}ms` }}
+              >
+                <ProductCard product={product} variant="home" />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )
