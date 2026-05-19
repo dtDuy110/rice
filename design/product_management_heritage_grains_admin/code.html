@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Heritage Grains - Admin Product Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#2f5d50",
+                        "tertiary": "#5a3516",
+                        "on-surface": "#1c1c16",
+                        "on-tertiary": "#ffffff",
+                        "surface": "#fdf9f0",
+                        "secondary-container": "#feca5a",
+                        "on-secondary-fixed-variant": "#5c4300",
+                        "on-secondary-fixed": "#261900",
+                        "primary-fixed": "#bceddc",
+                        "surface-variant": "#e6e2d9",
+                        "surface-container-high": "#ece8df",
+                        "primary-fixed-dim": "#a0d1c0",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "background": "#fdf9f0",
+                        "on-secondary-container": "#745500",
+                        "inverse-surface": "#31302b",
+                        "on-surface-variant": "#404945",
+                        "on-tertiary-fixed-variant": "#653d1e",
+                        "inverse-on-surface": "#f4f0e7",
+                        "surface-dim": "#dddad1",
+                        "on-tertiary-container": "#f7be95",
+                        "primary": "#154539",
+                        "secondary": "#7a5900",
+                        "surface-container-highest": "#e6e2d9",
+                        "surface-container-low": "#f7f3ea",
+                        "on-tertiary-fixed": "#301400",
+                        "tertiary-fixed": "#ffdcc5",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "tertiary-container": "#754b2b",
+                        "outline": "#717975",
+                        "on-primary-container": "#a3d4c3",
+                        "secondary-fixed-dim": "#f2bf50",
+                        "surface-container": "#f1eee5",
+                        "inverse-primary": "#a0d1c0",
+                        "on-primary-fixed": "#002019",
+                        "on-background": "#1c1c16",
+                        "outline-variant": "#c0c8c4",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#ffdea1",
+                        "on-primary-fixed-variant": "#204f42",
+                        "tertiary-fixed-dim": "#f4bb92",
+                        "surface-bright": "#fdf9f0",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#396759"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "48px",
+                        "section-gap": "80px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Be Vietnam Pro"],
+                        "display-lg": ["Be Vietnam Pro"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Be Vietnam Pro"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Be Vietnam Pro"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased min-h-screen">
+<!-- SideNavBar -->
+<nav class="h-screen w-64 fixed left-0 top-0 border-r border-outline-variant/30 bg-surface-container-low flex flex-col py-6 space-y-4 z-50">
+<div class="px-6 mb-4">
+<h1 class="font-headline-md text-headline-md text-primary font-bold">Admin Portal</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Heritage Grains Management</p>
+</div>
+<div class="flex-1 px-4 space-y-2">
+<a class="flex items-center space-x-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 bg-primary-container text-on-primary-container font-semibold rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-label-md text-label-md">Products</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">shopping_bag</span>
+<span class="font-label-md text-label-md">Orders</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">group</span>
+<span class="font-label-md text-label-md">Customers</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">analytics</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</div>
+<div class="px-6 mt-auto">
+<div class="flex items-center space-x-3 pt-4 border-t border-outline-variant/30">
+<img alt="Admin User Profile" class="w-10 h-10 rounded-full" data-alt="A close-up portrait of a professional individual serving as an avatar. The image represents a high-end corporate or SaaS admin user in a clean, modern style. The lighting is soft and natural, emphasizing approachability and reliability, fitting perfectly within an agrarian luxury interface context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6drAwUwwTU6_-cDsiwWtqIswMbx2Q7q9dbd7zjEcJnahRlJknm6TELTaT-kzR4HEryRU6fVOW5xezs4txeQRnYo3jUmj7U11qtRmWVPFp5f1-8ZsF2MKSaXUExIVeWhLCnNwr27dOiSJ3OrNzZS3c9ojjqDCsDCCgj0wXAOG6sTBDcx4zFxazhCuVfrc52GqTrNoaWlOBOZNxCz9bPqs9uYscxR72ZP0MjyvxqeQVKofRoTeGygusWeK5fcAkvyshymwcX4pLZNY"/>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Store Admin</p>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="ml-64 flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-40 bg-surface border-b border-outline-variant/50 flex justify-between items-center px-gutter py-3">
+<div class="flex items-center gap-4">
+<h2 class="font-headline-md text-headline-md text-on-surface">Dashboard Overview</h2>
+</div>
+<div class="flex items-center gap-2">
+<div class="relative hidden md:block mr-4">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant/50 rounded-full text-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary w-64 transition-all" placeholder="Search across dashboard..." type="text"/>
+</div>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors focus:ring-2 focus:ring-primary focus:ring-offset-2">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors focus:ring-2 focus:ring-primary focus:ring-offset-2">
+<span class="material-symbols-outlined">contrast</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors focus:ring-2 focus:ring-primary focus:ring-offset-2">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<!-- Page Content -->
+<main class="flex-1 p-gutter bg-background">
+<!-- Header Section -->
+<div class="flex justify-between items-center mb-8">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">Product Management</h1>
+<p class="text-on-surface-variant font-body-md">Manage inventory, pricing, and product details.</p>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-lg font-label-md text-label-md hover:bg-surface-tint transition-all shadow-[0_4px_20px_rgba(47,93,80,0.1)] flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                    Add Product
+                </button>
+</div>
+<!-- Advanced Filter Bar -->
+<div class="bg-surface p-4 rounded-xl shadow-[0_4px_20px_rgba(47,93,80,0.05)] border border-outline-variant/30 mb-6 flex flex-wrap gap-4 items-center">
+<div class="relative flex-1 min-w-[200px]">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant/50 rounded-lg text-body-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all" placeholder="Search products by name or SKU..." type="text"/>
+</div>
+<select class="py-2 pl-4 pr-10 bg-surface-container-low border border-outline-variant/50 rounded-lg text-body-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary appearance-none cursor-pointer">
+<option value="">All Categories</option>
+<option value="grains">Heritage Grains</option>
+<option value="flour">Milled Flour</option>
+<option value="seeds">Seeds &amp; Legumes</option>
+</select>
+<select class="py-2 pl-4 pr-10 bg-surface-container-low border border-outline-variant/50 rounded-lg text-body-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary appearance-none cursor-pointer">
+<option value="">Status</option>
+<option value="active">Active</option>
+<option value="draft">Draft</option>
+<option value="archived">Archived</option>
+</select>
+<button class="p-2 border border-outline-variant/50 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+<span class="font-label-md">More Filters</span>
+</button>
+</div>
+<!-- Data Table -->
+<div class="bg-surface rounded-xl shadow-[0_4px_20px_rgba(47,93,80,0.05)] border border-outline-variant/30 overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant/30 bg-surface-container-low">
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant font-semibold">Image</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant font-semibold">Product Name</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant font-semibold">Category</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant font-semibold">Stock Level</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant font-semibold">Price</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant font-semibold">Status</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant font-semibold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-3 px-6">
+<div class="w-12 h-12 rounded bg-surface-variant overflow-hidden">
+<img alt="Einkorn Wheat Berries" class="w-full h-full object-cover" data-alt="A close-up studio shot of premium Einkorn wheat berries piled neatly. The lighting is warm and organic, highlighting the golden hues of the grains. The image conveys purity, provenance, and high-end agrarian luxury against a clean, neutral background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAU68R1__XmOU-HTeyO-ACASCLiKJvDIOtb3cA7ZVkC0pOAzEMMlU7rRWGxABfQXFH3T9f4Pdvd-hPNatlu2YXQ-6_BUdtoVIhLWBW0drTzNZAk46Wj8cT4YQ2X4kBV-M5iZvMSdbF7RC7ACWLpWnOSh5PH7JuqlE5lMh3ZO4UTYyC-mUPsbiBPE51n3dUdEfoIaLZj1vFaCIbY_RZZtbe-yUgD2VhKXVrkUXQ62g_C4lEBaLN8uz3EDi3zxqC4miQ3D-HaXUWF9XU"/>
+</div>
+</td>
+<td class="py-3 px-6">
+<p class="font-body-md font-semibold text-on-surface">Einkorn Wheat Berries</p>
+<p class="font-label-sm text-outline">SKU: HG-EINK-01</p>
+</td>
+<td class="py-3 px-6 text-on-surface-variant">Heritage Grains</td>
+<td class="py-3 px-6">
+<div class="flex items-center gap-3">
+<div class="w-24 h-2 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 85%;"></div>
+</div>
+<span class="font-label-sm text-on-surface-variant">420 kg</span>
+</div>
+</td>
+<td class="py-3 px-6 font-body-md text-on-surface">$12.50/kg</td>
+<td class="py-3 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm bg-primary-fixed text-on-primary-fixed-variant">
+                                        Active
+                                    </span>
+</td>
+<td class="py-3 px-6 text-right">
+<button class="p-1.5 text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-error transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-3 px-6">
+<div class="w-12 h-12 rounded bg-surface-variant overflow-hidden">
+<img alt="Artisan Bread Flour" class="w-full h-full object-cover" data-alt="A soft-focus image of finely milled artisan bread flour resting in a rustic wooden bowl. The scene is lit with gentle, natural morning light, creating a serene, minimalist atmosphere. The overall palette is warm cream and soft brown, embodying organic quality and farm-to-table aesthetics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDA4zMhX7ANqJdMdiT6bGjzORzVRXA0LdDbg-gdZHlzRZTMPBZudQll0FgXFl4bAA4ardT5rXEDNT44H5VP2q13gpiCZbukkTkSFHLz5aX4h_nojnxPJ-bs5E4SOoVkJbBwQFisWTIxqWSXs4F9ZpbECET6KajXtc8dcX2sEqapjLiyqtjeUvnbLOueg-aNCo2BYnaErZQUIbPkgwFumIf662usTTvjoWtuKYA6sPyk0WPGGlx-c6j0rmWtDaKBdLFA9zp4p4mPDcw"/>
+</div>
+</td>
+<td class="py-3 px-6">
+<p class="font-body-md font-semibold text-on-surface">Artisan Bread Flour</p>
+<p class="font-label-sm text-outline">SKU: HG-FLR-02</p>
+</td>
+<td class="py-3 px-6 text-on-surface-variant">Milled Flour</td>
+<td class="py-3 px-6">
+<div class="flex items-center gap-3">
+<div class="w-24 h-2 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-secondary-container" style="width: 25%;"></div>
+</div>
+<span class="font-label-sm text-secondary">45 kg</span>
+</div>
+</td>
+<td class="py-3 px-6 font-body-md text-on-surface">$8.00/kg</td>
+<td class="py-3 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm bg-primary-fixed text-on-primary-fixed-variant">
+                                        Active
+                                    </span>
+</td>
+<td class="py-3 px-6 text-right">
+<button class="p-1.5 text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-error transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-3 px-6">
+<div class="w-12 h-12 rounded bg-surface-variant flex items-center justify-center text-outline-variant">
+<span class="material-symbols-outlined">image</span>
+</div>
+</td>
+<td class="py-3 px-6">
+<p class="font-body-md font-semibold text-on-surface">Spelt Kernels</p>
+<p class="font-label-sm text-outline">SKU: HG-SPLT-03</p>
+</td>
+<td class="py-3 px-6 text-on-surface-variant">Heritage Grains</td>
+<td class="py-3 px-6">
+<div class="flex items-center gap-3">
+<div class="w-24 h-2 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-surface-variant" style="width: 0%;"></div>
+</div>
+<span class="font-label-sm text-outline">0 kg</span>
+</div>
+</td>
+<td class="py-3 px-6 font-body-md text-on-surface">$14.00/kg</td>
+<td class="py-3 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-label-sm bg-surface-variant text-on-surface-variant">
+                                        Draft
+                                    </span>
+</td>
+<td class="py-3 px-6 text-right">
+<button class="p-1.5 text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-error transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-6 py-4 border-t border-outline-variant/30 bg-surface flex items-center justify-between">
+<p class="font-label-sm text-on-surface-variant">Showing 1 to 10 of 48 entries</p>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1 border border-outline-variant/50 rounded text-on-surface-variant hover:bg-surface-container-low disabled:opacity-50" disabled="">
+                            Previous
+                        </button>
+<button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary font-label-md">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/50 text-on-surface hover:bg-surface-container-low font-label-md">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/50 text-on-surface hover:bg-surface-container-low font-label-md">3</button>
+<span class="text-on-surface-variant">...</span>
+<button class="px-3 py-1 border border-outline-variant/50 rounded text-on-surface hover:bg-surface-container-low">
+                            Next
+                        </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

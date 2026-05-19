@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ThanhPhat - Cửa hàng</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-container": "#2f5d50",
+                      "tertiary": "#5a3516",
+                      "on-surface": "#1c1c16",
+                      "on-tertiary": "#ffffff",
+                      "surface": "#fdf9f0",
+                      "secondary-container": "#feca5a",
+                      "on-secondary-fixed-variant": "#5c4300",
+                      "on-secondary-fixed": "#261900",
+                      "primary-fixed": "#bceddc",
+                      "surface-variant": "#e6e2d9",
+                      "surface-container-high": "#ece8df",
+                      "primary-fixed-dim": "#a0d1c0",
+                      "on-error": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "background": "#fdf9f0",
+                      "on-secondary-container": "#745500",
+                      "inverse-surface": "#31302b",
+                      "on-surface-variant": "#404945",
+                      "on-tertiary-fixed-variant": "#653d1e",
+                      "inverse-on-surface": "#f4f0e7",
+                      "surface-dim": "#dddad1",
+                      "on-tertiary-container": "#f7be95",
+                      "primary": "#154539",
+                      "secondary": "#7a5900",
+                      "surface-container-highest": "#e6e2d9",
+                      "surface-container-low": "#f7f3ea",
+                      "on-tertiary-fixed": "#301400",
+                      "tertiary-fixed": "#ffdcc5",
+                      "on-secondary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "tertiary-container": "#754b2b",
+                      "outline": "#717975",
+                      "on-primary-container": "#a3d4c3",
+                      "secondary-fixed-dim": "#f2bf50",
+                      "surface-container": "#f1eee5",
+                      "inverse-primary": "#a0d1c0",
+                      "on-primary-fixed": "#002019",
+                      "on-background": "#1c1c16",
+                      "outline-variant": "#c0c8c4",
+                      "surface-container-lowest": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed": "#ffdea1",
+                      "on-primary-fixed-variant": "#204f42",
+                      "tertiary-fixed-dim": "#f4bb92",
+                      "surface-bright": "#fdf9f0",
+                      "error": "#ba1a1a",
+                      "surface-tint": "#396759"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "8px",
+                      "gutter": "24px",
+                      "margin-mobile": "16px",
+                      "margin-desktop": "48px",
+                      "section-gap": "80px",
+                      "container-max": "1280px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": [
+                              "Be Vietnam Pro"
+                      ],
+                      "display-lg": [
+                              "Be Vietnam Pro"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Be Vietnam Pro"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Be Vietnam Pro"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        .shadow-ambient {
+            box-shadow: 0px 4px 20px rgba(47, 93, 80, 0.05);
+        }
+        .shadow-ambient-hover:hover {
+            box-shadow: 0px 8px 30px rgba(47, 93, 80, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased pt-[80px]">
+<!-- TopNavBar -->
+<header class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md fixed top-0 w-full z-50 border-b border-outline-variant/20 shadow-sm transition-all">
+<div class="flex justify-between items-center px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">ThanhPhat</div>
+<nav class="hidden md:flex space-x-gutter">
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Trang chủ</a>
+<a class="font-label-md text-label-md text-primary dark:text-primary-fixed border-b-2 border-primary pb-1" href="#">Cửa hàng</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Giới thiệu</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Liên hệ</a>
+</nav>
+<div class="flex space-x-unit items-center text-primary dark:text-primary-fixed-dim">
+<button aria-label="Shopping Cart" class="hover:text-primary dark:hover:text-primary-fixed transition-colors opacity-80 hover:opacity-100 scale-95 hover:scale-100 transition-all p-2 rounded-full hover:bg-surface-container-high">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+<button aria-label="Account" class="hover:text-primary dark:hover:text-primary-fixed transition-colors opacity-80 hover:opacity-100 scale-95 hover:scale-100 transition-all p-2 rounded-full hover:bg-surface-container-high">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-margin-desktop py-section-gap grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Sidebar Filters -->
+<aside class="md:col-span-3 space-y-gutter hidden md:block">
+<div class="font-headline-md text-headline-md mb-unit text-primary">Bộ lọc</div>
+<div class="border-b border-outline-variant/30 pb-gutter">
+<h3 class="font-label-md text-label-md mb-unit text-on-surface">Khoảng giá</h3>
+<div class="flex items-center space-x-unit">
+<input class="w-full bg-surface border border-outline-variant/50 rounded text-body-md font-body-md px-2 py-1 focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="Min" type="number"/>
+<span class="text-on-surface-variant">-</span>
+<input class="w-full bg-surface border border-outline-variant/50 rounded text-body-md font-body-md px-2 py-1 focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="Max" type="number"/>
+</div>
+</div>
+<div class="border-b border-outline-variant/30 pb-gutter">
+<h3 class="font-label-md text-label-md mb-unit text-on-surface">Loại gạo</h3>
+<div class="space-y-unit">
+<label class="flex items-center space-x-2 cursor-pointer group">
+<input class="form-checkbox text-primary border-outline-variant/50 rounded focus:ring-primary focus:ring-offset-surface" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Jasmine</span>
+</label>
+<label class="flex items-center space-x-2 cursor-pointer group">
+<input checked="" class="form-checkbox text-primary border-outline-variant/50 rounded focus:ring-primary focus:ring-offset-surface" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Basmati</span>
+</label>
+<label class="flex items-center space-x-2 cursor-pointer group">
+<input class="form-checkbox text-primary border-outline-variant/50 rounded focus:ring-primary focus:ring-offset-surface" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Gạo lứt</span>
+</label>
+<label class="flex items-center space-x-2 cursor-pointer group">
+<input class="form-checkbox text-primary border-outline-variant/50 rounded focus:ring-primary focus:ring-offset-surface" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Gạo nếp</span>
+</label>
+</div>
+</div>
+<div class="border-b border-outline-variant/30 pb-gutter">
+<h3 class="font-label-md text-label-md mb-unit text-on-surface">Nguồn gốc</h3>
+<div class="space-y-unit">
+<label class="flex items-center space-x-2 cursor-pointer group">
+<input class="form-checkbox text-primary border-outline-variant/50 rounded focus:ring-primary focus:ring-offset-surface" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Thái Lan</span>
+</label>
+<label class="flex items-center space-x-2 cursor-pointer group">
+<input class="form-checkbox text-primary border-outline-variant/50 rounded focus:ring-primary focus:ring-offset-surface" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Ấn Độ</span>
+</label>
+<label class="flex items-center space-x-2 cursor-pointer group">
+<input class="form-checkbox text-primary border-outline-variant/50 rounded focus:ring-primary focus:ring-offset-surface" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">California</span>
+</label>
+</div>
+</div>
+<div>
+<h3 class="font-label-md text-label-md mb-unit text-on-surface">Khối lượng</h3>
+<select class="w-full bg-surface border border-outline-variant/50 rounded text-body-md font-body-md px-3 py-2 focus:border-primary focus:ring-1 focus:ring-primary outline-none">
+<option>Mọi khối lượng</option>
+<option>1 kg</option>
+<option>5 kg</option>
+<option>10 kg</option>
+</select>
+</div>
+</aside>
+<!-- Main Content -->
+<section class="md:col-span-9 space-y-gutter">
+<!-- Toolbar -->
+<div class="flex flex-col sm:flex-row justify-between items-center bg-surface-container-low p-4 rounded-xl border border-outline-variant/20 shadow-ambient">
+<div class="relative w-full sm:w-64 mb-4 sm:mb-0">
+<span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-outline-variant">search</span>
+<input class="w-full bg-surface border border-outline-variant/50 rounded-lg text-body-md font-body-md pl-10 pr-3 py-2 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="Tìm kiếm sản phẩm..." type="text"/>
+</div>
+<div class="flex items-center space-x-2 w-full sm:w-auto">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Sắp xếp theo</span>
+<select class="bg-surface border border-outline-variant/50 rounded-lg text-body-md font-body-md px-3 py-2 focus:border-primary focus:ring-1 focus:ring-primary outline-none cursor-pointer">
+<option>Mới nhất</option>
+<option>Giá: Thấp đến Cao</option>
+<option>Giá: Cao đến Thấp</option>
+<option>Đánh giá cao</option>
+</select>
+</div>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Product Card 1 -->
+<div class="bg-surface rounded-xl border border-outline-variant/20 shadow-ambient shadow-ambient-hover transition-all duration-300 overflow-hidden flex flex-col group">
+<div class="relative h-64 bg-surface-container-highest overflow-hidden">
+<img alt="Premium Jasmine Rice Packaging" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A meticulously styled product shot of a premium, organic linen sack filled with raw jasmine rice, resting on a textured wooden table. Soft, natural daylight streams in from the side, creating a warm, modern light-mode aesthetic. The background is slightly blurred to emphasize the high-quality packaging and the pristine white grains spilling softly onto the surface, evoking a sense of pure agrarian luxury." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsiEwGuN2PEbmV-ScKtjxyJd659YKVRHjqWR8EmiSlY9zAr9fwnHhXdXOoZT_SXiFv2fH-YQqNLy8r5eP-TVFjgZBPeNKWvd3mSeTMNCm0mK1QvGh8Xhs18f3Br97PD6rmX9AeFDdgKID0xJ8F_vBA8TV7zEsUL7nuzIhdCID9VhwMM-LaFjeYessW8sBgDlqjZ59h6X9kfKRfnXtCQiDcFQ-u96j0O_XYN007Py5pi_JYMdgaV-fuzf_9lR6Pim0EbPR-WTyVfJw"/>
+<div class="absolute top-2 left-2 bg-secondary-container/90 text-on-secondary-container px-2 py-1 rounded font-label-sm text-label-sm uppercase tracking-wider backdrop-blur-sm">Hữu cơ</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight">Jasmine Hoàng Gia</h3>
+<span class="font-headline-md text-headline-md text-primary">600.000đ</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 flex-grow">Gạo hạt dài, thơm được trồng ở vùng cao nguyên Thái Lan.</p>
+<div class="flex items-center space-x-1 mb-4 text-secondary-container">
+<span class="material-symbols-outlined text-sm" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm text-outline-variant" data-icon="star_half">star_half</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant ml-2">(128)</span>
+</div>
+<button class="w-full bg-primary text-on-primary font-label-md text-label-md py-3 rounded-lg hover:bg-primary/90 transition-colors flex justify-center items-center space-x-2">
+<span class="material-symbols-outlined text-sm" data-icon="add_shopping_cart">add_shopping_cart</span>
+<span>Thêm vào giỏ</span>
+</button>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-surface rounded-xl border border-outline-variant/20 shadow-ambient shadow-ambient-hover transition-all duration-300 overflow-hidden flex flex-col group">
+<div class="relative h-64 bg-surface-container-highest overflow-hidden">
+<img alt="Himalayan Basmati Rice Packaging" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An elegant presentation of aged Himalayan Basmati rice in a minimalist, eco-friendly paper pouch with earthy typographic details. The packaging sits on a clean, light beige canvas background, illuminated by soft, diffused studio lighting that highlights the subtle texture of the paper and the extra-long grains visible through a small clear window. The overall mood is sophisticated, natural, and highly professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4OxreaIV4rFZS88kXJYHQkWhFx2Oy95umxSopiKkHbT_CbN-ZV4sSzsjBT8q1MUKBxibvFn1q0H9t7xLGRTpuS6xBjmPf6UuO2NxL7rJ25cZ6lfE9dqMgb3FmUr0jSTt9jRRMfy4bdqgG_AvliEiByT4SrqR0p6yqEBZCqCdWutYY82ZN-VLOth9sE15emouZ6cg4PNYROPjaa3cXwBMWbtjyaaumdWm5-6L9_mRTncQgf5h7MG0SevWYGoJvl17_vhG_qzcRXQo"/>
+<div class="absolute top-2 left-2 bg-tertiary-container/90 text-on-tertiary-container px-2 py-1 rounded font-label-sm text-label-sm uppercase tracking-wider backdrop-blur-sm">Thương mại công bằng</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight">Basmati Himalaya Ủ</h3>
+<span class="font-headline-md text-headline-md text-primary">800.000đ</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 flex-grow">Được ủ trong 24 tháng để phát triển hương vị hạt dẻ và kết cấu mềm mịn.</p>
+<div class="flex items-center space-x-1 mb-4 text-secondary-container">
+<span class="material-symbols-outlined text-sm" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant ml-2">(342)</span>
+</div>
+<button class="w-full bg-primary text-on-primary font-label-md text-label-md py-3 rounded-lg hover:bg-primary/90 transition-colors flex justify-center items-center space-x-2">
+<span class="material-symbols-outlined text-sm" data-icon="add_shopping_cart">add_shopping_cart</span>
+<span>Thêm vào giỏ</span>
+</button>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-surface rounded-xl border border-outline-variant/20 shadow-ambient shadow-ambient-hover transition-all duration-300 overflow-hidden flex flex-col group">
+<div class="relative h-64 bg-surface-container-highest overflow-hidden">
+<div class="absolute inset-0 bg-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-outline text-6xl opacity-50" data-icon="image">image</span>
+</div>
+<img alt="Heirloom Brown Rice Packaging" class="w-full h-full object-cover absolute inset-0 group-hover:scale-105 transition-transform duration-500 z-10" data-alt="A rustic yet modern still life featuring a sturdy glass jar filled with earthy brown heirloom rice, placed on a light cream linen cloth. Warm, indirect sunlight casts soft shadows, emphasizing the deep, rich tones of the rice grains and the clean, minimal label on the jar. The setting evokes a sense of provenance, health, and premium organic quality within a clean, light-mode palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQUKco7BMLW3NamkIasQP786ZT1b9CWA5-sbhyasygwmv-1g40UC_gb7WP8S7DNAwiVgKPUQFMxigV92JVaM830qX_FGrjBeP5ePuVD20OVNQeNiGrqSiLBgE61yNTPx2AaivkKmDZ1tCCIER1_JvE-6HFG1W38ViiTvjGTYDps_qg8Iaic6LZ9HdRJDWVrSd3fCX9NXV0gnlyrNTHoe0eVaP5-69YmRYsFbj1G5YyvNE88UxBoP7UFfzo1xer48lRyy5xkKAmroc"/>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight">Gạo Lứt Hạt Ngắn Gia Truyền</h3>
+<span class="font-headline-md text-headline-md text-primary">450.000đ</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4 flex-grow">Giàu dinh dưỡng với kết cấu dai và hương vị ngọt ngào, tự nhiên.</p>
+<div class="flex items-center space-x-1 mb-4 text-secondary-container">
+<span class="material-symbols-outlined text-sm" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm text-outline-variant" data-icon="star_outline">star_outline</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant ml-2">(89)</span>
+</div>
+<button class="w-full bg-transparent border-2 border-primary text-primary font-label-md text-label-md py-3 rounded-lg hover:bg-primary/5 transition-colors flex justify-center items-center space-x-2">
+<span class="material-symbols-outlined text-sm" data-icon="add_shopping_cart">add_shopping_cart</span>
+<span>Thêm vào giỏ</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="flex justify-center items-center space-x-2 pt-8">
+<button class="p-2 rounded-lg border border-outline-variant/50 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-lg bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center">1</button>
+<button class="w-10 h-10 rounded-lg border border-outline-variant/50 text-on-surface font-label-md text-label-md flex items-center justify-center hover:bg-surface-container-high transition-colors">2</button>
+<button class="w-10 h-10 rounded-lg border border-outline-variant/50 text-on-surface font-label-md text-label-md flex items-center justify-center hover:bg-surface-container-high transition-colors">3</button>
+<span class="text-outline-variant">...</span>
+<button class="p-2 rounded-lg border border-outline-variant/50 text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-highest dark:bg-inverse-surface relative bottom-0 w-full border-t border-outline-variant/30">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-section-gap px-margin-desktop py-section-gap max-w-container-max mx-auto">
+<div class="col-span-1 md:col-span-1">
+<div class="font-headline-lg text-headline-lg text-primary dark:text-primary-fixed-dim mb-4">ThanhPhat</div>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant">© 2024 ThanhPhat. Nuôi dưỡng sự tinh khiết, mang lại nguồn gốc.</p>
+</div>
+<div class="col-span-1 md:col-span-3 flex flex-wrap gap-8 justify-start md:justify-end">
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:text-secondary-container dark:hover:text-secondary-fixed transition-colors hover:underline decoration-2 underline-offset-4" href="#">Chứng nhận Hữu cơ</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:text-secondary-container dark:hover:text-secondary-fixed transition-colors hover:underline decoration-2 underline-offset-4" href="#">Chính sách Bảo mật</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:text-secondary-container dark:hover:text-secondary-fixed transition-colors hover:underline decoration-2 underline-offset-4" href="#">Báo cáo Bền vững</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:text-secondary-container dark:hover:text-secondary-fixed transition-colors hover:underline decoration-2 underline-offset-4" href="#">Hỏi đáp Thương mại</a>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ThanhPhat - Gạo Việt Thượng Hạng</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-container": "#2f5d50",
+                      "tertiary": "#5a3516",
+                      "on-surface": "#1c1c16",
+                      "on-tertiary": "#ffffff",
+                      "surface": "#fdf9f0",
+                      "secondary-container": "#feca5a",
+                      "on-secondary-fixed-variant": "#5c4300",
+                      "on-secondary-fixed": "#261900",
+                      "primary-fixed": "#bceddc",
+                      "surface-variant": "#e6e2d9",
+                      "surface-container-high": "#ece8df",
+                      "primary-fixed-dim": "#a0d1c0",
+                      "on-error": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "background": "#fdf9f0",
+                      "on-secondary-container": "#745500",
+                      "inverse-surface": "#31302b",
+                      "on-surface-variant": "#404945",
+                      "on-tertiary-fixed-variant": "#653d1e",
+                      "inverse-on-surface": "#f4f0e7",
+                      "surface-dim": "#dddad1",
+                      "on-tertiary-container": "#f7be95",
+                      "primary": "#154539",
+                      "secondary": "#7a5900",
+                      "surface-container-highest": "#e6e2d9",
+                      "surface-container-low": "#f7f3ea",
+                      "on-tertiary-fixed": "#301400",
+                      "tertiary-fixed": "#ffdcc5",
+                      "on-secondary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "tertiary-container": "#754b2b",
+                      "outline": "#717975",
+                      "on-primary-container": "#a3d4c3",
+                      "secondary-fixed-dim": "#f2bf50",
+                      "surface-container": "#f1eee5",
+                      "inverse-primary": "#a0d1c0",
+                      "on-primary-fixed": "#002019",
+                      "on-background": "#1c1c16",
+                      "outline-variant": "#c0c8c4",
+                      "surface-container-lowest": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed": "#ffdea1",
+                      "on-primary-fixed-variant": "#204f42",
+                      "tertiary-fixed-dim": "#f4bb92",
+                      "surface-bright": "#fdf9f0",
+                      "error": "#ba1a1a",
+                      "surface-tint": "#396759"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "8px",
+                      "gutter": "24px",
+                      "margin-mobile": "16px",
+                      "margin-desktop": "48px",
+                      "section-gap": "80px",
+                      "container-max": "1280px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": [
+                              "Be Vietnam Pro"
+                      ],
+                      "display-lg": [
+                              "Be Vietnam Pro"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Be Vietnam Pro"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Be Vietnam Pro"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        body {
+            background-color: #fdf9f0;
+            color: #1c1c16;
+        }
+    </style>
+</head>
+<body class="antialiased">
+<!-- TopNavBar Shared Component -->
+<nav class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md fixed top-0 w-full z-50 border-b border-outline-variant/20 shadow-sm transition-all duration-300">
+<div class="flex justify-between items-center px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">
+                ThanhPhat
+            </div>
+<div class="hidden md:flex space-x-8">
+<a class="text-primary dark:text-primary-fixed border-b-2 border-primary pb-1 font-label-md text-label-md" href="#">Trang chủ</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed transition-colors font-label-md text-label-md" href="#">Sản phẩm</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed transition-colors font-label-md text-label-md" href="#">Giới thiệu</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed transition-colors font-label-md text-label-md" href="#">Liên hệ</a>
+</div>
+<div class="flex items-center space-x-4 text-primary dark:text-primary-fixed-dim">
+<button aria-label="Shopping Cart" class="hover:text-primary transition-colors">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<button aria-label="Account" class="hover:text-primary transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</nav>
+<main class="pt-[80px]">
+<!-- Hero Section -->
+<section class="relative w-full h-[819px] flex items-center justify-center bg-surface-container overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img alt="Hero Image" class="w-full h-full object-cover opacity-60" data-alt="A sweeping, cinematic wide shot of lush, terraced rice paddies in Vietnam, bathed in the soft, warm golden hour light of early morning. The scene is vibrant with various shades of green and earthy browns, reflecting an organic, pristine agricultural landscape. The image exudes a sense of purity, tranquility, and provenance, aligning perfectly with a premium, organic food brand's warm-tech aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBULDHboU23mLDYw3NswQTFCwS69JXxB5LgS3eyDHz-23t-ccedwzKUvnNWSilmO-SsTkORQHSK4aPa3kfeGol1dgZi9vpRYawiBHl6_lh1hELijB-uzBjP-MDW08cLilkQxexG6Ww9GVzUck43GMFcdMOP9eP3pQdgole4SUM-Jena5dq6wr1H9QGjPsE32RIxdV3Gyi_H7Wl1o2wfe1jaI92Xh1Z3zY_lz8q5bgvwAM3PmBqPybi7OXwpLuYh_9RkTk5QPyVWRFE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/50 to-transparent"></div>
+</div>
+<div class="relative z-10 text-center px-margin-mobile md:px-margin-desktop max-w-4xl mx-auto flex flex-col items-center">
+<span class="bg-secondary-container/20 text-secondary-container px-4 py-1 rounded-full font-label-sm text-label-sm mb-6 border border-secondary-container/30">100% Hữu cơ chứng nhận</span>
+<h1 class="font-display-lg text-display-lg text-on-surface mb-6 drop-shadow-sm">
+                    Gạo Việt Thượng Hạng Cho Mọi Gia Đình
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-2xl mx-auto drop-shadow-sm">
+                    Tận hưởng hương vị tinh túy từ những cánh đồng màu mỡ nhất. Quy trình canh tác hữu cơ, lưu giữ trọn vẹn giá trị truyền thống.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button class="bg-primary text-on-primary font-label-md text-label-md px-8 py-4 rounded-lg hover:-translate-y-1 hover:shadow-[0px_8px_30px_rgba(47,93,80,0.2)] transition-all duration-300">
+                        Mua ngay
+                    </button>
+<button class="bg-transparent text-primary border-2 border-primary font-label-md text-label-md px-8 py-4 rounded-lg hover:-translate-y-1 hover:bg-primary/5 transition-all duration-300">
+                        Tìm hiểu thêm
+                    </button>
+</div>
+</div>
+</section>
+<!-- Featured Products Carousel -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="flex justify-between items-end mb-12">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Sản phẩm đặc trưng</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Nguồn gốc tuyển chọn, xay xát tinh xảo</p>
+</div>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-on-surface-variant hover:border-primary hover:text-primary transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-on-surface-variant hover:border-primary hover:text-primary transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Product Card 1 -->
+<div class="bg-surface rounded-xl overflow-hidden shadow-[0px_4px_20px_rgba(47,93,80,0.05)] hover:shadow-[0px_8px_30px_rgba(47,93,80,0.1)] transition-shadow duration-300 border border-surface-variant">
+<div class="h-64 overflow-hidden relative">
+<img alt="Jasmine Rice" class="w-full h-full object-cover" data-alt="A high-end, studio-lit close-up shot of raw, premium white jasmine rice grains cascading beautifully into an artisan wooden bowl. The background is a clean, minimal soft cream studio setting, highlighting the pristine texture and brightness of the grains. The lighting is soft and diffused, emphasizing the 'Purity' and 'Agrarian Luxury' aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDtciYPJ_6IX_uQ5S736OBu_Q1_I-Y9Zz5vwVTYxtwzt9zGrHMffikiF4api-JdM9TXPzY4QWSb_KnFO3zBEe-2tZjSmtHlGtJhiBQS63geYzVpWKSS2uPrBcaI_ewP-GTuOnbO2aZO3ter_gpfOFktSZB1NSPn6qYXeQbv6bLCecZfRmK7-PzBrYYyGWAzGYjCNiGjvs0VxDZ__IavqO3HR60SCQs4KVTs9oFzfe8dGpLePyCn59qAeixDx68B1FTm3cZKzHV1hk"/>
+<span class="absolute top-4 left-4 bg-surface/90 text-primary px-3 py-1 rounded-full font-label-sm text-label-sm backdrop-blur-sm shadow-sm">Bán chạy nhất</span>
+</div>
+<div class="p-8">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Gạo Jasmine Đặc Sản</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-2">Gạo thơm hạt dài hoàn hảo cho bữa ăn hàng ngày và những dịp đặc biệt.</p>
+<div class="flex justify-between items-center">
+<span class="font-headline-md text-headline-md text-primary">$24.00</span>
+<button class="bg-primary text-on-primary w-10 h-10 rounded-lg flex items-center justify-center hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-surface rounded-xl overflow-hidden shadow-[0px_4px_20px_rgba(47,93,80,0.05)] hover:shadow-[0px_8px_30px_rgba(47,93,80,0.1)] transition-shadow duration-300 border border-surface-variant">
+<div class="h-64 overflow-hidden relative">
+<img alt="Brown Rice" class="w-full h-full object-cover" data-alt="A professional, editorial-style photograph of healthy brown rice neatly arranged on a textural linen cloth. The composition includes elegant, minimalist ceramic spoons. The warm, earthy tones of the rice contrast gently with the soft beige background, conveying a sense of organic wellness, rustic elegance, and high-quality agrarian commerce." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1qzJeQSPAomHJUQWLyMFCSu6sKncPPsLgpmBhmjaO1450MHBuZmYg2EONDwp1j-b-zfp7-L8LLH1hNCS1RFt-t48Ti0lNCjfgHdYf_6Kvyq6G-fKekU9Dxj0G6M4-ndHlDo6snhsQ4Qd9g1QcMTL7Y79svSQ3C1oriz0iWj5x8zF9YwNtWqiEcVeaw0E6eV0rLPMctnTqDJvXJKtCFXs7NZc6pmTk_uN0N1ZgH2GnTT11sZiNK4CPEP00jwECd4UwrFZR41JPPbw"/>
+<span class="absolute top-4 left-4 bg-tertiary-container/90 text-on-tertiary-container px-3 py-1 rounded-full font-label-sm text-label-sm backdrop-blur-sm shadow-sm">Ngũ cốc nguyên hạt</span>
+</div>
+<div class="p-8">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Gạo Lứt Dinh Dưỡng</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-2">Giàu chất xơ và hương vị đậm đà, sự lựa chọn tuyệt vời cho một lối sống lành mạnh.</p>
+<div class="flex justify-between items-center">
+<span class="font-headline-md text-headline-md text-primary">$26.00</span>
+<button class="bg-primary text-on-primary w-10 h-10 rounded-lg flex items-center justify-center hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-surface rounded-xl overflow-hidden shadow-[0px_4px_20px_rgba(47,93,80,0.05)] hover:shadow-[0px_8px_30px_rgba(47,93,80,0.1)] transition-shadow duration-300 border border-surface-variant">
+<div class="h-64 overflow-hidden relative">
+<img alt="Sticky Rice" class="w-full h-full object-cover" data-alt="An elegant still life of glutinous sticky rice beautifully presented in a traditional woven bamboo basket, resting on a clean, modern off-white surface. Subtle, warm directional lighting highlights the texture of both the basket and the grains. The image blends traditional agrarian roots with a refined, modern culinary aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZ5XERHf10enJwc6EZra6HJZaOMatsyknJN1BfZINU2fJHoxG9neVHgniZny10gjL0BBhu3KNn9NIiSl20lzMl0aDQx8vmftHtF9pVSr_NYPW2-HfVd5iyUchxD_xS9qiIvc1H-x1ObqSjimUHb7wiP1qHL21CxHVm002SqxGjUbXzSNgJUWloaRfu9H4pJr8Aw6qMl7Hg7lUVVrra40t7vLdfEZ8aWaS34g54w9v-AbOtMMduPmQmyVHsh4w0O0dQys885ss4_6I"/>
+</div>
+<div class="p-8">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Gạo Nếp Đặc Sản</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 line-clamp-2">Độ dẻo hoàn hảo lý tưởng cho các món ngọt truyền thống và các món mặn.</p>
+<div class="flex justify-between items-center">
+<span class="font-headline-md text-headline-md text-primary">$22.00</span>
+<button class="bg-primary text-on-primary w-10 h-10 rounded-lg flex items-center justify-center hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Benefits Bento Grid -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto bg-surface-container-low rounded-3xl my-12">
+<div class="text-center mb-16 max-w-3xl mx-auto">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">Tại sao chọn ThanhPhat?</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Chúng tôi thu hẹp khoảng cách giữa phương pháp canh tác truyền thống và tiêu chuẩn chất lượng hiện đại.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<!-- Large card taking 2 cols on md -->
+<div class="bg-surface p-8 rounded-2xl shadow-[0px_4px_20px_rgba(47,93,80,0.05)] md:col-span-2 row-span-2 flex flex-col justify-between border border-surface-variant group hover:shadow-[0px_8px_30px_rgba(47,93,80,0.1)] transition-all">
+<div>
+<div class="w-14 h-14 bg-primary-container rounded-xl flex items-center justify-center text-on-primary-container mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4">Chất lượng hữu cơ</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Gạo của chúng tôi được trồng mà không sử dụng thuốc trừ sâu hóa học hay phân bón tổng hợp, tôn trọng đất đai và đảm bảo những hạt gạo tinh khiết nhất cho gia đình bạn. Chúng tôi duy trì các chứng nhận nghiêm ngặt.</p>
+</div>
+</div>
+<div class="bg-surface p-6 rounded-2xl shadow-[0px_4px_20px_rgba(47,93,80,0.05)] border border-surface-variant group hover:-translate-y-1 transition-transform">
+<div class="w-12 h-12 bg-surface-container-high rounded-xl flex items-center justify-center text-primary mb-4">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+<h3 class="font-label-md text-label-md text-on-surface mb-2">Giao hàng nhanh</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Trực tiếp từ kho của chúng tôi đến trước cửa nhà bạn trong 48 giờ.</p>
+</div>
+<div class="bg-surface p-6 rounded-2xl shadow-[0px_4px_20px_rgba(47,93,80,0.05)] border border-surface-variant group hover:-translate-y-1 transition-transform">
+<div class="w-12 h-12 bg-secondary-container/20 rounded-xl flex items-center justify-center text-secondary mb-4">
+<span class="material-symbols-outlined">sell</span>
+</div>
+<h3 class="font-label-md text-label-md text-on-surface mb-2">Giá cả hợp lý</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Chất lượng cao cấp không phải là điều xa xỉ. Chúng tôi cung cấp giá cả công bằng.</p>
+</div>
+<div class="bg-surface p-6 rounded-2xl shadow-[0px_4px_20px_rgba(47,93,80,0.05)] md:col-span-2 border border-surface-variant flex items-center gap-6">
+<div class="w-16 h-16 bg-tertiary-container/20 rounded-full flex items-center justify-center text-tertiary shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface mb-1">Nguồn cung tin cậy</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Hơn 50 năm kinh nghiệm canh tác truyền thống, hợp tác trực tiếp với các hợp tác xã địa phương ở Đồng bằng sông Cửu Long.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Newsletter Section -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="bg-surface-dim rounded-3xl p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-12 border border-outline-variant/30 relative overflow-hidden">
+<!-- Decorative element -->
+<div class="absolute -right-20 -bottom-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+<div class="max-w-xl relative z-10">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">Tham gia CLB Thu Hoạch</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-0">Đăng ký nhận bản tin của chúng tôi để nhận các ưu đãi độc quyền, công thức nấu ăn và những câu chuyện từ cánh đồng. Không có tin nhắn rác, chỉ có những điều tốt lành.</p>
+</div>
+<div class="w-full max-w-md relative z-10">
+<form class="flex flex-col sm:flex-row gap-3">
+<input class="flex-1 bg-surface border border-outline-variant/50 rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="Địa chỉ email của bạn" type="email"/>
+<button class="bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded-lg hover:bg-primary-container hover:text-on-primary-container transition-colors whitespace-nowrap shadow-sm" type="submit">
+                            Đăng ký
+                        </button>
+</form>
+<p class="font-label-sm text-label-sm text-outline mt-3">Bằng cách đăng ký, bạn đồng ý với Chính sách bảo mật của chúng tôi.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Shared Component -->
+<footer class="bg-surface-container-highest dark:bg-inverse-surface relative bottom-0 w-full border-t border-outline-variant/30">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-section-gap px-margin-desktop py-section-gap max-w-container-max mx-auto">
+<div class="col-span-1 md:col-span-2">
+<div class="font-headline-lg text-headline-lg text-primary dark:text-primary-fixed-dim mb-4">
+                    ThanhPhat
+                </div>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant max-w-sm mb-6">
+                    © 2024 ThanhPhat. Tận hưởng hương vị tinh túy từ những cánh đồng màu mỡ nhất.
+                </p>
+</div>
+<div class="col-span-1">
+<h4 class="font-label-md text-label-md text-on-surface dark:text-inverse-on-surface mb-4 font-bold">Khám phá</h4>
+<ul class="space-y-3">
+<li><a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:text-secondary-container dark:hover:text-secondary-fixed transition-colors hover:underline decoration-2 underline-offset-4" href="#">Chứng nhận hữu cơ</a></li>
+<li><a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:text-secondary-container dark:hover:text-secondary-fixed transition-colors hover:underline decoration-2 underline-offset-4" href="#">Báo cáo bền vững</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<h4 class="font-label-md text-label-md text-on-surface dark:text-inverse-on-surface mb-4 font-bold">Pháp lý</h4>
+<ul class="space-y-3">
+<li><a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:text-secondary-container dark:hover:text-secondary-fixed transition-colors hover:underline decoration-2 underline-offset-4" href="#">Chính sách bảo mật</a></li>
+<li><a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:text-secondary-container dark:hover:text-secondary-fixed transition-colors hover:underline decoration-2 underline-offset-4" href="#">Liên hệ đại lý</a></li>
+</ul>
+</div>
+</div>
+</footer>
+</body></html>

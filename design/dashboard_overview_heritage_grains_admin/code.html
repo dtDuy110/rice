@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Heritage Grains - Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-container": "#2f5d50",
+                      "tertiary": "#5a3516",
+                      "on-surface": "#1c1c16",
+                      "on-tertiary": "#ffffff",
+                      "surface": "#fdf9f0",
+                      "secondary-container": "#feca5a",
+                      "on-secondary-fixed-variant": "#5c4300",
+                      "on-secondary-fixed": "#261900",
+                      "primary-fixed": "#bceddc",
+                      "surface-variant": "#e6e2d9",
+                      "surface-container-high": "#ece8df",
+                      "primary-fixed-dim": "#a0d1c0",
+                      "on-error": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "background": "#fdf9f0",
+                      "on-secondary-container": "#745500",
+                      "inverse-surface": "#31302b",
+                      "on-surface-variant": "#404945",
+                      "on-tertiary-fixed-variant": "#653d1e",
+                      "inverse-on-surface": "#f4f0e7",
+                      "surface-dim": "#dddad1",
+                      "on-tertiary-container": "#f7be95",
+                      "primary": "#154539",
+                      "secondary": "#7a5900",
+                      "surface-container-highest": "#e6e2d9",
+                      "surface-container-low": "#f7f3ea",
+                      "on-tertiary-fixed": "#301400",
+                      "tertiary-fixed": "#ffdcc5",
+                      "on-secondary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "tertiary-container": "#754b2b",
+                      "outline": "#717975",
+                      "on-primary-container": "#a3d4c3",
+                      "secondary-fixed-dim": "#f2bf50",
+                      "surface-container": "#f1eee5",
+                      "inverse-primary": "#a0d1c0",
+                      "on-primary-fixed": "#002019",
+                      "on-background": "#1c1c16",
+                      "outline-variant": "#c0c8c4",
+                      "surface-container-lowest": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed": "#ffdea1",
+                      "on-primary-fixed-variant": "#204f42",
+                      "tertiary-fixed-dim": "#f4bb92",
+                      "surface-bright": "#fdf9f0",
+                      "error": "#ba1a1a",
+                      "surface-tint": "#396759"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "8px",
+                      "gutter": "24px",
+                      "margin-mobile": "16px",
+                      "margin-desktop": "48px",
+                      "section-gap": "80px",
+                      "container-max": "1280px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": [
+                              "Be Vietnam Pro"
+                      ],
+                      "display-lg": [
+                              "Be Vietnam Pro"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Be Vietnam Pro"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Be Vietnam Pro"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .shadow-subtle {
+            box-shadow: 0px 4px 20px rgba(47, 93, 80, 0.05);
+        }
+      </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-low h-screen w-64 fixed left-0 top-0 border-r border-outline-variant/30 flex flex-col h-full py-6 space-y-4 z-50">
+<div class="px-6 pb-6 border-b border-outline-variant/30 mb-2">
+<h1 class="font-headline-md text-headline-md text-primary font-bold">Admin Portal</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 text-sm">Heritage Grains Management</p>
+</div>
+<div class="flex-1 flex flex-col space-y-2 px-4">
+<!-- Active Tab: Dashboard -->
+<a class="bg-primary-container text-on-primary-container font-semibold rounded-lg mx-2 flex items-center px-4 py-3 group transition-transform hover:scale-95" href="#">
+<span class="material-symbols-outlined mr-3" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-highest rounded-lg mx-2 flex items-center px-4 py-3 group transition-all duration-200 hover:scale-95" href="#">
+<span class="material-symbols-outlined mr-3">inventory_2</span>
+<span class="font-label-md text-label-md">Products</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-highest rounded-lg mx-2 flex items-center px-4 py-3 group transition-all duration-200 hover:scale-95" href="#">
+<span class="material-symbols-outlined mr-3">shopping_bag</span>
+<span class="font-label-md text-label-md">Orders</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-highest rounded-lg mx-2 flex items-center px-4 py-3 group transition-all duration-200 hover:scale-95" href="#">
+<span class="material-symbols-outlined mr-3">group</span>
+<span class="font-label-md text-label-md">Customers</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-highest rounded-lg mx-2 flex items-center px-4 py-3 group transition-all duration-200 hover:scale-95" href="#">
+<span class="material-symbols-outlined mr-3">analytics</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-highest rounded-lg mx-2 flex items-center px-4 py-3 group transition-all duration-200 hover:scale-95" href="#">
+<span class="material-symbols-outlined mr-3">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</div>
+<div class="mt-auto px-6 pt-6 border-t border-outline-variant/30 flex items-center">
+<img alt="Store Admin Avatar" class="w-10 h-10 rounded-full border border-outline-variant mr-3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaIYY7gw44IuxHIs6z0hoyHA_qj2IfQQZW5ZdTzNRNZiu25AVe9euiyBPhSWsUjrW9N-OqXb8rfUEZDgOhC-F_xOC4cWXSv9XtckU1pWt_5Efe_HX_6EN8QI5ChnNtkrS_HkmzYA9yzC4Hywv1MFjYMmiZ_PmcGJkPPqKbQq-SRO_xJeUPDhxZkxHerZ89qoS8Y8DsgNjVVJbFYH-ZSfLYU1KAI-HH-QYzCyxej1o8ryRGaBRbpIM8qA7iax5uJYrt5tMEUpmL41I"/>
+<div>
+<p class="font-label-md text-label-md font-bold text-on-surface">Store Admin</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">admin@heritagegrains.com</p>
+</div>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="ml-64 flex-1 flex flex-col min-h-screen bg-background">
+<!-- TopAppBar -->
+<header class="bg-surface sticky top-0 z-40 border-b border-outline-variant/50 flex justify-between items-center px-gutter py-3 w-full">
+<div class="flex items-center flex-1">
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold hidden md:block">Dashboard Overview</h2>
+</div>
+<div class="flex items-center space-x-2">
+<button class="text-on-surface-variant hover:bg-surface-container-high rounded-full p-2 transition-colors focus:ring-2 focus:ring-primary focus:ring-offset-2">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-high rounded-full p-2 transition-colors focus:ring-2 focus:ring-primary focus:ring-offset-2">
+<span class="material-symbols-outlined">contrast</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-high rounded-full p-2 transition-colors focus:ring-2 focus:ring-primary focus:ring-offset-2">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<!-- Dashboard Content -->
+<main class="flex-1 p-gutter max-w-container-max mx-auto w-full flex flex-col space-y-gutter">
+<!-- KPI Widgets Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-unit border-b border-outline-variant/20 pb-8">
+<!-- Revenue -->
+<div class="bg-surface p-6 rounded-xl border border-surface-variant shadow-subtle flex flex-col">
+<div class="flex justify-between items-start mb-4">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Revenue</p>
+<span class="material-symbols-outlined text-primary bg-primary-container/20 p-1.5 rounded-md">payments</span>
+</div>
+<div class="flex items-end justify-between mt-auto">
+<h3 class="font-display-lg text-display-lg text-on-surface">$124k</h3>
+<span class="flex items-center text-primary font-label-md text-label-md bg-primary-container/30 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-sm mr-1">trending_up</span> +12%
+                        </span>
+</div>
+</div>
+<!-- Orders -->
+<div class="bg-surface p-6 rounded-xl border border-surface-variant shadow-subtle flex flex-col">
+<div class="flex justify-between items-start mb-4">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Orders</p>
+<span class="material-symbols-outlined text-tertiary bg-tertiary-container/20 p-1.5 rounded-md">shopping_bag</span>
+</div>
+<div class="flex items-end justify-between mt-auto">
+<h3 class="font-display-lg text-display-lg text-on-surface">1,240</h3>
+<span class="flex items-center text-primary font-label-md text-label-md bg-primary-container/30 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-sm mr-1">trending_up</span> +5%
+                        </span>
+</div>
+</div>
+<!-- Customers -->
+<div class="bg-surface p-6 rounded-xl border border-surface-variant shadow-subtle flex flex-col">
+<div class="flex justify-between items-start mb-4">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Customers</p>
+<span class="material-symbols-outlined text-secondary bg-secondary-container/20 p-1.5 rounded-md">group</span>
+</div>
+<div class="flex items-end justify-between mt-auto">
+<h3 class="font-display-lg text-display-lg text-on-surface">850</h3>
+<span class="flex items-center text-primary font-label-md text-label-md bg-primary-container/30 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-sm mr-1">trending_up</span> +8%
+                        </span>
+</div>
+</div>
+<!-- Conversion Rate -->
+<div class="bg-surface p-6 rounded-xl border border-surface-variant shadow-subtle flex flex-col">
+<div class="flex justify-between items-start mb-4">
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Conversion Rate</p>
+<span class="material-symbols-outlined text-on-surface-variant bg-surface-container-high p-1.5 rounded-md">data_exploration</span>
+</div>
+<div class="flex items-end justify-between mt-auto">
+<h3 class="font-display-lg text-display-lg text-on-surface">3.2%</h3>
+<span class="flex items-center text-on-surface-variant font-label-md text-label-md bg-surface-container-high px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-sm mr-1">trending_flat</span> 0%
+                        </span>
+</div>
+</div>
+</div>
+<!-- Charts Section (Bento Grid Style) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-unit">
+<!-- Main Area Chart Placeholder -->
+<div class="bg-surface lg:col-span-2 p-6 rounded-xl border border-surface-variant shadow-subtle flex flex-col min-h-[400px]">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-on-surface">Revenue Analytics</h3>
+<button class="text-primary font-label-md text-label-md flex items-center hover:underline">
+                            View Full Report <span class="material-symbols-outlined text-sm ml-1">chevron_right</span>
+</button>
+</div>
+<div class="flex-1 bg-surface-container-lowest rounded-lg border border-outline-variant/20 flex items-center justify-center relative overflow-hidden">
+<!-- Simulated Area Chart -->
+<div class="absolute bottom-0 w-full h-3/4 bg-gradient-to-t from-primary-container/40 to-transparent flex items-end">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 1000 300">
+<path d="M0,300 L0,150 Q100,200 200,100 T400,120 T600,50 T800,180 T1000,80 L1000,300 Z" fill="rgba(47, 93, 80, 0.15)" stroke="#154539" stroke-width="3"></path>
+</svg>
+</div>
+<p class="text-outline z-10 font-label-sm text-label-sm">[Area Chart Placeholder]</p>
+</div>
+</div>
+<!-- Secondary Bar Chart Placeholder -->
+<div class="bg-surface p-6 rounded-xl border border-surface-variant shadow-subtle flex flex-col min-h-[400px]">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-on-surface">Monthly Sales</h3>
+<button class="text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="flex-1 bg-surface-container-lowest rounded-lg border border-outline-variant/20 flex items-end justify-center p-4 space-x-2">
+<!-- Simulated Bar Chart -->
+<div class="w-1/6 bg-secondary-container/60 h-1/3 rounded-t-sm hover:bg-secondary-container transition-colors"></div>
+<div class="w-1/6 bg-secondary-container/60 h-1/2 rounded-t-sm hover:bg-secondary-container transition-colors"></div>
+<div class="w-1/6 bg-secondary-container/60 h-3/4 rounded-t-sm hover:bg-secondary-container transition-colors"></div>
+<div class="w-1/6 bg-primary h-full rounded-t-sm shadow-md"></div>
+<div class="w-1/6 bg-secondary-container/60 h-2/3 rounded-t-sm hover:bg-secondary-container transition-colors"></div>
+<div class="w-1/6 bg-secondary-container/60 h-1/4 rounded-t-sm hover:bg-secondary-container transition-colors"></div>
+</div>
+</div>
+</div>
+<!-- Tables & Alerts Section -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-unit">
+<!-- Recent Orders Table -->
+<div class="bg-surface lg:col-span-2 p-6 rounded-xl border border-surface-variant shadow-subtle">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-on-surface">Recent Orders</h3>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant/50">
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant uppercase">ID</th>
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant uppercase">Customer</th>
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant uppercase">Date</th>
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant uppercase">Total</th>
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant uppercase">Status</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md">
+<tr class="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors">
+<td class="py-4 px-4 font-label-md text-on-surface">#ORD-0921</td>
+<td class="py-4 px-4 text-on-surface">Eleanor Vance</td>
+<td class="py-4 px-4 text-on-surface-variant">Oct 24, 2023</td>
+<td class="py-4 px-4 font-semibold text-on-surface">$145.00</td>
+<td class="py-4 px-4">
+<span class="bg-primary-container text-on-primary-fixed-variant px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">Success</span>
+</td>
+</tr>
+<tr class="border-b border-outline-variant/20 hover:bg-surface-container-low transition-colors">
+<td class="py-4 px-4 font-label-md text-on-surface">#ORD-0920</td>
+<td class="py-4 px-4 text-on-surface">Arthur Pendelton</td>
+<td class="py-4 px-4 text-on-surface-variant">Oct 24, 2023</td>
+<td class="py-4 px-4 font-semibold text-on-surface">$82.50</td>
+<td class="py-4 px-4">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">Pending</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-4 px-4 font-label-md text-on-surface">#ORD-0919</td>
+<td class="py-4 px-4 text-on-surface">Clara Bow</td>
+<td class="py-4 px-4 text-on-surface-variant">Oct 23, 2023</td>
+<td class="py-4 px-4 font-semibold text-on-surface">$210.00</td>
+<td class="py-4 px-4">
+<span class="bg-primary-container text-on-primary-fixed-variant px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">Success</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Low Stock Alerts -->
+<div class="bg-surface p-6 rounded-xl border border-surface-variant shadow-subtle">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center">
+                            Low Stock
+                            <span class="ml-2 bg-error-container text-on-error-container text-xs font-bold px-2 py-0.5 rounded-full">3</span>
+</h3>
+</div>
+<ul class="space-y-4">
+<li class="flex items-start justify-between p-3 bg-surface-container-lowest border border-outline-variant/30 rounded-lg hover:border-error-container transition-colors">
+<div class="flex items-center">
+<div class="w-10 h-10 bg-surface-variant rounded-md mr-3 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary">grass</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface font-semibold">Heirloom Einkorn</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">SKU: HK-001</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-headline-md text-headline-md text-error">12</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">units left</p>
+</div>
+</li>
+<li class="flex items-start justify-between p-3 bg-surface-container-lowest border border-outline-variant/30 rounded-lg hover:border-error-container transition-colors">
+<div class="flex items-center">
+<div class="w-10 h-10 bg-surface-variant rounded-md mr-3 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary">eco</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface font-semibold">Organic Emmer</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">SKU: OE-042</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-headline-md text-headline-md text-error">8</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">units left</p>
+</div>
+</li>
+<li class="flex items-start justify-between p-3 bg-surface-container-lowest border border-outline-variant/30 rounded-lg hover:border-secondary-container transition-colors">
+<div class="flex items-center">
+<div class="w-10 h-10 bg-surface-variant rounded-md mr-3 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary">agriculture</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface font-semibold">Spelt Flour (5lb)</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">SKU: SF-500</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-headline-md text-headline-md text-secondary">24</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">units left</p>
+</div>
+</li>
+</ul>
+<button class="w-full mt-4 py-2 border border-outline-variant rounded-lg font-label-md text-label-md text-on-surface hover:bg-surface-container-low transition-colors">
+                        View All Inventory
+                    </button>
+</div>
+</div>
+</main>
+</div>
+</body></html>

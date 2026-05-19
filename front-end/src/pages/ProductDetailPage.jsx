@@ -1,0 +1,234 @@
+import { useState } from 'react'
+import { Plus, ShieldCheck, Truck, ArrowRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { productDetail, relatedProducts } from '../data/mockData'
+import Badge from '../components/ui/Badge'
+import Button from '../components/ui/Button'
+import QuantitySelector from '../components/ui/QuantitySelector'
+import useScrollAnimation from '../hooks/useScrollAnimation'
+
+export default function ProductDetailPage() {
+  const [selectedImage, setSelectedImage] = useState(0)
+  const [quantity, setQuantity] = useState(1)
+  const [activeTab, setActiveTab] = useState('description')
+  const product = productDetail
+  const { ref, isVisible } = useScrollAnimation(0.05)
+
+  const tabs = [
+    { id: 'description', label: 'Mô tả sản phẩm' },
+    { id: 'nutrition', label: 'Thông tin dinh dưỡng' },
+    { id: 'reviews', label: 'Đánh giá (12)' },
+  ]
+
+  return (
+    <div
+      ref={ref}
+      className={`py-8 md:py-12 px-4 md:px-12 max-w-[1280px] mx-auto transition-all duration-500 ${
+        isVisible ? 'opacity-100' : 'opacity-0'
+      }`}
+    >
+      {/* Main Product Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 mb-16">
+        {/* Image Gallery */}
+        <div>
+          <div className="relative rounded-2xl overflow-hidden bg-surface-container-low mb-4 aspect-square">
+            <img
+              src={product.images[selectedImage]}
+              alt={product.name}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute top-4 left-4 flex gap-2">
+              {product.badges.map((badge, i) => (
+                <Badge key={i} type={i === 0 ? 'organic' : 'in-stock'}>
+                  {badge}
+                </Badge>
+              ))}
+            </div>
+          </div>
+          {/* Thumbnails */}
+          <div className="flex gap-3">
+            {product.images.map((img, i) => (
+              <button
+                key={i}
+                onClick={() => setSelectedImage(i)}
+                className={`w-20 h-20 rounded-xl overflow-hidden border-2 transition-all duration-200 ${
+                  selectedImage === i
+                    ? 'border-primary shadow-sm'
+                    : 'border-transparent opacity-60 hover:opacity-100'
+                }`}
+              >
+                <img src={img} alt="" className="w-full h-full object-cover" />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Product Info */}
+        <div className="flex flex-col justify-center">
+          <p className="text-label-md text-primary mb-2 uppercase tracking-wider">
+            {product.subtitle}
+          </p>
+          <h1
+            className="text-on-surface mb-4"
+            style={{ fontFamily: 'var(--font-family-heading)', fontSize: '36px', fontWeight: 700, lineHeight: 1.2 }}
+          >
+            {product.name}
+          </h1>
+          <div className="flex items-baseline gap-3 mb-6">
+            <span
+              className="text-primary"
+              style={{ fontFamily: 'var(--font-family-heading)', fontSize: '28px', fontWeight: 700 }}
+            >
+              ${product.price.toFixed(2)}
+            </span>
+            <span className="text-label-md text-on-surface-variant border border-outline-variant/50 px-3 py-1 rounded-lg">
+              {product.weight}
+            </span>
+          </div>
+
+          <p className="text-body-md text-on-surface-variant mb-8 leading-relaxed">
+            {product.description.split('\n\n')[0]}
+          </p>
+
+          {/* Quantity */}
+          <div className="flex items-center gap-4 mb-6">
+            <span className="text-label-md text-on-surface font-semibold">Số lượng</span>
+            <QuantitySelector value={quantity} onChange={setQuantity} />
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-3 mb-6">
+            <Button variant="secondary" size="lg" className="flex-1">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" />
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+              </svg>
+              Thêm vào giỏ
+            </Button>
+            <Button variant="primary" size="lg" className="flex-1">
+              Mua ngay
+            </Button>
+          </div>
+
+          {/* Trust Badges */}
+          <div className="flex flex-wrap items-center gap-6 text-label-sm text-on-surface-variant">
+            <span className="flex items-center gap-2">
+              <Truck size={16} className="text-primary" />
+              Miễn phí ship đơn trên 500k
+            </span>
+            <span className="flex items-center gap-2">
+              <ShieldCheck size={16} className="text-primary" />
+              Đảm bảo hài lòng 100%
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Tabs Section */}
+      <div className="mb-16">
+        {/* Tab Headers */}
+        <div className="flex gap-8 border-b border-outline-variant/30 mb-8">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`pb-3 text-label-md font-semibold transition-colors relative ${
+                activeTab === tab.id
+                  ? 'text-on-surface'
+                  : 'text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              {tab.label}
+              {activeTab === tab.id && (
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
+              )}
+            </button>
+          ))}
+        </div>
+
+        {/* Tab Content */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="md:col-span-2">
+            <div className="text-body-md text-on-surface-variant leading-relaxed space-y-4">
+              {product.description.split('\n\n').map((para, i) => (
+                <p key={i}>{para}</p>
+              ))}
+            </div>
+            <ul className="mt-6 space-y-2">
+              {product.features.map((feat, i) => (
+                <li key={i} className="flex items-start gap-2 text-body-md text-on-surface-variant">
+                  <span className="text-primary mt-1">•</span>
+                  {feat}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Farm Details */}
+          <div className="bg-surface-container-low rounded-2xl p-6 border border-outline-variant/30 h-fit">
+            <h3
+              className="text-headline-md text-on-surface mb-6"
+              style={{ fontFamily: 'var(--font-family-heading)', fontSize: '20px' }}
+            >
+              Chi tiết nông trại
+            </h3>
+            <div className="space-y-4">
+              {Object.entries(product.farmDetails).map(([key, value]) => {
+                const labels = { origin: 'Nguồn gốc', harvest: 'Thu hoạch', processing: 'Chế biến' }
+                return (
+                  <div key={key} className="flex justify-between items-center py-2 border-b border-outline-variant/20 last:border-0">
+                    <span className="text-body-md text-on-surface-variant">{labels[key]}</span>
+                    <span className="text-body-md text-on-surface font-medium text-right">{value}</span>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Related Products */}
+      <div>
+        <div className="flex justify-between items-center mb-8">
+          <h2
+            className="text-headline-lg text-on-surface"
+            style={{ fontFamily: 'var(--font-family-heading)' }}
+          >
+            Sản phẩm bổ sung
+          </h2>
+          <Link to="/san-pham" className="text-label-md text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1">
+            Xem tất cả <ArrowRight size={16} />
+          </Link>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          {relatedProducts.map((item) => (
+            <div key={item.id} className="group">
+              <div className="rounded-2xl overflow-hidden mb-3 aspect-square bg-surface-container-low">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <h3
+                className="text-on-surface font-semibold mb-1"
+                style={{ fontFamily: 'var(--font-family-heading)', fontSize: '16px' }}
+              >
+                {item.name}
+              </h3>
+              <p className="text-label-sm text-on-surface-variant mb-2">{item.subtitle}</p>
+              <div className="flex justify-between items-center">
+                <span className="text-primary font-bold" style={{ fontFamily: 'var(--font-family-heading)' }}>
+                  ${item.price.toFixed(2)}
+                </span>
+                <button className="w-8 h-8 rounded-lg border border-outline-variant flex items-center justify-center text-on-surface-variant hover:border-primary hover:text-primary transition-colors">
+                  <Plus size={16} />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}

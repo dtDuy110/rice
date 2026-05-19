@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ThanhPhat - Chi tiết sản phẩm</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#2f5d50",
+                        "tertiary": "#5a3516",
+                        "on-surface": "#1c1c16",
+                        "on-tertiary": "#ffffff",
+                        "surface": "#fdf9f0",
+                        "secondary-container": "#feca5a",
+                        "on-secondary-fixed-variant": "#5c4300",
+                        "on-secondary-fixed": "#261900",
+                        "primary-fixed": "#bceddc",
+                        "surface-variant": "#e6e2d9",
+                        "surface-container-high": "#ece8df",
+                        "primary-fixed-dim": "#a0d1c0",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "background": "#fdf9f0",
+                        "on-secondary-container": "#745500",
+                        "inverse-surface": "#31302b",
+                        "on-surface-variant": "#404945",
+                        "on-tertiary-fixed-variant": "#653d1e",
+                        "inverse-on-surface": "#f4f0e7",
+                        "surface-dim": "#dddad1",
+                        "on-tertiary-container": "#f7be95",
+                        "primary": "#154539",
+                        "secondary": "#7a5900",
+                        "surface-container-highest": "#e6e2d9",
+                        "surface-container-low": "#f7f3ea",
+                        "on-tertiary-fixed": "#301400",
+                        "tertiary-fixed": "#ffdcc5",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "tertiary-container": "#754b2b",
+                        "outline": "#717975",
+                        "on-primary-container": "#a3d4c3",
+                        "secondary-fixed-dim": "#f2bf50",
+                        "surface-container": "#f1eee5",
+                        "inverse-primary": "#a0d1c0",
+                        "on-primary-fixed": "#002019",
+                        "on-background": "#1c1c16",
+                        "outline-variant": "#c0c8c4",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#ffdea1",
+                        "on-primary-fixed-variant": "#204f42",
+                        "tertiary-fixed-dim": "#f4bb92",
+                        "surface-bright": "#fdf9f0",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#396759"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "48px",
+                        "section-gap": "80px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Be Vietnam Pro"],
+                        "display-lg": ["Be Vietnam Pro"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Be Vietnam Pro"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Be Vietnam Pro"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md fixed top-0 w-full z-50 border-b border-outline-variant/20 shadow-sm">
+<div class="flex justify-between items-center px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">ThanhPhat</div>
+<div class="hidden md:flex gap-6">
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed transition-colors font-label-md text-label-md" href="#">Trang chủ</a>
+<a class="text-primary dark:text-primary-fixed border-b-2 border-primary pb-1 font-label-md text-label-md" href="#">Sản phẩm</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed transition-colors font-label-md text-label-md" href="#">Về chúng tôi</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed transition-colors font-label-md text-label-md" href="#">Liên hệ</a>
+</div>
+<div class="flex items-center gap-4 text-primary dark:text-primary-fixed-dim">
+<button class="hover:opacity-80 scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+<button class="hover:opacity-80 scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="pt-[100px] pb-section-gap max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<!-- Product Split View -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-gutter mb-section-gap">
+<!-- Gallery -->
+<div class="flex flex-col gap-unit">
+<div class="aspect-square bg-surface-container rounded-[16px] overflow-hidden group cursor-crosshair relative">
+<img alt="Heritage Jasmine Gold rice piled elegantly" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-125 origin-center" data-alt="A close-up, high-resolution shot of premium Jasmine gold rice grains piled organically on a warm beige backdrop. The lighting is soft and natural, emphasizing the texture and golden hue of the rice. The composition is minimal and elegant, fitting a luxury agrarian brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfaEiro4Ahz8T50JUZ-vYHcDW6yknmpZH8_UqBhEFH6-WLfkI-w8QHBR6ZD_uat6OyUUmcaw0V-i9Bhz7lrqgm04NWuGwlwKwK-CKmwhrrMPqXoDMGCSg8Tf_O4oe_U2BS_whpubo1QH6h2Zfegk4ezA7yngxzujwjfM9qIiSyuK1CSZR_d82Wk68Huv5mJWCEJ70hn3-FM48hWQGFU4iS0z1j3fXrDjE-JDtDhza7KAFrOpVSU8DKO-f2qRuSwhU2S_lNg3_Ke5s"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-secondary-container/90 text-on-secondary-container font-label-sm text-label-sm px-3 py-1 rounded-full backdrop-blur-sm border border-secondary-container">Hữu cơ</span>
+<span class="bg-primary-container/90 text-on-primary-container font-label-sm text-label-sm px-3 py-1 rounded-full backdrop-blur-sm border border-primary-container">Còn hàng</span>
+</div>
+</div>
+<div class="grid grid-cols-4 gap-unit">
+<button class="aspect-square bg-surface-container rounded-lg overflow-hidden border-2 border-primary">
+<img alt="Thumbnail 1" class="w-full h-full object-cover" data-alt="A macro detail shot of a single grain of golden jasmine rice, beautifully lit against a minimal cream background, highlighting its pristine quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAM3uvx1yrcq5XG5fNJT3ZPVP03ACGN7n8s8BjoWHXwxQA-ui5AEYa7mHMKA6xz1Nc2MG72pigyQIfUKkYgAaN-ej6d6lWUs8OCNe_TMakZsFkuNvyAeHrBJ1Yh_VYOcV2NqOjElsD13jzsFWjfWonOd8NOGAL_r8eWOGwVa9ty4TX_D_XUFCLSmRpG28D7cu70dcOemkRdbfoJSWu4Zdf2jr3rnN2UdNZ0Gz5xXyQtcuS1DuOAYRuLweMC7Qdu-tz1U5CPyISFqag"/>
+</button>
+<button class="aspect-square bg-surface-container rounded-lg overflow-hidden border border-outline-variant hover:border-primary transition-colors">
+<img alt="Thumbnail 2" class="w-full h-full object-cover" data-alt="A bowl of cooked jasmine gold rice, steam gently rising, set on a rustic wooden table. The warm, inviting lighting evokes comfort and culinary excellence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaoUt0Ljjsvzvvs-c-xC4mMAhLf2TgJ-iLwYgakXtgojtqe8SRvs7ANFV4r7jJ6XauT3TVtRkmxIH3NazllUggT9UwumGAJezUxNXja9rpXnnv6TmHJjrOIJQ7bX4Vdb9r8irfa6fcdpH7URK495yBfyGM79MNSd9z-K2cELZI5lxzSW-bbvm90TlZbXQIHprRiOlYgGXwDfAkkoFOI3YY2NkOsLg3RJtZZEhrcmf91VdUDteznMraRgcZ4ID0Dic9W0ZbdxsdLHA"/>
+</button>
+<button class="aspect-square bg-surface-container rounded-lg overflow-hidden border border-outline-variant hover:border-primary transition-colors">
+<img alt="Thumbnail 3" class="w-full h-full object-cover" data-alt="A stylized shot of rice packaging, a minimal earth-toned burlap sack tied with twine, resting on a clean studio surface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPwYzwbKL4nW24FzHyoBK74t3ofrm0Oa4V45q6YOA8uhZk8PbkCUEYVJ3T9xLo3T9jFs0uoKCbGNYcRMXTrpZgEjv-WyhBGSxnfjTduFPCF0GsJiVjfWrvCKB4ngXzzdfCryQFBJ_f0y4U6vkLKUl7XpkpgJPZSolVtVGULk1O6eB0ho948rY4Kz0Sqms4un8wux_HC9RkcdI-tWr87t36VYLRNOEkwuZjPYJyNfX2BUBAd532Aki_xC7aeemtxUTJXld0EH1FrOQ"/>
+</button>
+<button class="aspect-square bg-surface-container rounded-lg overflow-hidden border border-outline-variant hover:border-primary transition-colors">
+<img alt="Thumbnail 4" class="w-full h-full object-cover" data-alt="A sprawling landscape of golden rice paddies under a clear, bright sky. The image conveys the natural provenance and agricultural heritage of the product." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuJI8NG9TbB4E24niFBTBJIjQWm8CaTWTqEK0UDYRh-3E4pth-5BYBaZVzKLSekIs9S-pSXmusLqw0xFXDrjPM5Jn1xgIOVNGakCe8goFIBc6SrMDkIVYAKHyLrOOc6Qihkzg2Dd0ixrf9mHEXWlywj6dtR2oYB8-GwRMl1BqZ88XrOtH5K3ns_72z0W5MLKiS2FcwiFeBXsQJwk0GIEYsQF77Q8-PAKM-tLir9j_2AVEtSs8mo8NdsEPOCBpSG6wACgAvS5uJ_JE"/>
+</button>
+</div>
+</div>
+<!-- Info -->
+<div class="flex flex-col justify-center px-0 md:px-8">
+<p class="font-label-md text-label-md text-outline mb-2">Lựa chọn nghệ nhân</p>
+<h1 class="font-display-lg text-display-lg text-on-surface mb-4">Gạo Jasmine Vàng Thượng Hạng</h1>
+<div class="flex items-center gap-4 mb-6 pb-6 border-b border-outline-variant/30">
+<span class="font-headline-lg text-headline-lg text-primary">650.000đ</span>
+<span class="font-body-md text-body-md text-on-surface-variant bg-surface-container px-2 py-1 rounded">2 kg</span>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8">
+                    Được gieo trồng trên vùng đất núi lửa màu mỡ của Đông Nam Á, Gạo Jasmine Vàng của chúng tôi là đỉnh cao của loại gạo thơm hạt dài. Mỗi vụ thu hoạch đều được ủ hoàn hảo để phát triển hương thơm hoa cỏ ngọt ngào đặc trưng và màu vàng óng ả khác biệt.
+                </p>
+<div class="flex flex-col gap-6">
+<div class="flex items-center gap-4">
+<label class="font-label-md text-label-md text-on-surface" for="quantity">Số lượng</label>
+<div class="flex items-center border border-outline-variant rounded-lg bg-surface-container overflow-hidden">
+<button class="px-4 py-2 text-on-surface hover:bg-surface-variant transition-colors"><span class="material-symbols-outlined" data-icon="remove">remove</span></button>
+<input aria-label="Số lượng" class="w-16 text-center bg-transparent border-none focus:ring-0 font-body-md text-body-md text-on-surface py-2" id="quantity" type="number" value="1"/>
+<button class="px-4 py-2 text-on-surface hover:bg-surface-variant transition-colors"><span class="material-symbols-outlined" data-icon="add">add</span></button>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="flex-1 bg-surface border-[1.5px] border-primary text-primary font-label-md text-label-md py-4 rounded-lg hover:bg-primary/5 transition-colors flex items-center justify-center gap-2 shadow-[0_4px_20px_rgba(47,93,80,0.05)] hover:shadow-[0_8px_30px_rgba(47,93,80,0.1)]">
+<span class="material-symbols-outlined" data-icon="add_shopping_cart">add_shopping_cart</span> Thêm vào giỏ hàng
+                        </button>
+<button class="flex-1 bg-primary text-on-primary font-label-md text-label-md py-4 rounded-lg hover:bg-primary/90 transition-colors shadow-[0_4px_20px_rgba(47,93,80,0.05)] hover:shadow-[0_8px_30px_rgba(47,93,80,0.1)]">
+                            Mua ngay
+                        </button>
+</div>
+</div>
+<div class="mt-8 flex items-center gap-4 text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-1"><span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span> Miễn phí vận chuyển từ 1.000.000đ</div>
+<div class="flex items-center gap-1"><span class="material-symbols-outlined" data-icon="verified">verified</span> Cam kết hài lòng 100%</div>
+</div>
+</div>
+</section>
+<!-- Tabs Section -->
+<section class="mb-section-gap">
+<div class="border-b border-outline-variant/30 flex gap-8 mb-8">
+<button class="font-label-md text-label-md text-primary border-b-2 border-primary pb-2">Mô tả sản phẩm</button>
+<button class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors pb-2">Thông tin dinh dưỡng</button>
+<button class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors pb-2">Đánh giá khách hàng (12)</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+<div class="md:col-span-2">
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">
+                        Gạo Jasmine Vàng Thượng Hạng của chúng tôi không chỉ là gạo; đó là minh chứng cho các phương pháp canh tác truyền thống và cam kết không khoan nhượng về chất lượng. Được trồng không sử dụng thuốc trừ sâu hay phân bón tổng hợp, chúng tôi dựa vào độ phì nhiêu tự nhiên của đất để tạo ra một loại ngũ cốc tinh khiết và tràn đầy sức sống.
+                    </p>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">
+                        Khi nấu chín, các hạt cơm tơi xốp, tỏa ra mùi hương hoa dịu nhẹ gợi nhớ đến hoa nhài. Hương vị ngọt nhẹ, bùi bùi của nó kết hợp tuyệt vời với các món cà ri phức tạp, cá nướng, hoặc như một món ăn kèm thơm ngon độc lập.
+                    </p>
+<ul class="list-disc pl-5 font-body-md text-body-md text-on-surface-variant space-y-2 mt-6">
+<li>100% Hữu cơ được chứng nhận</li>
+<li>Dự án Không biến đổi gen được xác minh</li>
+<li>Nguồn trực tiếp từ các trang trại đối tác</li>
+<li>Ủ trong 6 tháng để đạt được kết cấu và hương thơm tối ưu</li>
+</ul>
+</div>
+<div class="bg-surface-container p-6 rounded-xl border border-outline-variant/20 shadow-[0_4px_20px_rgba(47,93,80,0.05)]">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4">Chi tiết trang trại</h3>
+<div class="space-y-4">
+<div class="flex justify-between border-b border-outline-variant/20 pb-2">
+<span class="font-label-md text-label-md text-outline">Nguồn gốc</span>
+<span class="font-body-md text-body-md text-on-surface">Tiền Giang</span>
+</div>
+<div class="flex justify-between border-b border-outline-variant/20 pb-2">
+<span class="font-label-md text-label-md text-outline">Mùa vụ</span>
+<span class="font-body-md text-body-md text-on-surface">Cuối thu</span>
+</div>
+<div class="flex justify-between border-b border-outline-variant/20 pb-2">
+<span class="font-label-md text-label-md text-outline">Chế biến</span>
+<span class="font-body-md text-body-md text-on-surface">Xay xát, Phân loại</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Related Products -->
+<section>
+<div class="flex justify-between items-end mb-8 border-b border-outline-variant/30 pb-4">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Sản phẩm liên quan</h2>
+<a class="font-label-md text-label-md text-primary hover:underline flex items-center gap-1" href="#">Xem tất cả <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span></a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-gutter">
+<!-- Card 1 -->
+<div class="bg-surface rounded-xl overflow-hidden shadow-[0_4px_20px_rgba(47,93,80,0.05)] hover:shadow-[0_8px_30px_rgba(47,93,80,0.1)] transition-shadow border border-outline-variant/10 group cursor-pointer">
+<div class="aspect-[4/3] overflow-hidden relative">
+<img alt="Himalayan Pink Salt" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A jar of coarse Himalayan pink salt on a wooden surface, soft diffused light highlighting the crystalline texture. The setting feels rustic yet premium." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAclnB9UiXdxxIEfUhwVD3FkEoYPI1LaLfWzrDgyIfEi_QkOAFRzv5ZMEvFRFibVR8_WNZA120yaANw2goSWQX2SSuqbxSGRzPs_bNegoqayYrOjb2-irRoFMJwylhV6zCl4cuEwFQHRQJ2ry9VUrjb97aCnX_LHFBhBVjp4_f-JdeapwMaYNQ2gCWA4P2FnaM7p0ckHwZY2zQa4vS4sFQEHBm9OuXep3dlkNPfyTbeet5EyLVMc7SF3r9lvm6KfBXU4WyDBsOhUsk"/>
+</div>
+<div class="p-6">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1">Muối Hồng</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Hạt to</p>
+<div class="flex justify-between items-center mt-4">
+<span class="font-label-md text-label-md text-primary">120.000đ</span>
+<button class="bg-surface-container p-2 rounded-full hover:bg-primary hover:text-on-primary transition-colors text-primary"><span class="material-symbols-outlined" data-icon="add">add</span></button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface rounded-xl overflow-hidden shadow-[0_4px_20px_rgba(47,93,80,0.05)] hover:shadow-[0_8px_30px_rgba(47,93,80,0.1)] transition-shadow border border-outline-variant/10 group cursor-pointer">
+<div class="aspect-[4/3] overflow-hidden relative">
+<img alt="Toasted Sesame Oil" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A sleek glass bottle of toasted sesame oil with a minimalist label, sitting next to a small dish of sesame seeds. The lighting suggests a high-end pantry." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0BwNmyDEifPJYY_r5ikrnHREgTmQQiCLoebNHHHXv9h-uoLJH2b4ioLoj8c36b61oew9N7ZNSC7gRjjo4e93fb37OIVVC0SHDhLID1sAwKouipV0TyllxN7d-PpsVapu6b5T7zKeRmkrzfsMwcVXKmS0f83xP0wRAl4PYfv4aSffbEhc7JO4ZEIsyPeSNAtyszrNTw4Wh4wsqEVJ2YtdIovHk3E8fKg6IlOLLSFeU_zN7BldehIYU3M544CLcjwADC7m39JS5afY"/>
+</div>
+<div class="p-6">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1">Dầu Mè Rang</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Ép lạnh</p>
+<div class="flex justify-between items-center mt-4">
+<span class="font-label-md text-label-md text-primary">185.000đ</span>
+<button class="bg-surface-container p-2 rounded-full hover:bg-primary hover:text-on-primary transition-colors text-primary"><span class="material-symbols-outlined" data-icon="add">add</span></button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface rounded-xl overflow-hidden shadow-[0_4px_20px_rgba(47,93,80,0.05)] hover:shadow-[0_8px_30px_rgba(47,93,80,0.1)] transition-shadow border border-outline-variant/10 group cursor-pointer">
+<div class="aspect-[4/3] overflow-hidden relative">
+<img alt="Organic Coconut Milk" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A beautifully styled can of organic coconut milk surrounded by fresh coconut halves and tropical leaves, promoting a fresh and natural aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcFzCjd3o5JLdelTDXS9v3I_D_CVpSDw1nIftVskIxnk0lUTKa-ILzPH-_XYkt7ztww_8aIIpWR2D_HkwK8mx43okDQbV2V5cHtHiwnWMMPFmPTX4ve50i9wtYf7Ckw9jtAjnYfsTU2sbpLaO_pud9gQj4PO6Z4h7YRcgxccrfeGoP7Q7Xx1HU9SICRyWapdej-xDXX_3DsM9uthzVV_UdlZqsrNwpwsfuci-9nskRvMrmF4TGHZnnw3Xb4hODvv10m5p507q7Gi4"/>
+</div>
+<div class="p-6">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1">Nước Cốt Dừa</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Hữu cơ nguyên chất</p>
+<div class="flex justify-between items-center mt-4">
+<span class="font-label-md text-label-md text-primary">60.000đ</span>
+<button class="bg-surface-container p-2 rounded-full hover:bg-primary hover:text-on-primary transition-colors text-primary"><span class="material-symbols-outlined" data-icon="add">add</span></button>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface rounded-xl overflow-hidden shadow-[0_4px_20px_rgba(47,93,80,0.05)] hover:shadow-[0_8px_30px_rgba(47,93,80,0.1)] transition-shadow border border-outline-variant/10 group cursor-pointer">
+<div class="aspect-[4/3] overflow-hidden relative">
+<img alt="Wildcrafted Lemongrass" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Bundles of fresh, bright green wildcrafted lemongrass laid out on a clean stone surface. The image is crisp, highlighting the freshness of the herb." src="https://lh3.googleusercontent.com/aida-public/AB6AXuArK6b3cgw9_mQQdFd7tVTU4Vs1ZKkvVf2vcGpZOq_0CA1NAZxQ8A2TJo-26DGthJfQMZaDWNMUCW6X47x9hfiWVy3RnXxVn7YI6sgmYpLsczmHrK3R68N48m2dFoCNWv4XLRG1bSJboAsKV252ZR9130QeiI9PuWpkC8XVWSuXlkEZAcE6WbhEGErK8Wk29d01W3IooEPCHlYkNGY1f07XWeNFaPS3isbUGUxo5cqSBDHizyxMzJ_T3FAAgzGt0FYiBWaEyPhYcGQ"/>
+</div>
+<div class="p-6">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1">Sả Sấy Khô</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Thu hái tự nhiên</p>
+<div class="flex justify-between items-center mt-4">
+<span class="font-label-md text-label-md text-primary">85.000đ</span>
+<button class="bg-surface-container p-2 rounded-full hover:bg-primary hover:text-on-primary transition-colors text-primary"><span class="material-symbols-outlined" data-icon="add">add</span></button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-highest dark:bg-inverse-surface relative bottom-0 w-full border-t border-outline-variant/30">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-section-gap px-margin-desktop py-section-gap max-w-container-max mx-auto">
+<div class="md:col-span-1 flex flex-col gap-4">
+<div class="font-headline-lg text-headline-lg text-primary dark:text-primary-fixed-dim">ThanhPhat</div>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant">
+                    © 2024 ThanhPhat. Nuôi dưỡng sự tinh khiết, mang đến chất lượng.
+                </p>
+</div>
+<div class="md:col-span-3 grid grid-cols-2 md:grid-cols-4 gap-8">
+<div class="flex flex-col gap-2">
+<h4 class="font-label-md text-label-md text-on-surface">Công ty</h4>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:text-secondary-container dark:hover:text-secondary-fixed transition-colors hover:underline decoration-2 underline-offset-4" href="#">Chứng nhận hữu cơ</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:text-secondary-container dark:hover:text-secondary-fixed transition-colors hover:underline decoration-2 underline-offset-4" href="#">Báo cáo bền vững</a>
+</div>
+<div class="flex flex-col gap-2">
+<h4 class="font-label-md text-label-md text-on-surface">Hỗ trợ</h4>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:text-secondary-container dark:hover:text-secondary-fixed transition-colors hover:underline decoration-2 underline-offset-4" href="#">Chính sách bảo mật</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:text-secondary-container dark:hover:text-secondary-fixed transition-colors hover:underline decoration-2 underline-offset-4" href="#">Thắc mắc thương mại</a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>
