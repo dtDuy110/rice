@@ -1,22 +1,57 @@
 import { useState } from 'react'
 import { Trash2, Lock, ArrowRight } from 'lucide-react'
-import { cartItems as initialItems } from '../data/mockData'
+import { useNavigate } from 'react-router-dom'
+import { useCart } from '../context/CartContext'
+import { useAuth } from '../context/AuthContext'
+import api from '../services/api'
 import QuantitySelector from '../components/ui/QuantitySelector'
 import Button from '../components/ui/Button'
 
 export default function CartPage() {
-  const [items, setItems] = useState(initialItems)
+  const { cart, updateQuantity, removeFromCart } = useCart()
+  const { user } = useAuth()
+  const navigate = useNavigate()
+  const [checkingOut, setCheckingOut] = useState(false)
 
-  const updateQty = (id, qty) => {
-    setItems(prev => prev.map(i => i.id === id ? { ...i, quantity: qty } : i))
-  }
+  const items = cart?.items || []
 
-  const removeItem = (id) => setItems(prev => prev.filter(i => i.id !== id))
-
-  const subtotal = items.reduce((s, i) => s + i.price * i.quantity, 0)
-  const shipping = 8.0
+  const subtotal = items.reduce((s, i) => s + (i.product?.price || 0) * i.quantity, 0)
+  const shipping = items.length > 0 ? 8.0 : 0
   const tax = subtotal * 0.07
   const total = subtotal + shipping + tax
+
+  const handleCheckout = async () => {
+    if (!user) {
+      alert('Vui lòng đăng nhập để thanh toán')
+      navigate('/dang-nhap')
+      return
+    }
+    
+    if (items.length === 0) return
+
+    setCheckingOut(true)
+    try {
+      const res = await api.post('/orders', {
+        shippingAddress: {
+          address: '123 Đường Tạm',
+          city: 'Hồ Chí Minh',
+          postalCode: '700000',
+          country: 'Vietnam'
+        },
+        paymentMethod: 'COD'
+      })
+      if (res.data.success) {
+        alert('Đặt hàng thành công!')
+        navigate('/')
+        window.location.reload() // reload to clear state and show success
+      }
+    } catch (error) {
+      console.error('Checkout error:', error)
+      alert('Có lỗi xảy ra khi thanh toán')
+    } finally {
+      setCheckingOut(false)
+    }
+  }
 
   return (
     <div className="py-8 md:py-12 px-4 md:px-12 max-w-[1280px] mx-auto animate-fade-in">
@@ -26,20 +61,23 @@ export default function CartPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-4">
-          {items.map(item => (
-            <div key={item.id} className="bg-surface rounded-2xl p-6 border border-surface-variant shadow-[var(--shadow-card)] flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
-              <img src={item.image} alt={item.name} className="w-24 h-24 rounded-xl object-cover shrink-0" />
-              <div className="flex-1 min-w-0">
-                <h3 className="text-on-surface font-semibold text-lg mb-1" style={{ fontFamily: 'var(--font-family-heading)' }}>{item.name}</h3>
-                <p className="text-label-sm text-on-surface-variant mb-3">{item.variant}</p>
-                <div className="flex items-center gap-4">
-                  <QuantitySelector value={item.quantity} onChange={q => updateQty(item.id, q)} />
-                  <button onClick={() => removeItem(item.id)} className="flex items-center gap-1 text-error text-label-sm hover:underline"><Trash2 size={14} />Xóa</button>
+          {items.map(item => {
+            const product = item.product || {}
+            return (
+              <div key={product._id} className="bg-surface rounded-2xl p-6 border border-surface-variant shadow-[var(--shadow-card)] flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
+                <img src={product.images?.[0] || product.image} alt={product.name} className="w-24 h-24 rounded-xl object-cover shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-on-surface font-semibold text-lg mb-1" style={{ fontFamily: 'var(--font-family-heading)' }}>{product.name}</h3>
+                  <p className="text-label-sm text-on-surface-variant mb-3">{product.category}</p>
+                  <div className="flex items-center gap-4">
+                    <QuantitySelector value={item.quantity} onChange={q => updateQuantity(product._id, q)} />
+                    <button onClick={() => removeFromCart(product._id)} className="flex items-center gap-1 text-error text-label-sm hover:underline"><Trash2 size={14} />Xóa</button>
+                  </div>
                 </div>
+                <span className="text-primary font-bold text-xl shrink-0" style={{ fontFamily: 'var(--font-family-heading)' }}>${((product.price || 0) * item.quantity).toFixed(2)}</span>
               </div>
-              <span className="text-primary font-bold text-xl shrink-0" style={{ fontFamily: 'var(--font-family-heading)' }}>${(item.price * item.quantity).toFixed(2)}</span>
-            </div>
-          ))}
+            )
+          })}
           {items.length === 0 && <div className="text-center py-20"><p className="text-body-lg text-on-surface-variant">Giỏ hàng trống.</p></div>}
         </div>
 
@@ -61,7 +99,9 @@ export default function CartPage() {
               <button className="px-4 py-2.5 border border-outline-variant rounded-xl text-label-md hover:bg-surface-container-high font-medium">Áp dụng</button>
             </div>
           </div>
-          <Button variant="primary" size="lg" className="w-full" icon={ArrowRight} iconPosition="right">Thanh toán</Button>
+          <Button variant="primary" size="lg" className="w-full" icon={ArrowRight} iconPosition="right" onClick={handleCheckout} disabled={items.length === 0 || checkingOut}>
+            {checkingOut ? 'Đang xử lý...' : 'Thanh toán'}
+          </Button>
           <p className="text-center text-label-sm text-outline mt-4 flex items-center justify-center gap-1"><Lock size={12} />Thanh toán bảo mật</p>
         </div>
       </div>

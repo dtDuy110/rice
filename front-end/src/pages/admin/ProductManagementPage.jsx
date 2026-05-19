@@ -1,29 +1,73 @@
 import { useState, useEffect } from 'react'
-import { Search, Plus, ChevronDown, Filter, MoreVertical } from 'lucide-react'
+import { Search, Plus, ChevronDown, Filter, Edit2, Trash2 } from 'lucide-react'
 import Badge from '../../components/ui/Badge'
 import Pagination from '../../components/ui/Pagination'
 import Button from '../../components/ui/Button'
+import ProductModal from '../../components/admin/ProductModal'
 import api from '../../services/api'
 
 export default function ProductManagementPage() {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
+  
+  // Modal states
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [editingProduct, setEditingProduct] = useState(null)
+
+  const fetchProducts = async () => {
+    try {
+      setLoading(true)
+      const res = await api.get('/admin/products')
+      if (res.data.success) {
+        setProducts(res.data.data)
+      }
+    } catch (error) {
+      console.error('Error fetching admin products:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await api.get('/admin/products')
-        if (res.data.success) {
-          setProducts(res.data.data)
-        }
-      } catch (error) {
-        console.error('Error fetching admin products:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
     fetchProducts()
   }, [])
+
+  const handleCreate = () => {
+    setEditingProduct(null)
+    setIsModalOpen(true)
+  }
+
+  const handleEdit = (product) => {
+    setEditingProduct(product)
+    setIsModalOpen(true)
+  }
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
+      try {
+        await api.delete(`/admin/products/${id}`)
+        fetchProducts()
+      } catch (error) {
+        console.error('Error deleting product:', error)
+        alert('Có lỗi xảy ra khi xóa!')
+      }
+    }
+  }
+
+  const handleSaveProduct = async (productData) => {
+    try {
+      if (editingProduct) {
+        await api.put(`/admin/products/${editingProduct._id}`, productData)
+      } else {
+        await api.post('/admin/products', productData)
+      }
+      setIsModalOpen(false)
+      fetchProducts()
+    } catch (error) {
+      console.error('Error saving product:', error)
+      alert('Có lỗi xảy ra khi lưu!')
+    }
+  }
 
   return (
     <div className="animate-fade-in space-y-6">
@@ -33,7 +77,7 @@ export default function ProductManagementPage() {
           <h2 className="text-on-surface mb-1" style={{ fontFamily: 'var(--font-family-heading)', fontSize: '28px', fontWeight: 700 }}>Quản lý sản phẩm</h2>
           <p className="text-body-md text-on-surface-variant">Quản lý kho hàng, giá cả và chi tiết sản phẩm.</p>
         </div>
-        <Button variant="primary" icon={Plus}>Thêm sản phẩm</Button>
+        <Button variant="primary" icon={Plus} onClick={handleCreate}>Thêm sản phẩm</Button>
       </div>
 
       {/* Filters */}
@@ -109,7 +153,12 @@ export default function ProductManagementPage() {
                     </td>
                       <td className="py-4 px-6 text-body-md text-on-surface font-medium">${product.price.toFixed(2)}/{product.unit}</td>
                       <td className="py-4 px-6"><Badge type={product.status === 'active' ? 'active' : 'draft'}>{product.status === 'active' ? 'Active' : 'Draft'}</Badge></td>
-                      <td className="py-4 px-6"><button className="text-on-surface-variant hover:text-on-surface"><MoreVertical size={18} /></button></td>
+                      <td className="py-4 px-6">
+                        <div className="flex items-center gap-2">
+                          <button onClick={() => handleEdit(product)} className="text-on-surface-variant hover:text-primary transition-colors p-2"><Edit2 size={18} /></button>
+                          <button onClick={() => handleDelete(product._id)} className="text-on-surface-variant hover:text-error transition-colors p-2"><Trash2 size={18} /></button>
+                        </div>
+                      </td>
                     </tr>
                   )
                 })
@@ -125,6 +174,13 @@ export default function ProductManagementPage() {
           <Pagination currentPage={1} totalPages={1} />
         </div>
       </div>
+
+      <ProductModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onSave={handleSaveProduct} 
+        product={editingProduct} 
+      />
     </div>
   )
 }

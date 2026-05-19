@@ -6,6 +6,7 @@ import Button from '../components/ui/Button'
 import QuantitySelector from '../components/ui/QuantitySelector'
 import useScrollAnimation from '../hooks/useScrollAnimation'
 import api from '../services/api'
+import { useCart } from '../context/CartContext'
 
 export default function ProductDetailPage() {
   const { id } = useParams()
@@ -17,6 +18,7 @@ export default function ProductDetailPage() {
   const [product, setProduct] = useState(null)
   const [relatedProducts, setRelatedProducts] = useState([])
   const [loading, setLoading] = useState(true)
+  const { addToCart } = useCart()
   const [error, setError] = useState(null)
 
   useEffect(() => {
@@ -144,7 +146,7 @@ export default function ProductDetailPage() {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 mb-6">
-            <Button variant="secondary" size="lg" className="flex-1">
+            <Button variant="secondary" size="lg" className="flex-1" onClick={() => addToCart(product._id, quantity)}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" />
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
@@ -273,7 +275,7 @@ export default function ProductDetailPage() {
                   ${item.price.toFixed(2)}
                 </span>
                 <button 
-                  onClick={(e) => { e.preventDefault(); /* TODO: Add to cart */ }}
+                  onClick={(e) => { e.preventDefault(); addToCart(item._id, 1); }}
                   className="w-8 h-8 rounded-lg border border-outline-variant flex items-center justify-center text-on-surface-variant hover:border-primary hover:text-primary transition-colors"
                 >
                   <Plus size={16} />

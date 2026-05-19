@@ -2,12 +2,16 @@ import { useState, useEffect } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { ShoppingCart, User, Menu, X, LogOut } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
+import { useCart } from '../../context/CartContext'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const { user, logout } = useAuth()
+  const { cart } = useCart()
   const navigate = useNavigate()
+
+  const cartCount = cart ? cart.items.reduce((acc, item) => acc + item.quantity, 0) : 0;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -64,9 +68,14 @@ export default function Navbar() {
         <div className="flex items-center space-x-3">
           <Link
             to="/gio-hang"
-            className="text-primary hover:text-primary-container transition-colors p-2 rounded-lg hover:bg-surface-container-high"
+            className="text-primary hover:text-primary-container transition-colors p-2 rounded-lg hover:bg-surface-container-high relative"
           >
             <ShoppingCart size={22} />
+            {cartCount > 0 && (
+              <span className="absolute top-0 right-0 w-5 h-5 bg-error text-on-error rounded-full text-[10px] font-bold flex items-center justify-center transform translate-x-1/4 -translate-y-1/4 border-2 border-surface">
+                {cartCount}
+              </span>
+            )}
           </Link>
           {user ? (
             <div className="flex items-center gap-2">

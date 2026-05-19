@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Plus } from 'lucide-react'
 import Badge from './Badge'
+import { useCart } from '../../context/CartContext'
 
 export default function ProductCard({ product, variant = 'home' }) {
   if (variant === 'shop') {
@@ -10,6 +11,8 @@ export default function ProductCard({ product, variant = 'home' }) {
 }
 
 function HomeCard({ product }) {
+  const { addToCart } = useCart()
+
   return (
     <Link
       to={`/san-pham/${product._id || product.id}`}
@@ -48,7 +51,7 @@ function HomeCard({ product }) {
             ${product.price.toFixed(2)}
           </span>
           <button
-            onClick={(e) => e.preventDefault()}
+            onClick={(e) => { e.preventDefault(); addToCart(product._id || product.id, 1); }}
             className="bg-primary text-on-primary w-10 h-10 rounded-xl flex items-center justify-center hover:bg-primary-container transition-colors"
           >
             <Plus size={20} />
@@ -60,6 +63,8 @@ function HomeCard({ product }) {
 }
 
 function ShopCard({ product }) {
+  const { addToCart } = useCart()
+
   return (
     <Link
       to={`/san-pham/${product._id || product.id}`}
@@ -120,7 +125,7 @@ function ShopCard({ product }) {
 
         {/* Add to Cart Button */}
         <button
-          onClick={(e) => e.preventDefault()}
+          onClick={(e) => { e.preventDefault(); addToCart(product._id || product.id, 1); }}
           className="w-full bg-primary text-on-primary py-3 rounded-xl text-label-md font-semibold hover:bg-primary-container transition-colors flex items-center justify-center gap-2"
         >
           <ShoppingCartIcon />

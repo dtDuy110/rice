@@ -10,12 +10,14 @@ import DashboardPage from './pages/admin/DashboardPage'
 import OrdersPage from './pages/admin/OrdersPage'
 import ProductManagementPage from './pages/admin/ProductManagementPage'
 import { AuthProvider } from './context/AuthContext'
+import { CartProvider } from './context/CartContext'
 import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
   return (
     <AuthProvider>
-      <Router>
+      <CartProvider>
+        <Router>
       <Routes>
         {/* Auth - no layout */}
         <Route path="/dang-nhap" element={<SignInPage />} />
@@ -39,7 +41,8 @@ function App() {
           <Route path="gio-hang" element={<CartPage />} />
         </Route>
       </Routes>
-    </Router>
+        </Router>
+      </CartProvider>
     </AuthProvider>
   )
 }
