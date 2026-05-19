@@ -19,10 +19,14 @@ const importData = async () => {
     await Product.deleteMany();
     await User.deleteMany();
 
-    const createdUsers = await User.insertMany(users);
+    // Use a loop to trigger pre-save hooks for password hashing
+    const createdUsers = [];
+    for (const user of users) {
+      const createdUser = await User.create(user);
+      createdUsers.push(createdUser);
+    }
     
-    // Set all products to be created by the admin user if we had a user ref,
-    // but our Product model doesn't require a user ref. We just insert them directly.
+    // Insert products
     await Product.insertMany(products);
 
     console.log('Data Imported!');
