@@ -110,7 +110,26 @@ export default function OrdersPage() {
                     <td className="py-5 px-6 text-body-md text-on-surface-variant">{new Date(order.createdAt).toLocaleDateString('vi-VN')}</td>
                     <td className="py-5 px-6 text-body-md text-on-surface font-medium">${order.totalAmount.toFixed(2)}</td>
                     <td className="py-5 px-6"><Badge type={order.status}>{statusMap[order.status] || order.status}</Badge></td>
-                    <td className="py-5 px-6"><button className="text-on-surface-variant hover:text-on-surface"><MoreVertical size={18} /></button></td>
+                    <td className="py-5 px-6">
+                      <select
+                        value={order.status}
+                        onChange={async (e) => {
+                          try {
+                            await api.put(`/admin/orders/${order._id}/status`, { status: e.target.value })
+                            setOrders(prev => prev.map(o => o._id === order._id ? { ...o, status: e.target.value } : o))
+                          } catch (err) {
+                            console.error('Error updating status:', err)
+                          }
+                        }}
+                        className="bg-surface border border-outline-variant/50 rounded-lg px-2 py-1.5 text-label-sm focus:outline-none focus:border-primary cursor-pointer"
+                      >
+                        <option value="pending">Chờ xác nhận</option>
+                        <option value="processing">Đang xử lý</option>
+                        <option value="delivery">Đang giao</option>
+                        <option value="delivered">Đã giao</option>
+                        <option value="cancelled">Đã hủy</option>
+                      </select>
+                    </td>
                   </tr>
                 ))
               )}
