@@ -38,11 +38,10 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled
+      className={`fixed top-0 w-full z-50 transition-all duration-300  ${scrolled
           ? 'bg-surface/95 backdrop-blur-md shadow-sm border-b border-outline-variant/20'
           : 'bg-surface/80 backdrop-blur-md border-b border-outline-variant/10'
-      }`}
+        }`}
     >
       <div className="flex justify-between items-center px-4 md:px-12 py-4 max-w-[1280px] mx-auto">
         {/* Logo */}
@@ -62,10 +61,9 @@ export default function Navbar() {
               to={link.to}
               end={link.to === '/'}
               className={({ isActive }) =>
-                `text-label-md transition-colors pb-1 ${
-                  isActive
-                    ? 'text-primary border-b-2 border-primary font-semibold'
-                    : 'text-on-surface-variant hover:text-primary'
+                `text-label-md transition-colors pb-1 ${isActive
+                  ? 'text-primary border-b-2 border-primary font-semibold'
+                  : 'text-on-surface-variant hover:text-primary'
                 }`
               }
             >
@@ -134,9 +132,8 @@ export default function Navbar() {
 
       {/* Mobile Drawer */}
       <div
-        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-          mobileOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-        }`}
+        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${mobileOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+          }`}
       >
         <div className="px-4 pb-4 space-y-2 bg-surface border-t border-outline-variant/20">
           {/* Mobile Search */}
@@ -157,10 +154,9 @@ export default function Navbar() {
               end={link.to === '/'}
               onClick={() => setMobileOpen(false)}
               className={({ isActive }) =>
-                `block py-3 px-4 rounded-lg text-body-md transition-colors ${
-                  isActive
-                    ? 'text-primary bg-primary/5 font-semibold'
-                    : 'text-on-surface-variant hover:bg-surface-container-high'
+                `block py-3 px-4 rounded-lg text-body-md transition-colors ${isActive
+                  ? 'text-primary bg-primary/5 font-semibold'
+                  : 'text-on-surface-variant hover:bg-surface-container-high'
                 }`
               }
             >

@@ -13,8 +13,8 @@ export default function HeroSection() {
           loop
           muted
           playsInline
-          className="w-full h-full object-cover opacity-70"
-          src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+          className="w-full h-full object-cover opacity-100"
+          src="/images/hero-vid.mp4"
         >
           Trình duyệt của bạn không hỗ trợ thẻ video.
         </video>
@@ -24,9 +24,8 @@ export default function HeroSection() {
       {/* Content */}
       <div
         ref={ref}
-        className={`relative z-10 text-center px-4 md:px-12 max-w-4xl mx-auto flex flex-col items-center transition-all duration-700 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}
+        className={`relative z-10 text-center px-4 md:px-12 max-w-4xl mx-auto flex flex-col items-center transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}
       >
         {/* Badge */}
         <span className="bg-secondary-container/20 text-on-secondary-container px-4 py-1.5 rounded-full text-label-sm mb-6 border border-secondary-container/30 inline-block">
