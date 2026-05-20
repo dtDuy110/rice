@@ -27,7 +27,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h4 className="text-label-lg font-bold text-on-surface mb-1">Địa chỉ cửa hàng</h4>
-                  <p className="text-on-surface-variant text-body-md">123 Đường Lúa Gạo, Phường Nông Nghiệp, Quận 1, TP. Hồ Chí Minh</p>
+                  <p className="text-on-surface-variant text-body-md">928C+CQ Hội Cư, Đồng Tháp, Việt Nam</p>
                 </div>
               </div>
 
@@ -69,7 +69,7 @@ export default function ContactPage() {
           {/* Google Maps Embed */}
           <div className="bg-surface-container-high rounded-3xl h-[300px] w-full overflow-hidden relative shadow-[var(--shadow-card)] border border-surface-variant">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.317502755531!2d106.69741511526017!3d10.786937692314545!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f360ebc64b5%3A0xc3c530262c5c9944!2zQ2jhu6MgQuG6v24gVGjDoG5o!5e0!3m2!1svi!2s!4v1689233633010!5m2!1svi!2s"
+              src="https://maps.google.com/maps?q=928C%2BCQ%20H%E1%BB%99i%20C%C6%B0%2C%20%C4%90%E1%BB%93ng%20Th%C3%A1p%2C%20Vi%E1%BB%87t%20Nam&t=&z=15&ie=UTF8&iwloc=&output=embed"
               width="100%"
               height="100%"
               style={{ border: 0 }}
