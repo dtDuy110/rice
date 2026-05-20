@@ -7,6 +7,7 @@ import ProductDetailPage from './pages/ProductDetailPage'
 import CartPage from './pages/CartPage'
 import SignInPage from './pages/SignInPage'
 import SignUpPage from './pages/SignUpPage'
+import ProfilePage from './pages/ProfilePage'
 import DashboardPage from './pages/admin/DashboardPage'
 import OrdersPage from './pages/admin/OrdersPage'
 import ProductManagementPage from './pages/admin/ProductManagementPage'
@@ -41,6 +42,11 @@ function App() {
           <Route path="san-pham" element={<ProductsPage />} />
           <Route path="san-pham/:id" element={<ProductDetailPage />} />
           <Route path="gio-hang" element={<CartPage />} />
+          <Route path="tai-khoan" element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          } />
         </Route>
       </Routes>
         </Router>

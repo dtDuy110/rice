@@ -79,7 +79,9 @@ export default function Navbar() {
           </Link>
           {user ? (
             <div className="flex items-center gap-2">
-              <span className="hidden md:block text-label-sm font-semibold">{user.name}</span>
+              <Link to="/tai-khoan" className="hidden md:flex items-center gap-1 text-label-sm font-semibold text-on-surface hover:text-primary transition-colors">
+                <User size={16} /> {user.name}
+              </Link>
               <button
                 onClick={() => { logout(); navigate('/dang-nhap'); }}
                 className="text-primary hover:text-primary-container transition-colors p-2 rounded-lg hover:bg-surface-container-high"
