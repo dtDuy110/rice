@@ -8,12 +8,17 @@ export default function HeroSection() {
     <section className="relative w-full h-[90vh] min-h-[600px] flex items-center justify-center bg-surface-container overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <img
-          src="/images/hero-bg.png"
-          alt="Cánh đồng lúa Việt Nam"
-          className="w-full h-full object-cover opacity-60"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/50 to-transparent" />
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover opacity-70"
+          src="https://cdn.pixabay.com/video/2016/08/22/4741-182873115_large.mp4"
+        >
+          Trình duyệt của bạn không hỗ trợ thẻ video.
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-black/30" />
       </div>
 
       {/* Content */}
