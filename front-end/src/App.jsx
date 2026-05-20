@@ -6,6 +6,7 @@ import ProductsPage from './pages/ProductsPage'
 import ProductDetailPage from './pages/ProductDetailPage'
 import CartPage from './pages/CartPage'
 import SignInPage from './pages/SignInPage'
+import SignUpPage from './pages/SignUpPage'
 import DashboardPage from './pages/admin/DashboardPage'
 import OrdersPage from './pages/admin/OrdersPage'
 import ProductManagementPage from './pages/admin/ProductManagementPage'
@@ -21,6 +22,7 @@ function App() {
       <Routes>
         {/* Auth - no layout */}
         <Route path="/dang-nhap" element={<SignInPage />} />
+        <Route path="/dang-ky" element={<SignUpPage />} />
 
         {/* Admin layout */}
         <Route path="/admin" element={

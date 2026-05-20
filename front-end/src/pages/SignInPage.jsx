@@ -144,7 +144,7 @@ export default function SignInPage() {
 
           <p className="text-center text-body-md text-on-surface-variant">
             Chưa có tài khoản?{' '}
-            <a href="#" className="text-on-surface font-semibold hover:text-primary transition-colors">Tạo tài khoản</a>
+            <Link to="/dang-ky" className="text-on-surface font-semibold hover:text-primary transition-colors">Tạo tài khoản</Link>
           </p>
         </div>
       </div>
