@@ -26,7 +26,7 @@ const addOrderItems = async (req, res) => {
     const totalAmount = itemsPrice + shippingPrice + taxPrice;
 
     // Create order items from cart items
-    const orderItems = cart.items.map(item => ({
+    const items = cart.items.map(item => ({
       name: item.product.name,
       quantity: item.quantity,
       image: item.product.images?.[0] || '',
@@ -34,16 +34,15 @@ const addOrderItems = async (req, res) => {
       product: item.product._id,
     }));
 
+    const orderNumber = 'ORD-' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 1000);
+
     const order = new Order({
       user: req.user._id,
-      orderItems,
+      orderNumber,
+      items,
       shippingAddress,
-      paymentMethod: paymentMethod || 'COD',
-      itemsPrice,
-      taxPrice,
-      shippingPrice,
       totalAmount,
-      status: 'processing'
+      status: 'pending'
     });
 
     const createdOrder = await order.save();

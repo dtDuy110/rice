@@ -5,8 +5,8 @@ import Pagination from '../components/ui/Pagination'
 import useScrollAnimation from '../hooks/useScrollAnimation'
 import api from '../services/api'
 
-const categories = ['Jasmine', 'Basmati', 'Gạo lứt', 'Gạo nếp']
-const origins = ['Việt Nam', 'Thái Lan', 'Ấn Độ']
+const categories = ['Gạo ST', 'Gạo Jasmine', 'Gạo Thơm', 'Gạo Lài', 'Gạo Móng Chim', 'Gạo Nếp', 'Gạo Lứt', 'Gạo Tấm', 'Gạo Basmati', 'Gạo Nhật']
+const origins = ['Việt Nam', 'Thái Lan', 'Ấn Độ', 'Campuchia']
 
 export default function ProductsPage() {
   const [currentPage, setCurrentPage] = useState(1)

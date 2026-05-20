@@ -7,7 +7,7 @@ export default function ProductModal({ isOpen, onClose, onSave, product = null }
     name: '',
     sku: '',
     price: 0,
-    category: 'Jasmine',
+    category: 'Gạo ST',
     unit: 'kg',
     stock: 0,
     maxStock: 100,
@@ -108,11 +108,16 @@ export default function ProductModal({ isOpen, onClose, onSave, product = null }
               <div>
                 <label className="block text-label-md text-on-surface mb-2">Danh mục</label>
                 <select name="category" value={formData.category} onChange={handleChange} className="w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-3 text-body-md focus:outline-none focus:border-primary">
-                  <option value="Jasmine">Jasmine</option>
-                  <option value="Basmati">Basmati</option>
-                  <option value="Gạo lứt">Gạo lứt</option>
-                  <option value="Gạo nếp">Gạo nếp</option>
-                  <option value="Bột Xay">Bột Xay</option>
+                  <option value="Gạo ST">Gạo ST</option>
+                  <option value="Gạo Jasmine">Gạo Jasmine</option>
+                  <option value="Gạo Thơm">Gạo Thơm</option>
+                  <option value="Gạo Lài">Gạo Lài</option>
+                  <option value="Gạo Móng Chim">Gạo Móng Chim</option>
+                  <option value="Gạo Nếp">Gạo Nếp</option>
+                  <option value="Gạo Lứt">Gạo Lứt</option>
+                  <option value="Gạo Tấm">Gạo Tấm</option>
+                  <option value="Gạo Basmati">Gạo Basmati</option>
+                  <option value="Gạo Nhật">Gạo Nhật</option>
                 </select>
               </div>
               <div>
