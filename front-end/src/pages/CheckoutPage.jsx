@@ -3,12 +3,14 @@ import { MapPin, Phone, User, ArrowLeft, ShieldCheck, Lock } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { useAuth } from '../context/AuthContext'
+import { useToast } from '../context/ToastContext'
 import Button from '../components/ui/Button'
 import api from '../services/api'
 
 export default function CheckoutPage() {
   const { cart, fetchCart } = useCart()
   const { user } = useAuth()
+  const { showToast } = useToast()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const [form, setForm] = useState({
@@ -47,11 +49,12 @@ export default function CheckoutPage() {
       })
       if (res.data.success) {
         await fetchCart()
-        navigate('/tai-khoan')
+        showToast('Đặt hàng thành công! Đang chuyển đến trang đơn hàng...', 'success')
+        setTimeout(() => navigate('/tai-khoan'), 1500)
       }
     } catch (error) {
       console.error('Checkout error:', error)
-      alert('Có lỗi xảy ra khi đặt hàng')
+      showToast('Có lỗi xảy ra khi đặt hàng. Vui lòng thử lại!', 'error')
     } finally {
       setLoading(false)
     }

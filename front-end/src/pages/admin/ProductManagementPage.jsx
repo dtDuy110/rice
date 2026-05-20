@@ -5,6 +5,7 @@ import Pagination from '../../components/ui/Pagination'
 import Button from '../../components/ui/Button'
 import ProductModal from '../../components/admin/ProductModal'
 import api from '../../services/api'
+import { useToast } from '../../context/ToastContext'
 
 export default function ProductManagementPage() {
   const [products, setProducts] = useState([])
@@ -13,6 +14,7 @@ export default function ProductManagementPage() {
   // Modal states
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [editingProduct, setEditingProduct] = useState(null)
+  const { showToast } = useToast()
 
   const fetchProducts = async () => {
     try {
@@ -47,26 +49,29 @@ export default function ProductManagementPage() {
       try {
         await api.delete(`/admin/products/${id}`)
         fetchProducts()
+        showToast('Đã xóa sản phẩm!', 'success')
       } catch (error) {
         console.error('Error deleting product:', error)
-        alert('Có lỗi xảy ra khi xóa!')
+        showToast('Có lỗi xảy ra khi xóa!', 'error')
       }
     }
   }
 
   const handleSaveProduct = async (productData) => {
-    try {
-      if (editingProduct) {
-        await api.put(`/admin/products/${editingProduct._id}`, productData)
-      } else {
-        await api.post('/admin/products', productData)
+      try {
+        if (editingProduct) {
+          await api.put(`/admin/products/${editingProduct._id}`, productData)
+          showToast('Cập nhật sản phẩm thành công!', 'success')
+        } else {
+          await api.post('/admin/products', productData)
+          showToast('Thêm sản phẩm thành công!', 'success')
+        }
+        setIsModalOpen(false)
+        fetchProducts()
+      } catch (error) {
+        console.error('Error saving product:', error)
+        showToast('Có lỗi xảy ra khi lưu!', 'error')
       }
-      setIsModalOpen(false)
-      fetchProducts()
-    } catch (error) {
-      console.error('Error saving product:', error)
-      alert('Có lỗi xảy ra khi lưu!')
-    }
   }
 
   return (

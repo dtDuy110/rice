@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import api from '../services/api'
 import { useAuth } from './AuthContext'
+import { useToast } from './ToastContext'
 
 const CartContext = createContext(null)
 
@@ -8,6 +9,7 @@ export function CartProvider({ children }) {
   const [cart, setCart] = useState(null)
   const [loading, setLoading] = useState(false)
   const { user } = useAuth()
+  const { showToast } = useToast()
 
   // Fetch cart on load or when user logs in
   useEffect(() => {
@@ -34,18 +36,18 @@ export function CartProvider({ children }) {
 
   const addToCart = async (productId, quantity = 1) => {
     if (!user) {
-      alert('Vui lòng đăng nhập để thêm vào giỏ hàng!')
+      showToast('Vui lòng đăng nhập để thêm vào giỏ hàng!', 'info')
       return
     }
     try {
       const res = await api.post('/cart/items', { productId, quantity })
       if (res.data.success) {
         setCart(res.data.data)
-        alert('Đã thêm vào giỏ hàng!')
+        showToast('Đã thêm vào giỏ hàng!', 'success')
       }
     } catch (error) {
       console.error('Error adding to cart:', error)
-      alert('Có lỗi xảy ra!')
+      showToast('Có lỗi xảy ra khi thêm vào giỏ!', 'error')
     }
   }
 
