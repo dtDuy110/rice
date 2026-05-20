@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { ShoppingCart, User, Menu, X, LogOut } from 'lucide-react'
+import { ShoppingCart, User, Menu, X, LogOut, Search } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { useCart } from '../../context/CartContext'
 
@@ -10,6 +10,16 @@ export default function Navbar() {
   const { user, logout } = useAuth()
   const { cart } = useCart()
   const navigate = useNavigate()
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const handleSearch = (e) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      navigate(`/san-pham?search=${encodeURIComponent(searchQuery)}`)
+      setSearchQuery('')
+      setMobileOpen(false)
+    }
+  }
 
   const cartCount = cart ? cart.items.reduce((acc, item) => acc + item.quantity, 0) : 0;
 
@@ -64,8 +74,20 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Right Icons */}
-        <div className="flex items-center space-x-3">
+        {/* Right Icons & Search */}
+        <div className="flex items-center space-x-2 md:space-x-3">
+          {/* Desktop Search */}
+          <form onSubmit={handleSearch} className="hidden lg:flex relative mr-2">
+            <input
+              type="text"
+              placeholder="Tìm kiếm..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="bg-surface-container-high border-none rounded-full pl-10 pr-4 py-2 text-label-md w-48 xl:w-64 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+            />
+            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-outline" />
+          </form>
+
           <Link
             to="/gio-hang"
             className="text-primary hover:text-primary-container transition-colors p-2 rounded-lg hover:bg-surface-container-high relative"
@@ -113,10 +135,21 @@ export default function Navbar() {
       {/* Mobile Drawer */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-          mobileOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
+          mobileOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
         <div className="px-4 pb-4 space-y-2 bg-surface border-t border-outline-variant/20">
+          {/* Mobile Search */}
+          <form onSubmit={handleSearch} className="relative mt-4 mb-2">
+            <input
+              type="text"
+              placeholder="Tìm kiếm gạo..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-surface-container-high border-none rounded-xl pl-10 pr-4 py-3 text-label-md focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+            />
+            <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-outline" />
+          </form>
           {navLinks.map((link) => (
             <NavLink
               key={link.label}

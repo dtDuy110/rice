@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { Search, ChevronDown } from 'lucide-react'
 import ProductCard from '../components/ui/ProductCard'
 import Pagination from '../components/ui/Pagination'
@@ -9,10 +10,20 @@ const categories = ['Gạo ST', 'Gạo Jasmine', 'Gạo Thơm', 'Gạo Lài', 'G
 const origins = ['Việt Nam', 'Thái Lan', 'Ấn Độ', 'Campuchia']
 
 export default function ProductsPage() {
+  const [searchParams, setSearchParams] = useSearchParams()
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedCategories, setSelectedCategories] = useState([])
-  const [searchTerm, setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '')
   const [sortOption, setSortOption] = useState('Mới nhất')
+
+  // Sync URL search param with local state
+  useEffect(() => {
+    const query = searchParams.get('search')
+    if (query !== null && query !== searchTerm) {
+      setSearchTerm(query)
+      setCurrentPage(1)
+    }
+  }, [searchParams])
   
   const [products, setProducts] = useState([])
   const [totalPages, setTotalPages] = useState(1)
