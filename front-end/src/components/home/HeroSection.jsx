@@ -14,7 +14,7 @@ export default function HeroSection() {
           muted
           playsInline
           className="w-full h-full object-cover opacity-70"
-          src="https://cdn.pixabay.com/video/2016/08/22/4741-182873115_large.mp4"
+          src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
         >
           Trình duyệt của bạn không hỗ trợ thẻ video.
         </video>
