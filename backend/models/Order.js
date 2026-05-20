@@ -37,6 +37,8 @@ const orderSchema = new mongoose.Schema({
     default: 'pending'
   },
   shippingAddress: {
+    fullName: { type: String, required: false },
+    phone: { type: String, required: false },
     address: { type: String, required: false },
     city: { type: String, required: false },
     postalCode: { type: String, required: false },

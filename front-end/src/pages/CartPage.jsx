@@ -1,9 +1,7 @@
-import { useState } from 'react'
 import { Trash2, Lock, ArrowRight } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { useAuth } from '../context/AuthContext'
-import api from '../services/api'
 import QuantitySelector from '../components/ui/QuantitySelector'
 import Button from '../components/ui/Button'
 
@@ -11,7 +9,6 @@ export default function CartPage() {
   const { cart, updateQuantity, removeFromCart } = useCart()
   const { user } = useAuth()
   const navigate = useNavigate()
-  const [checkingOut, setCheckingOut] = useState(false)
 
   const items = cart?.items || []
 
@@ -20,37 +17,12 @@ export default function CartPage() {
   const tax = subtotal * 0.07
   const total = subtotal + shipping + tax
 
-  const handleCheckout = async () => {
+  const handleCheckout = () => {
     if (!user) {
-      alert('Vui lòng đăng nhập để thanh toán')
       navigate('/dang-nhap')
       return
     }
-    
-    if (items.length === 0) return
-
-    setCheckingOut(true)
-    try {
-      const res = await api.post('/orders', {
-        shippingAddress: {
-          address: '123 Đường Tạm',
-          city: 'Hồ Chí Minh',
-          postalCode: '700000',
-          country: 'Vietnam'
-        },
-        paymentMethod: 'COD'
-      })
-      if (res.data.success) {
-        alert('Đặt hàng thành công!')
-        navigate('/')
-        window.location.reload() // reload to clear state and show success
-      }
-    } catch (error) {
-      console.error('Checkout error:', error)
-      alert('Có lỗi xảy ra khi thanh toán')
-    } finally {
-      setCheckingOut(false)
-    }
+    navigate('/thanh-toan')
   }
 
   return (
@@ -99,8 +71,8 @@ export default function CartPage() {
               <button className="px-4 py-2.5 border border-outline-variant rounded-xl text-label-md hover:bg-surface-container-high font-medium">Áp dụng</button>
             </div>
           </div>
-          <Button variant="primary" size="lg" className="w-full" icon={ArrowRight} iconPosition="right" onClick={handleCheckout} disabled={items.length === 0 || checkingOut}>
-            {checkingOut ? 'Đang xử lý...' : 'Thanh toán'}
+          <Button variant="primary" size="lg" className="w-full" icon={ArrowRight} iconPosition="right" onClick={handleCheckout} disabled={items.length === 0}>
+            Thanh toán
           </Button>
           <p className="text-center text-label-sm text-outline mt-4 flex items-center justify-center gap-1"><Lock size={12} />Thanh toán bảo mật</p>
         </div>
