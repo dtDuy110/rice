@@ -32,8 +32,8 @@ export default function Navbar() {
   const navLinks = [
     { to: '/', label: 'Trang chủ' },
     { to: '/san-pham', label: 'Sản phẩm' },
-    { to: '#', label: 'Giới thiệu' },
-    { to: '#', label: 'Liên hệ' },
+    { to: '/gioi-thieu', label: 'Giới thiệu' },
+    { to: '/lien-he', label: 'Liên hệ' },
   ]
 
   return (

@@ -9,6 +9,8 @@ import SignInPage from './pages/SignInPage'
 import SignUpPage from './pages/SignUpPage'
 import ProfilePage from './pages/ProfilePage'
 import CheckoutPage from './pages/CheckoutPage'
+import AboutPage from './pages/AboutPage'
+import ContactPage from './pages/ContactPage'
 import DashboardPage from './pages/admin/DashboardPage'
 import OrdersPage from './pages/admin/OrdersPage'
 import ProductManagementPage from './pages/admin/ProductManagementPage'
@@ -44,6 +46,8 @@ function App() {
             <Route index element={<HomePage />} />
             <Route path="san-pham" element={<ProductsPage />} />
             <Route path="san-pham/:id" element={<ProductDetailPage />} />
+            <Route path="gioi-thieu" element={<AboutPage />} />
+            <Route path="lien-he" element={<ContactPage />} />
             <Route path="gio-hang" element={<CartPage />} />
             <Route path="thanh-toan" element={
               <ProtectedRoute>
