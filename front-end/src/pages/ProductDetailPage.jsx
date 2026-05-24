@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 import Badge from '../components/ui/Badge'
 import Button from '../components/ui/Button'
 import QuantitySelector from '../components/ui/QuantitySelector'
-import useScrollAnimation from '../hooks/useScrollAnimation'
+
 import api from '../services/api'
 import { useCart } from '../context/CartContext'
 
@@ -13,7 +13,6 @@ export default function ProductDetailPage() {
   const [selectedImage, setSelectedImage] = useState(0)
   const [quantity, setQuantity] = useState(1)
   const [activeTab, setActiveTab] = useState('description')
-  const { ref, isVisible } = useScrollAnimation(0.05)
   
   const [product, setProduct] = useState(null)
   const [relatedProducts, setRelatedProducts] = useState([])
@@ -22,6 +21,7 @@ export default function ProductDetailPage() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     const fetchProductDetails = async () => {
       try {
         setLoading(true)
@@ -69,12 +69,7 @@ export default function ProductDetailPage() {
   }
 
   return (
-    <div
-      ref={ref}
-      className={`py-8 md:py-12 px-4 md:px-12 max-w-[1280px] mx-auto transition-all duration-500 ${
-        isVisible ? 'opacity-100' : 'opacity-0'
-      }`}
-    >
+    <div className="py-8 md:py-12 px-4 md:px-12 max-w-[1280px] mx-auto animate-fade-in">
       {/* Main Product Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 mb-16">
         {/* Image Gallery */}
