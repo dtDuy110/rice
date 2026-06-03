@@ -1,5 +1,6 @@
 const Order = require('../models/Order');
 const Cart = require('../models/Cart');
+const Product = require('../models/Product');
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -21,18 +22,29 @@ const addOrderItems = async (req, res) => {
 
     // Calculate prices
     const itemsPrice = cart.items.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
-    const shippingPrice = 8.0; // Fixed shipping for now
-    const taxPrice = itemsPrice * 0.07; // 7% tax
+    const shippingPrice = 30000; // 30,000 VNĐ
+    const taxPrice = itemsPrice * 0.08; // 8% VAT
     const totalAmount = itemsPrice + shippingPrice + taxPrice;
 
-    // Create order items from cart items
-    const items = cart.items.map(item => ({
-      name: item.product.name,
-      quantity: item.quantity,
-      image: item.product.images?.[0] || '',
-      price: item.product.price,
-      product: item.product._id,
-    }));
+    // Create order items from cart items and check stock
+    const items = [];
+    for (const item of cart.items) {
+      const product = await Product.findById(item.product._id);
+      if (!product || product.stock < item.quantity) {
+        return res.status(400).json({ success: false, error: `Sản phẩm ${item.product.name} không đủ số lượng` });
+      }
+      
+      product.stock -= item.quantity;
+      await product.save();
+
+      items.push({
+        name: item.product.name,
+        quantity: item.quantity,
+        image: item.product.images?.[0] || '',
+        price: item.product.price,
+        product: item.product._id,
+      });
+    }
 
     const orderNumber = 'ORD-' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 1000);
 
@@ -69,7 +81,47 @@ const getMyOrders = async (req, res) => {
   }
 };
 
+// @desc    Cancel order (user)
+// @route   PUT /api/orders/:id/cancel
+// @access  Private
+const cancelOrder = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+      return res.status(404).json({ success: false, error: 'Order not found' });
+    }
+
+    // Check if the order belongs to the user
+    if (order.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ success: false, error: 'Not authorized to cancel this order' });
+    }
+
+    // Check if order is still pending
+    if (order.status !== 'pending') {
+      return res.status(400).json({ success: false, error: `Cannot cancel order in ${order.status} status` });
+    }
+
+    order.status = 'cancelled';
+    await order.save();
+
+    // Revert stock
+    for (const item of order.items) {
+      const product = await Product.findById(item.product);
+      if (product) {
+        product.stock += item.quantity;
+        await product.save();
+      }
+    }
+
+    res.json({ success: true, data: order });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 module.exports = {
   addOrderItems,
-  getMyOrders
+  getMyOrders,
+  cancelOrder
 };

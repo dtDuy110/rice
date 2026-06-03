@@ -5,7 +5,9 @@ import { useCart } from '../context/CartContext'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
 import Button from '../components/ui/Button'
+import Breadcrumbs from '../components/ui/Breadcrumbs'
 import api from '../services/api'
+import { formatVND } from '../utils/formatCurrency'
 
 export default function CheckoutPage() {
   const { cart, fetchCart } = useCart()
@@ -23,8 +25,8 @@ export default function CheckoutPage() {
 
   const items = cart?.items || []
   const subtotal = items.reduce((s, i) => s + (i.product?.price || 0) * i.quantity, 0)
-  const shipping = items.length > 0 ? 8.0 : 0
-  const tax = subtotal * 0.07
+  const shipping = items.length > 0 ? 30000 : 0
+  const tax = subtotal * 0.08
   const total = subtotal + shipping + tax
 
   const handleChange = (e) => {
@@ -62,8 +64,9 @@ export default function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <div className="py-16 px-4 max-w-[1280px] mx-auto text-center animate-fade-in">
-        <h1 className="text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-family-heading)' }}>Giỏ hàng trống</h1>
+      <div className="py-8 md:py-12 px-4 md:px-12 max-w-[1280px] mx-auto animate-fade-in">
+        <Breadcrumbs />
+        <h1 className="text-headline-lg text-on-surface mb-8" style={{ fontFamily: 'var(--font-family-heading)' }}>Giỏ hàng trống</h1>
         <p className="text-on-surface-variant mb-6">Hãy thêm sản phẩm vào giỏ hàng trước khi thanh toán.</p>
         <Link to="/san-pham" className="text-primary font-semibold hover:underline">← Quay lại cửa hàng</Link>
       </div>

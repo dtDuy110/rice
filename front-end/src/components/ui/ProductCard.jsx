@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Plus } from 'lucide-react'
 import Badge from './Badge'
 import { useCart } from '../../context/CartContext'
+import { formatVND } from '../../utils/formatCurrency'
 
 export default function ProductCard({ product, variant = 'home' }) {
   if (variant === 'shop') {
@@ -48,7 +49,7 @@ function HomeCard({ product }) {
             className="text-primary font-bold text-xl"
             style={{ fontFamily: 'var(--font-family-heading)' }}
           >
-            ${product.price.toFixed(2)}
+            {formatVND(product.price)}
           </span>
           <button
             onClick={(e) => { e.preventDefault(); addToCart(product._id || product.id, 1); }}
@@ -97,7 +98,7 @@ function ShopCard({ product }) {
             className="text-primary font-bold text-lg shrink-0 ml-2"
             style={{ fontFamily: 'var(--font-family-heading)' }}
           >
-            ${product.price.toFixed(2)}
+            {formatVND(product.price)}
           </span>
         </div>
         <p className="text-body-md text-on-surface-variant mb-4 text-sm line-clamp-2">

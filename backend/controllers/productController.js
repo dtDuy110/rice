@@ -5,13 +5,23 @@ const Product = require('../models/Product');
 // @access  Public
 const getProducts = async (req, res) => {
   try {
-    const { category, origin, search, sort, page = 1, limit = 8 } = req.query;
+    const { category, origin, search, sort, page = 1, limit = 8, minPrice, maxPrice, weight } = req.query;
 
     let query = {};
 
     // Filtering
     if (category) query.category = category;
-    if (origin) query.origin = origin;
+    if (origin) {
+      query.origin = { $in: origin.split(',') };
+    }
+    if (weight && weight !== 'Tất cả') {
+      query.weight = weight;
+    }
+    if (minPrice || maxPrice) {
+      query.price = {};
+      if (minPrice) query.price.$gte = Number(minPrice);
+      if (maxPrice) query.price.$lte = Number(maxPrice);
+    }
     if (search) {
       query.name = { $regex: search, $options: 'i' };
     }

@@ -2,7 +2,9 @@ import { useState, useEffect, useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Search, ChevronDown } from 'lucide-react'
 import ProductCard from '../components/ui/ProductCard'
+import ProductCardSkeleton from '../components/ui/ProductCardSkeleton'
 import Pagination from '../components/ui/Pagination'
+import Breadcrumbs from '../components/ui/Breadcrumbs'
 import useScrollAnimation from '../hooks/useScrollAnimation'
 import api from '../services/api'
 
@@ -13,6 +15,12 @@ export default function ProductsPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedCategories, setSelectedCategories] = useState([])
+  const [selectedOrigins, setSelectedOrigins] = useState([])
+  const [selectedWeight, setSelectedWeight] = useState('Tất cả')
+  const [minPriceInput, setMinPriceInput] = useState('')
+  const [maxPriceInput, setMaxPriceInput] = useState('')
+  const [minPrice, setMinPrice] = useState('')
+  const [maxPrice, setMaxPrice] = useState('')
   const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '')
   const [sortOption, setSortOption] = useState('Mới nhất')
 
@@ -44,6 +52,14 @@ export default function ProductsPage() {
       if (selectedCategories.length === 1) {
         queryParams.append('category', selectedCategories[0])
       }
+      if (selectedOrigins.length > 0) {
+        queryParams.append('origin', selectedOrigins.join(','))
+      }
+      if (selectedWeight !== 'Tất cả') {
+        queryParams.append('weight', selectedWeight)
+      }
+      if (minPrice) queryParams.append('minPrice', minPrice)
+      if (maxPrice) queryParams.append('maxPrice', maxPrice)
 
       const { data } = await api.get(`/products?${queryParams.toString()}`)
       
@@ -69,7 +85,7 @@ export default function ProductsPage() {
     } finally {
       setLoading(false)
     }
-  }, [currentPage, searchTerm, sortOption, selectedCategories])
+  }, [currentPage, searchTerm, sortOption, selectedCategories, selectedOrigins, selectedWeight, minPrice, maxPrice])
 
   useEffect(() => {
     fetchProducts()
@@ -81,6 +97,20 @@ export default function ProductsPage() {
       setCurrentPage(1) // Reset page on filter change
       return newCats
     })
+  }
+
+  const toggleOrigin = (org) => {
+    setSelectedOrigins((prev) => {
+      const newOrgs = prev.includes(org) ? prev.filter((o) => o !== org) : [...prev, org]
+      setCurrentPage(1)
+      return newOrgs
+    })
+  }
+
+  const handleApplyPrice = () => {
+    setMinPrice(minPriceInput)
+    setMaxPrice(maxPriceInput)
+    setCurrentPage(1)
   }
 
   const handleSearch = (e) => {
@@ -100,6 +130,7 @@ export default function ProductsPage() {
         isVisible ? 'opacity-100' : 'opacity-0'
       }`}
     >
+      <Breadcrumbs />
       <div className="flex flex-col md:flex-row gap-8 md:gap-12">
         {/* Sidebar Filters */}
         <aside className="w-full md:w-56 shrink-0">
@@ -113,19 +144,26 @@ export default function ProductsPage() {
           {/* Price Range */}
           <div className="mb-8">
             <h3 className="text-label-md text-on-surface font-semibold mb-3">Khoảng giá</h3>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mb-3">
               <input
                 type="number"
                 placeholder="Tối thiểu"
+                value={minPriceInput}
+                onChange={(e) => setMinPriceInput(e.target.value)}
                 className="w-full bg-surface border border-outline-variant/50 rounded-lg px-3 py-2 text-sm text-on-surface placeholder:text-outline focus:outline-none focus:border-primary transition-colors"
               />
               <span className="text-outline">-</span>
               <input
                 type="number"
                 placeholder="Tối đa"
+                value={maxPriceInput}
+                onChange={(e) => setMaxPriceInput(e.target.value)}
                 className="w-full bg-surface border border-outline-variant/50 rounded-lg px-3 py-2 text-sm text-on-surface placeholder:text-outline focus:outline-none focus:border-primary transition-colors"
               />
             </div>
+            <button onClick={handleApplyPrice} className="w-full py-2 bg-surface-container-high hover:bg-surface-container-highest text-on-surface text-sm font-medium rounded-lg transition-colors border border-outline-variant/30">
+              Áp dụng
+            </button>
           </div>
 
           {/* Rice Category */}
@@ -156,6 +194,8 @@ export default function ProductsPage() {
                 <label key={origin} className="flex items-center gap-3 cursor-pointer group">
                   <input
                     type="checkbox"
+                    checked={selectedOrigins.includes(origin)}
+                    onChange={() => toggleOrigin(origin)}
                     className="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary accent-primary"
                   />
                   <span className="text-body-md text-on-surface-variant group-hover:text-on-surface transition-colors text-sm">
@@ -170,12 +210,12 @@ export default function ProductsPage() {
           <div>
             <h3 className="text-label-md text-on-surface font-semibold mb-3">Trọng lượng</h3>
             <div className="relative">
-              <select className="w-full bg-surface border border-outline-variant/50 rounded-lg px-3 py-2 text-sm text-on-surface appearance-none focus:outline-none focus:border-primary transition-colors pr-8">
-                <option>Tất cả</option>
-                <option>1 kg</option>
-                <option>2 kg</option>
-                <option>5 kg</option>
-                <option>10 kg</option>
+              <select value={selectedWeight} onChange={(e) => { setSelectedWeight(e.target.value); setCurrentPage(1); }} className="w-full bg-surface border border-outline-variant/50 rounded-lg px-3 py-2 text-sm text-on-surface appearance-none focus:outline-none focus:border-primary transition-colors pr-8">
+                <option value="Tất cả">Tất cả</option>
+                <option value="1 kg">1 kg</option>
+                <option value="2 kg">2 kg</option>
+                <option value="5 kg">5 kg</option>
+                <option value="10 kg">10 kg</option>
               </select>
               <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none" />
             </div>
@@ -215,12 +255,14 @@ export default function ProductsPage() {
           </div>
 
           {/* Product Grid */}
-          {error && <div className="text-center py-8 text-error">{error}</div>}
-          
           {loading ? (
-            <div className="flex justify-center py-20">
-              <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(6)].map((_, i) => (
+                <ProductCardSkeleton key={i} />
+              ))}
             </div>
+          ) : error ? (
+            <div className="text-center py-8 text-error">{error}</div>
           ) : (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

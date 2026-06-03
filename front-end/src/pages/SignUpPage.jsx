@@ -35,9 +35,8 @@ export default function SignUpPage() {
       const { data } = await api.post('/auth/register', { name, email, password })
       if (data.success) {
         // Auto login after registration
-        localStorage.setItem('token', data.data.token)
-        localStorage.setItem('user', JSON.stringify(data.data))
-        window.location.href = '/'
+        await login(email, password)
+        navigate('/')
       }
     } catch (err) {
       setLocalError(err.response?.data?.error || 'Đăng ký thất bại')

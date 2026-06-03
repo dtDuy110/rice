@@ -1,8 +1,13 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import AdminSidebar from './AdminSidebar'
 import { Bell, Moon, Settings, Search } from 'lucide-react'
 
 export default function AdminLayout() {
+  const location = useLocation()
+  let title = "Tổng Quan"
+  if (location.pathname.includes('/don-hang')) title = "Quản lý đơn hàng"
+  else if (location.pathname.includes('/san-pham')) title = "Quản lý sản phẩm"
+
   return (
     <div className="min-h-screen bg-surface-container-low flex">
       <AdminSidebar />
@@ -13,7 +18,7 @@ export default function AdminLayout() {
             className="text-headline-md text-on-surface"
             style={{ fontFamily: 'var(--font-family-heading)' }}
           >
-            Tổng Quan
+            {title}
           </h1>
           <div className="flex items-center gap-2">
             {/* Search */}

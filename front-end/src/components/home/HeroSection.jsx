@@ -1,8 +1,10 @@
+import { useNavigate } from 'react-router-dom'
 import Button from '../ui/Button'
 import useScrollAnimation from '../../hooks/useScrollAnimation'
 
 export default function HeroSection() {
   const { ref, isVisible } = useScrollAnimation(0.1)
+  const navigate = useNavigate()
 
   return (
     <section className="relative w-full h-[90vh] min-h-[600px] flex items-center justify-center bg-surface-container overflow-hidden">
@@ -44,10 +46,10 @@ export default function HeroSection() {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button variant="primary" size="lg">
+          <Button variant="primary" size="lg" onClick={() => navigate('/san-pham')}>
             Mua ngay
           </Button>
-          <Button variant="secondary" size="lg">
+          <Button variant="secondary" size="lg" onClick={() => navigate('/gioi-thieu')}>
             Tìm hiểu thêm
           </Button>
         </div>

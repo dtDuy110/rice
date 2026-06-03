@@ -4,15 +4,20 @@ import { Link, useParams } from 'react-router-dom'
 import Badge from '../components/ui/Badge'
 import Button from '../components/ui/Button'
 import QuantitySelector from '../components/ui/QuantitySelector'
+import Breadcrumbs from '../components/ui/Breadcrumbs'
+import ProductDetailSkeleton from '../components/ui/ProductDetailSkeleton'
 
 import api from '../services/api'
 import { useCart } from '../context/CartContext'
+import { useToast } from '../context/ToastContext'
+import { formatVND } from '../utils/formatCurrency'
+import ReviewSection from '../components/ui/ReviewSection'
 
 export default function ProductDetailPage() {
   const { id } = useParams()
   const [selectedImage, setSelectedImage] = useState(0)
   const [quantity, setQuantity] = useState(1)
-  const [activeTab, setActiveTab] = useState('description')
+  const [activeTab, setActiveTab] = useState('details')
   
   const [product, setProduct] = useState(null)
   const [relatedProducts, setRelatedProducts] = useState([])
@@ -20,44 +25,37 @@ export default function ProductDetailPage() {
   const { addToCart } = useCart()
   const [error, setError] = useState(null)
 
+  const fetchProductDetails = async () => {
+    try {
+      const [productRes, relatedRes] = await Promise.all([
+        api.get(`/products/${id}`),
+        api.get(`/products/${id}/related`)
+      ])
+      if (productRes.data.success) {
+        setProduct(productRes.data.data)
+      }
+      if (relatedRes.data.success) {
+        setRelatedProducts(relatedRes.data.data)
+      }
+    } catch (err) {
+      setError('Sản phẩm không tồn tại hoặc có lỗi xảy ra.')
+      console.error(err)
+    }
+  }
+
   useEffect(() => {
     window.scrollTo(0, 0)
-    const fetchProductDetails = async () => {
-      try {
-        setLoading(true)
-        const [productRes, relatedRes] = await Promise.all([
-          api.get(`/products/${id}`),
-          api.get(`/products/${id}/related`)
-        ])
-        if (productRes.data.success) {
-          setProduct(productRes.data.data)
-        }
-        if (relatedRes.data.success) {
-          setRelatedProducts(relatedRes.data.data)
-        }
-      } catch (err) {
-        setError('Sản phẩm không tồn tại hoặc có lỗi xảy ra.')
-        console.error(err)
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchProductDetails()
+    setLoading(true)
+    fetchProductDetails().finally(() => setLoading(false))
   }, [id])
 
   const tabs = [
-    { id: 'description', label: 'Mô tả sản phẩm' },
-    { id: 'nutrition', label: 'Thông tin dinh dưỡng' },
+    { id: 'details', label: 'Chi tiết sản phẩm' },
+    { id: 'specs', label: 'Thông số kỹ thuật' },
     { id: 'reviews', label: `Đánh giá (${product?.reviews || 0})` },
   ]
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-[50vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
-      </div>
-    )
-  }
+  if (loading) return <ProductDetailSkeleton />
 
   if (error || !product) {
     return (
@@ -69,8 +67,10 @@ export default function ProductDetailPage() {
   }
 
   return (
-    <div className="py-8 md:py-12 px-4 md:px-12 max-w-[1280px] mx-auto animate-fade-in">
-      {/* Main Product Section */}
+    <div className="py-12 px-4 md:px-12 max-w-[1280px] mx-auto">
+      <Breadcrumbs productName={product.name} />
+      
+      {/* Product Main Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 mb-16">
         {/* Image Gallery */}
         <div>
@@ -122,7 +122,7 @@ export default function ProductDetailPage() {
               className="text-primary"
               style={{ fontFamily: 'var(--font-family-heading)', fontSize: '28px', fontWeight: 700 }}
             >
-              ${product.price.toFixed(2)}
+              {formatVND(product.price)}
             </span>
             <span className="text-label-md text-on-surface-variant border border-outline-variant/50 px-3 py-1 rounded-lg">
               {product.weight}
@@ -192,19 +192,51 @@ export default function ProductDetailPage() {
         {/* Tab Content */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="md:col-span-2">
-            <div className="text-body-md text-on-surface-variant leading-relaxed space-y-4">
-              {product.description.split('\n\n').map((para, i) => (
-                <p key={i}>{para}</p>
-              ))}
-            </div>
-            <ul className="mt-6 space-y-2">
-              {product.features?.map((feat, i) => (
-                <li key={i} className="flex items-start gap-2 text-body-md text-on-surface-variant">
-                  <span className="text-primary mt-1">•</span>
-                  {feat}
-                </li>
-              ))}
-            </ul>
+            {activeTab === 'details' && (
+              <>
+                <div className="text-body-md text-on-surface-variant leading-relaxed space-y-4">
+                  {product.description.split('\n\n').map((para, i) => (
+                    <p key={i}>{para}</p>
+                  ))}
+                </div>
+                <ul className="mt-6 space-y-2">
+                  {product.features?.map((feat, i) => (
+                    <li key={i} className="flex items-start gap-2 text-body-md text-on-surface-variant">
+                      <span className="text-primary mt-1">•</span>
+                      {feat}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+            
+            {activeTab === 'specs' && (
+              <div className="space-y-4 animate-fade-in">
+                <div className="grid grid-cols-2 gap-4 bg-surface-container-low p-4 rounded-xl">
+                  <div className="text-on-surface-variant text-label-md">Thương hiệu</div>
+                  <div className="text-on-surface font-medium">Gạo Thành Phát</div>
+                </div>
+                <div className="grid grid-cols-2 gap-4 bg-surface p-4 rounded-xl border border-outline-variant/30">
+                  <div className="text-on-surface-variant text-label-md">Xuất xứ</div>
+                  <div className="text-on-surface font-medium">{product.origin || 'Việt Nam'}</div>
+                </div>
+                <div className="grid grid-cols-2 gap-4 bg-surface-container-low p-4 rounded-xl">
+                  <div className="text-on-surface-variant text-label-md">Khối lượng</div>
+                  <div className="text-on-surface font-medium">{product.weight || '5 kg'}</div>
+                </div>
+                <div className="grid grid-cols-2 gap-4 bg-surface p-4 rounded-xl border border-outline-variant/30">
+                  <div className="text-on-surface-variant text-label-md">Hữu cơ</div>
+                  <div className="text-on-surface font-medium">{product.organic ? 'Có' : 'Không'}</div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'reviews' && (
+              <ReviewSection 
+                productId={product._id} 
+                onReviewAdded={() => fetchProductDetails()}
+              />
+            )}
           </div>
 
           {/* Farm Details */}

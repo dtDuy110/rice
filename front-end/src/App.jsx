@@ -14,6 +14,7 @@ import ContactPage from './pages/ContactPage'
 import DashboardPage from './pages/admin/DashboardPage'
 import OrdersPage from './pages/admin/OrdersPage'
 import ProductManagementPage from './pages/admin/ProductManagementPage'
+import NotFoundPage from './pages/NotFoundPage'
 import { AuthProvider } from './context/AuthContext'
 import { CartProvider } from './context/CartContext'
 import { ToastProvider } from './context/ToastContext'
@@ -59,6 +60,7 @@ function App() {
                 <ProfilePage />
               </ProtectedRoute>
             } />
+            <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
           </Router>

@@ -85,8 +85,62 @@ const getUserProfile = async (req, res) => {
   }
 };
 
+// @desc    Update user profile
+// @route   PUT /api/auth/profile
+// @access  Private
+const updateUserProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (user) {
+      user.name = req.body.name || user.name;
+      user.email = req.body.email || user.email;
+
+      const updatedUser = await user.save();
+
+      res.json({
+        success: true,
+        data: {
+          _id: updatedUser._id,
+          name: updatedUser.name,
+          email: updatedUser.email,
+          role: updatedUser.role,
+          token: generateToken(updatedUser._id),
+        }
+      });
+    } else {
+      res.status(404).json({ success: false, error: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+// @desc    Update user password
+// @route   PUT /api/auth/password
+// @access  Private
+const updateUserPassword = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (user) {
+      const { oldPassword, newPassword } = req.body;
+      if (!(await user.matchPassword(oldPassword))) {
+        return res.status(400).json({ success: false, error: 'Mật khẩu cũ không chính xác' });
+      }
+      user.password = newPassword;
+      await user.save();
+      res.json({ success: true, message: 'Cập nhật mật khẩu thành công' });
+    } else {
+      res.status(404).json({ success: false, error: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
   getUserProfile,
+  updateUserProfile,
+  updateUserPassword,
 };
