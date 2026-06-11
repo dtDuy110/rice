@@ -40,6 +40,28 @@ app.use('/api/cart', require('./routes/cartRoutes'));
 app.use('/api/orders', require('./routes/orderRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 
+// Temporary seed route (REMOVE after seeding!)
+app.get('/api/seed', async (req, res) => {
+  try {
+    const Product = require('./models/Product');
+    const User = require('./models/User');
+    const products = require('./data/products');
+    const users = require('./data/users');
+
+    await Product.deleteMany();
+    await User.deleteMany();
+
+    for (const user of users) {
+      await User.create(user);
+    }
+    await Product.insertMany(products);
+
+    res.json({ success: true, message: 'Database seeded!', products: products.length });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
