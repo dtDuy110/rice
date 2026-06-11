@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_API_URL || '/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -24,4 +24,22 @@ api.interceptors.request.use(
   }
 );
 
+// Response interceptor to handle expired/invalid tokens
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const isAuthEndpoint = error.config?.url?.includes('/auth/login') || error.config?.url?.includes('/auth/register');
+    if (error.response?.status === 401 && !isAuthEndpoint) {
+      // Token is invalid or user no longer exists - clear session
+      localStorage.removeItem('userInfo');
+      // Only redirect if not already on login page
+      if (!window.location.pathname.includes('/dang-nhap') && !window.location.pathname.includes('/login')) {
+        window.location.href = '/dang-nhap';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 export default api;
+
