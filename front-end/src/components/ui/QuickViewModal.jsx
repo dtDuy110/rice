@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import { X, Plus, ShoppingCart } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../../context/CartContext'
@@ -22,7 +23,7 @@ export default function QuickViewModal({ product, isOpen, onClose }) {
     onClose()
   }
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 animate-fade-in">
       <div 
         className="absolute inset-0 bg-surface/80 backdrop-blur-sm"
@@ -118,6 +119,7 @@ export default function QuickViewModal({ product, isOpen, onClose }) {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
