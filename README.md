@@ -1,98 +1,328 @@
-# Thành Phát - Gạo Việt Thượng Hạng (E-Commerce Platform)
+# 🌾 Heritage Grains - E-Commerce Platform
 
-Một nền tảng thương mại điện tử chuyên cung cấp các loại gạo đặc sản Việt Nam chất lượng cao. Dự án được xây dựng với kiến trúc MERN Stack hiện đại, giao diện trực quan chuẩn UX/UI và đặc biệt tích hợp hệ thống thanh toán chuyển khoản tự động (Real-time).
+Heritage Grains is a modern full-stack e-commerce platform for buying and selling premium heritage grains and agricultural products. Built with a clean, user-friendly interface and a robust backend API.
 
-## 🚀 Tính Năng Nổi Bật
+![Agrarian Luxe Design](design/agrarian_luxe/DESIGN.md)
 
-### 🛒 Dành Cho Khách Hàng
-*   **Giao diện hiện đại (UI/UX):** Thiết kế Responsive với TailwindCSS, mang lại trải nghiệm mượt mà trên cả Mobile và Desktop.
-*   **Quản lý tài khoản:** Đăng ký, đăng nhập bảo mật bằng JWT.
-*   **Trải nghiệm mua sắm:** Xem nhanh sản phẩm (Quick View), lọc sản phẩm nâng cao, đánh giá/nhận xét (Review).
-*   **Giỏ hàng & Danh sách yêu thích:** Lưu trữ tự động, tính toán chi phí thông minh.
-*   **Mã giảm giá (Coupon System):** Hỗ trợ đa dạng mã giảm giá (Phần trăm, Cố định, Freeship).
-*   **Thanh toán hiện đại:**
-    *   Thanh toán khi nhận hàng (COD).
-    *   **Thanh toán tự động 100% qua SEpay:** Sinh mã VietQR động, xác nhận thanh toán theo thời gian thực (Real-time) qua Socket.IO mà không cần F5 trang.
+## ✨ Features
 
-### 🛡️ Dành Cho Quản Trị Viên (Admin)
-*   **Dashboard Thống Kê:** Tổng quan doanh thu, đơn hàng, khách hàng mới.
-*   **Quản lý Đơn hàng:** Theo dõi và cập nhật trạng thái đơn hàng (Đang xử lý, Đang giao, Thành công, Đã hủy).
-*   **Quản lý Sản phẩm:** Thêm, sửa, xóa các loại gạo, quản lý tồn kho (Stock).
+### 👥 User Features
+- **User Authentication** - Secure sign-up and sign-in with JWT tokens
+- **Product Browsing** - Browse and search premium heritage grain products
+- **Product Details** - View detailed product information with images and descriptions
+- **Shopping Cart** - Add/remove products, manage quantities
+- **Reviews & Ratings** - Leave reviews and ratings on purchased products
+- **Order Management** - Track order history and status
+- **User Profile** - Manage personal information and preferences
+- **Checkout** - Secure checkout process
 
-## 🛠️ Công Nghệ Sử Dụng
+### 🛠️ Admin Features
+- **Dashboard** - Overview of sales, orders, and products
+- **Product Management** - Add, edit, delete products with details
+- **Order Tracking** - Monitor and manage customer orders
+- **User Management** - Manage user accounts and permissions
 
-**Frontend:**
-*   **Framework:** React 18 (Vite)
-*   **Styling:** Tailwind CSS (kết hợp các biến CSS Custom Properties để quản lý Theme dễ dàng)
-*   **Routing:** React Router DOM v6
-*   **Real-time:** Socket.IO Client
-*   **State Management:** React Context API
+## 🏗️ Project Structure
 
-**Backend:**
-*   **Runtime:** Node.js
-*   **Framework:** Express.js
-*   **Database:** MongoDB (sử dụng Mongoose ORM)
-*   **Authentication:** JSON Web Tokens (JWT) & bcryptjs
-*   **Real-time:** Socket.IO Server
-*   **Payment Gateway:** SEpay (Webhook)
+```
+rice/
+├── backend/                 # Express.js REST API
+│   ├── config/             # Database configuration
+│   ├── controllers/        # Route controllers
+│   ├── middleware/         # Authentication middleware
+│   ├── models/            # MongoDB schemas
+│   ├── routes/            # API routes
+│   ├── utils/             # Utility functions
+│   ├── data/              # Seed data
+│   ├── server.js          # Main server file
+│   ├── seeder.js          # Database seeder
+│   └── package.json
+│
+├── front-end/              # React + Vite frontend
+│   ├── src/
+│   │   ├── components/    # Reusable UI components
+│   │   ├── pages/         # Page components
+│   │   ├── context/       # React context (Auth, Cart, Toast)
+│   │   ├── services/      # API service layer
+│   │   ├── utils/         # Utility functions
+│   │   ├── hooks/         # Custom React hooks
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   ├── public/            # Static assets
+│   ├── package.json
+│   ├── vite.config.js
+│   └── tsconfig.json
+│
+└── design/                 # UI Design files & components
+    └── agrarian_luxe/     # Design system with color palette
+```
 
-## 📦 Hướng Dẫn Cài Đặt
+## 🛠️ Tech Stack
 
-### 1. Yêu cầu hệ thống
-*   Node.js (v16 trở lên)
-*   MongoDB (Local hoặc MongoDB Atlas)
+### Backend
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **Database**: MongoDB with Mongoose ODM
+- **Authentication**: JWT (JSON Web Tokens)
+- **Password Security**: bcryptjs
+- **CORS**: Enabled for cross-origin requests
+- **Environment**: Dotenv for configuration
 
-### 2. Cài đặt Backend
+### Frontend
+- **Framework**: React 19
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **Routing**: React Router v7
+- **HTTP Client**: Axios
+- **Icons**: Lucide React
+- **Language**: JavaScript/TypeScript
+- **Deployment**: Vercel
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js (v14 or higher)
+- npm or yarn
+- MongoDB (local or cloud instance)
+
+### Backend Setup
+
+1. **Navigate to backend directory**
+   ```bash
+   cd backend
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Create .env file**
+   ```bash
+   cp .env.example .env
+   ```
+
+4. **Configure environment variables**
+   ```
+   MONGODB_URI=your_mongodb_connection_string
+   PORT=5000
+   JWT_SECRET=your_jwt_secret_key
+   FRONTEND_URL=http://localhost:5173
+   ```
+
+5. **Seed the database (optional)**
+   ```bash
+   npm run data:import
+   ```
+
+6. **Start the server**
+   ```bash
+   # Development with auto-reload
+   npm run dev
+   
+   # Production
+   npm start
+   ```
+
+The backend API will be available at `http://localhost:5000`
+
+### Frontend Setup
+
+1. **Navigate to frontend directory**
+   ```bash
+   cd front-end
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Create .env file**
+   ```bash
+   VITE_API_URL=http://localhost:5000
+   ```
+
+4. **Start development server**
+   ```bash
+   npm run dev
+   ```
+
+5. **Build for production**
+   ```bash
+   npm run build
+   ```
+
+The frontend will be available at `http://localhost:5173`
+
+## 📚 API Endpoints
+
+### Authentication Routes (`/api/auth`)
+- `POST /register` - Register new user
+- `POST/login` - User login
+- `GET /profile` - Get user profile (protected)
+
+### Product Routes (`/api/products`)
+- `GET /` - Get all products with pagination
+- `GET /:id` - Get product details
+- `POST /` - Create product (admin only)
+- `PUT /:id` - Update product (admin only)
+- `DELETE /:id` - Delete product (admin only)
+
+### Cart Routes (`/api/cart`)
+- `GET /` - Get user cart
+- `POST /add` - Add item to cart
+- `PUT /update/:itemId` - Update cart item quantity
+- `DELETE /remove/:itemId` - Remove item from cart
+
+### Order Routes (`/api/orders`)
+- `POST /` - Create new order
+- `GET /` - Get user orders
+- `GET /admin/all` - Get all orders (admin only)
+- `PUT /:id/status` - Update order status (admin only)
+
+### Review Routes (`/api/reviews`)
+- `POST /` - Create product review
+- `GET /product/:productId` - Get product reviews
+
+## 🔐 Authentication
+
+The application uses JWT (JSON Web Tokens) for authentication:
+
+1. User logs in and receives a JWT token
+2. Token is stored in localStorage on the client
+3. Token is sent in request headers for protected routes
+4. Backend validates token before allowing access
+
+**Protected Routes** (require authentication):
+- User profile management
+- Cart operations
+- Order placement and tracking
+- Product reviews
+
+## 🎨 Design System - Agrarian Luxe
+
+The project uses a premium "Agrarian Luxe" design system with an earthy, natural color palette:
+
+- **Primary Color**: Forest green (#154539)
+- **Secondary Color**: Warm gold (#7a5900)
+- **Tertiary Color**: Natural brown (#5a3516)
+- **Background**: Soft cream (#fdf9f0)
+
+Colors are carefully selected to represent heritage, nature, and premium agricultural products.
+
+## 📦 Database Schema
+
+### User Model
+```
+- username
+- email
+- password (hashed)
+- phone
+- address
+- createdAt
+```
+
+### Product Model
+```
+- name
+- description
+- price
+- category
+- image
+- stock
+- rating
+- reviews count
+- createdAt
+```
+
+### Order Model
+```
+- user (reference)
+- items (product references with quantity)
+- totalPrice
+- status
+- shippingAddress
+- createdAt
+```
+
+### Review Model
+```
+- product (reference)
+- user (reference)
+- rating
+- comment
+- createdAt
+```
+
+### Cart Model
+```
+- user (reference)
+- items (product references with quantity)
+```
+
+## 🧪 Available Scripts
+
+### Backend
 ```bash
-cd backend
-npm install
+npm run dev          # Start development server with auto-reload
+npm start            # Start production server
+npm run data:import  # Seed database with initial data
+npm run data:destroy # Clear database
+npm test             # Run tests (not implemented yet)
 ```
 
-Tạo file `.env` trong thư mục `backend/` và cấu hình các biến môi trường:
-```env
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret_key
-SEPAY_WEBHOOK_TOKEN=your_sepay_security_token
-```
-
-Khởi động Backend:
+### Frontend
 ```bash
-# Development mode
-npm run dev
-# Production mode
-npm start
+npm run dev      # Start development server
+npm run build    # Build for production
+npm run preview  # Preview production build
 ```
 
-### 3. Cài đặt Frontend
+## 🔒 Security Features
+
+- Password hashing with bcryptjs
+- JWT token-based authentication
+- CORS protection
+- Protected API routes
+- SQL injection prevention (MongoDB)
+- XSS protection with React
+
+## 🚢 Deployment
+
+### Backend Deployment (Node.js hosting)
+- Heroku
+- AWS
+- DigitalOcean
+- Railway
+
+### Frontend Deployment (Vercel)
+The project is configured for Vercel deployment with `vercel.json`:
 ```bash
-cd front-end
-npm install
+npm run build
+vercel deploy
 ```
 
-Tạo file `.env` trong thư mục `front-end/` (nếu cần đổi URL kết nối backend):
-```env
-VITE_API_URL=http://localhost:5000/api
-```
+## 🤝 Contributing
 
-Khởi động Frontend:
-```bash
-npm run dev
-```
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## 💳 Luồng Thanh Toán Tự Động (SEpay Integration)
-Dự án được tích hợp sâu với cổng thanh toán SEpay, mang lại luồng thanh toán không chạm:
-1. Người dùng chọn thanh toán bằng "Chuyển khoản tự động".
-2. Hệ thống sinh ra **mã VietQR** đi kèm số tiền chính xác và Nội dung chuyển khoản là Mã đơn hàng (VD: `ORD-123456`).
-3. Khách hàng dùng App Ngân hàng quét và chuyển khoản.
-4. Ngân hàng báo biến động số dư. SEpay đẩy **Webhook** về Backend.
-5. Backend xác thực Webhook bằng `SEPAY_WEBHOOK_TOKEN`, cập nhật trạng thái đơn hàng thành `isPaid = true`.
-6. Backend phát một sự kiện (Event) qua **Socket.IO** đến đúng người dùng đó.
-7. Màn hình quét QR của khách hàng lập tức hiện dấu Tích xanh và chuyển hướng về kho đơn hàng (Không cần tải lại trang).
-*(Lưu ý: Có tích hợp thêm cơ chế Polling API dự phòng trong trường hợp đường truyền Socket bị lỗi).*
+## 📝 License
 
-## 👥 Tác Giả & Đóng Góp
-*   Dự án được phát triển nhằm mục đích xây dựng nền tảng E-Commerce hiện đại, tối ưu hóa quy trình thanh toán tại Việt Nam.
+This project is licensed under the ISC License - see the LICENSE file for details.
+
+## 👨‍💻 Author
+
+Heritage Grains Development Team
+
+## 📞 Support
+
+For issues and questions, please open an issue on GitHub or contact the development team.
 
 ---
-⭐ Nếu bạn thấy dự án này hữu ích, hãy cho một sao (Star) trên GitHub nhé!
+
+**Made with ❤️ for heritage grain enthusiasts**
