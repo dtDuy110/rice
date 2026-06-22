@@ -9,7 +9,7 @@ const couponSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['percent', 'fixed'],
+    enum: ['percent', 'fixed', 'freeship'],
     required: true
   },
   value: {

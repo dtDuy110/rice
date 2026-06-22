@@ -22,6 +22,8 @@ const validateCoupon = async (req, res) => {
       discountAmount = coupon.value;
     } else if (coupon.type === 'percent') {
       discountAmount = (orderAmount * coupon.value) / 100;
+    } else if (coupon.type === 'freeship') {
+      discountAmount = 0; // Value logic handled by frontend
     }
     
     res.json({ 

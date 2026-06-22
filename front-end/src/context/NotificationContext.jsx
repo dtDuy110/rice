@@ -15,7 +15,10 @@ export function NotificationProvider({ children }) {
     if (user) {
       fetchNotifications()
       
-      const newSocket = io(import.meta.env.VITE_API_URL || 'http://localhost:5000', {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+      const socketUrl = apiUrl.endsWith('/api') ? apiUrl.replace('/api', '') : apiUrl
+      
+      const newSocket = io(socketUrl, {
         withCredentials: true
       })
       

@@ -32,17 +32,25 @@ export default function CheckoutPage() {
   const subtotal = items.reduce((s, i) => s + (i.product?.price || 0) * i.quantity, 0)
   const shipping = items.length > 0 ? 30000 : 0
 
+  // Calculate base values
+  const baseTax = subtotal * 0.08
+  
   // Calculate discount
   let discountAmount = 0
+  let isFreeship = false
+  
   if (appliedCoupon) {
-    if (appliedCoupon.type === 'fixed') {
+    if (appliedCoupon.type === 'freeship') {
+      isFreeship = true
+      discountAmount = shipping + baseTax
+    } else if (appliedCoupon.type === 'fixed') {
       discountAmount = appliedCoupon.value
     } else if (appliedCoupon.type === 'percent') {
       discountAmount = (subtotal * appliedCoupon.value) / 100
     }
   }
 
-  const tax = (subtotal - discountAmount) * 0.08
+  const tax = isFreeship ? baseTax : (subtotal - discountAmount) * 0.08
   const total = subtotal - discountAmount + shipping + tax
 
   const handleChange = (e) => {
@@ -246,7 +254,7 @@ export default function CheckoutPage() {
               {couponError && <p className="text-error text-xs mt-2">{couponError}</p>}
               {appliedCoupon && (
                 <p className="text-primary text-xs mt-2 font-medium">
-                  Đã áp dụng mã {appliedCoupon.code} (giảm {appliedCoupon.type === 'percent' ? `${appliedCoupon.value}%` : formatVND(appliedCoupon.value)})
+                  Đã áp dụng mã {appliedCoupon.code} (giảm {appliedCoupon.type === 'percent' ? `${appliedCoupon.value}%` : appliedCoupon.type === 'freeship' ? 'Miễn phí Ship & Thuế' : formatVND(appliedCoupon.value)})
                 </p>
               )}
             </div>

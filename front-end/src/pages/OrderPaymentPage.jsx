@@ -38,7 +38,19 @@ export default function OrderPaymentPage() {
     }
   }, [socket, id, navigate])
 
-  const fetchOrder = async () => {
+  // Fallback Polling: Cứ 3 giây gọi API check trạng thái 1 lần
+  useEffect(() => {
+    if (paymentSuccess) return; // Nếu đã thành công thì dừng poll
+
+    const intervalId = setInterval(() => {
+      fetchOrder(true); // true = silent fetch (không set loading)
+    }, 3000);
+
+    return () => clearInterval(intervalId);
+  }, [id, paymentSuccess]);
+
+  const fetchOrder = async (isSilent = false) => {
+    if (!isSilent) setLoading(true);
     try {
       const { data } = await api.get(`/orders/track/${id}`)
       if (data.success) {
@@ -51,9 +63,9 @@ export default function OrderPaymentPage() {
         }
       }
     } catch (err) {
-      setError('Không tìm thấy đơn hàng')
+      if (!isSilent) setError('Không tìm thấy đơn hàng')
     } finally {
-      setLoading(false)
+      if (!isSilent) setLoading(false)
     }
   }
 
