@@ -86,14 +86,7 @@ export default function CartPage() {
               <span className="text-primary font-bold text-xl" style={{ fontFamily: 'var(--font-family-heading)' }}>{formatVND(total)}</span>
             </div>
           </div>
-          <div className="mb-6">
-            <label className="text-label-sm text-on-surface font-medium mb-2 block">Mã giảm giá</label>
-            <div className="flex gap-2">
-              <input value={discountCode} onChange={(e) => setDiscountCode(e.target.value)} placeholder="Nhập mã (VD: GIAMGIA10)" className="flex-1 bg-surface-container-lowest border border-outline-variant/50 rounded-xl px-4 py-2.5 text-body-md placeholder:text-outline focus:outline-none focus:border-primary" />
-              <button onClick={handleApplyDiscount} className="px-4 py-2.5 border border-outline-variant rounded-xl text-label-md hover:bg-surface-container-high font-medium">Áp dụng</button>
-            </div>
-            {discountError && <p className="text-error text-label-sm mt-2">{discountError}</p>}
-          </div>
+
           <Button variant="primary" size="lg" className="w-full" icon={ArrowRight} iconPosition="right" onClick={handleCheckout} disabled={items.length === 0}>
             Thanh toán
           </Button>

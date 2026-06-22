@@ -34,11 +34,11 @@ export default function CheckoutPage() {
 
   // Calculate base values
   const baseTax = subtotal * 0.08
-  
+
   // Calculate discount
   let discountAmount = 0
   let isFreeship = false
-  
+
   if (appliedCoupon) {
     if (appliedCoupon.type === 'freeship') {
       isFreeship = true
@@ -97,7 +97,7 @@ export default function CheckoutPage() {
       })
       if (res.data.success) {
         await fetchCart()
-        
+
         if (paymentMethod === 'SEPAY') {
           showToast('Đang chuyển đến trang thanh toán...', 'success')
           navigate(`/thanh-toan-sepay/${res.data.data._id}`) // The order ID from backend
@@ -197,7 +197,7 @@ export default function CheckoutPage() {
                     <p className="text-on-surface-variant text-label-sm">Thanh toán bằng tiền mặt khi nhận được hàng</p>
                   </div>
                 </label>
-                
+
                 <label className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-colors ${paymentMethod === 'SEPAY' ? 'border-primary bg-primary/5' : 'border-outline-variant/30 hover:border-primary/50'}`}>
                   <input type="radio" name="payment" value="SEPAY" checked={paymentMethod === 'SEPAY'} onChange={() => setPaymentMethod('SEPAY')} className="accent-primary w-4 h-4" />
                   <div>
@@ -237,7 +237,7 @@ export default function CheckoutPage() {
                   type="text"
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value)}
-                  placeholder="Nhập mã giảm giá..."
+                  placeholder="Nhập mã ( VD: FREESHIP )"
                   className="flex-1 bg-surface-container-lowest border border-outline-variant/50 rounded-xl px-4 py-2 text-body-md focus:outline-none focus:border-primary uppercase"
                   disabled={appliedCoupon}
                 />
