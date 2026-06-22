@@ -30,7 +30,7 @@ export default function CheckoutPage() {
   const items = cart?.items || []
   const subtotal = items.reduce((s, i) => s + (i.product?.price || 0) * i.quantity, 0)
   const shipping = items.length > 0 ? 30000 : 0
-  
+
   // Calculate discount
   let discountAmount = 0
   if (appliedCoupon) {
@@ -121,9 +121,9 @@ export default function CheckoutPage() {
       </h1>
 
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Shipping Form */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-7 space-y-6">
             <div className="bg-surface rounded-2xl p-8 border border-surface-variant shadow-[var(--shadow-card)]">
               <h2 className="text-on-surface mb-6 flex items-center gap-2" style={{ fontFamily: 'var(--font-family-heading)', fontSize: '22px', fontWeight: 700 }}>
                 <MapPin size={20} className="text-primary" /> Thông tin giao hàng
@@ -185,7 +185,7 @@ export default function CheckoutPage() {
           </div>
 
           {/* Order Summary */}
-          <div className="bg-surface rounded-2xl p-8 border border-surface-variant shadow-[var(--shadow-card)] h-fit sticky top-24">
+          <div className="lg:col-span-5 bg-surface rounded-2xl p-6 md:p-8 border border-surface-variant shadow-[var(--shadow-card)] h-fit sticky top-24">
             <h2 className="text-on-surface mb-6" style={{ fontFamily: 'var(--font-family-heading)', fontSize: '22px', fontWeight: 700 }}>Đơn hàng của bạn</h2>
 
             <div className="space-y-3 mb-6">
