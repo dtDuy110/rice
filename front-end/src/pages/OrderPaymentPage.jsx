@@ -40,7 +40,7 @@ export default function OrderPaymentPage() {
 
   const fetchOrder = async () => {
     try {
-      const { data } = await api.get(`/orders/${id}`)
+      const { data } = await api.get(`/orders/track/${id}`)
       if (data.success) {
         setOrder(data.data)
         if (data.data.isPaid) {
