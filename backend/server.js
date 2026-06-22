@@ -68,6 +68,20 @@ app.get('/api/seed', async (req, res) => {
   }
 });
 
+app.get('/api/seed-freeship', async (req, res) => {
+  try {
+    const Coupon = require('./models/Coupon');
+    const existing = await Coupon.findOne({ code: 'FREESHIP' });
+    if (!existing) {
+      await Coupon.create({ code: 'FREESHIP', type: 'freeship', value: 0, minOrderAmount: 0 });
+      return res.json({ success: true, message: 'Freeship coupon created on cloud!' });
+    }
+    return res.json({ success: true, message: 'Coupon already exists!' });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 const PORT = process.env.PORT || 5000;
 
 // Socket.io Setup

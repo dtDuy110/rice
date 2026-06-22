@@ -24,18 +24,21 @@ const handleWebhook = async (req, res) => {
 
     const amount = transferAmount || amountIn;
 
-    // Look for ORD-xxxxxx in the content
-    // content format example: "NGUYEN VAN A chuyen tien don hang ORD-123456"
+    // Look for ORD-xxxxxx or ORDxxxxxx in the content
     if (!content) {
       return res.status(200).json({ success: true, message: 'No content in transaction' });
     }
 
-    const orderCodeMatch = content.match(/ORD-\d+/i);
+    const orderCodeMatch = content.match(/ORD-?\d+/i);
     if (!orderCodeMatch) {
       return res.status(200).json({ success: true, message: 'No valid order code found in content' });
     }
 
-    const orderNumber = orderCodeMatch[0].toUpperCase();
+    let orderNumber = orderCodeMatch[0].toUpperCase();
+    // Normalize: nếu khách nhập thiếu dấu gạch ngang (VD: ORD123), ta tự thêm vào để tra DB
+    if (!orderNumber.includes('-')) {
+      orderNumber = orderNumber.replace('ORD', 'ORD-');
+    }
 
     // Find the order
     const order = await Order.findOne({ orderNumber });
