@@ -93,7 +93,7 @@ export default function CheckoutPage() {
           country: 'Vietnam'
         },
         paymentMethod,
-        totalPrice: total,
+        couponCode: appliedCoupon?.code
       })
       if (res.data.success) {
         await fetchCart()

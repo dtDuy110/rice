@@ -7,7 +7,7 @@ const Product = require('../models/Product');
 // @access  Private
 const addOrderItems = async (req, res) => {
   try {
-    const { shippingAddress, paymentMethod } = req.body;
+    const { shippingAddress, paymentMethod, couponCode } = req.body;
 
     if (!shippingAddress) {
       return res.status(400).json({ success: false, error: 'Please provide shipping address' });
@@ -22,9 +22,34 @@ const addOrderItems = async (req, res) => {
 
     // Calculate prices
     const itemsPrice = cart.items.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
-    const shippingPrice = 30000; // 30,000 VNĐ
-    const taxPrice = itemsPrice * 0.08; // 8% VAT
-    const totalAmount = itemsPrice + shippingPrice + taxPrice;
+    let shippingPrice = 30000; // 30,000 VNĐ
+    let discountAmount = 0;
+    
+    if (couponCode) {
+      const Coupon = require('../models/Coupon');
+      const coupon = await Coupon.findOne({ code: couponCode.toUpperCase(), isActive: true });
+      if (coupon && itemsPrice >= coupon.minOrderAmount) {
+        if (coupon.type === 'freeship') {
+          shippingPrice = 0;
+        } else if (coupon.type === 'fixed') {
+          discountAmount = coupon.value;
+        } else if (coupon.type === 'percent') {
+          discountAmount = (itemsPrice * coupon.value) / 100;
+        }
+      }
+    }
+    
+    // Thuế = 8% của (Giá trị hàng - Khuyến mãi cố định/phần trăm). Nếu Freeship, thuế = 8% giá trị hàng.
+    let taxPrice = (itemsPrice - discountAmount) * 0.08;
+    if (couponCode) {
+      const Coupon = require('../models/Coupon');
+      const coupon = await Coupon.findOne({ code: couponCode.toUpperCase(), isActive: true });
+      if (coupon && coupon.type === 'freeship') {
+         taxPrice = 0; // Miễn phí ship & thuế
+      }
+    }
+
+    const totalAmount = itemsPrice - discountAmount + shippingPrice + taxPrice;
 
     // Create order items from cart items and check stock
     const items = [];
