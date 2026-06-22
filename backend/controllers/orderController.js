@@ -127,7 +127,7 @@ const cancelOrder = async (req, res) => {
 const trackOrder = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id)
-      .populate('orderItems.product', 'name images')
+      .populate('items.product', 'name images')
       .populate('user', 'name email');
 
     if (!order) {

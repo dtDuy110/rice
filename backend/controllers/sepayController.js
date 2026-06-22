@@ -57,8 +57,8 @@ const handleWebhook = async (req, res) => {
     // Bắn sự kiện qua Socket.IO để frontend cập nhật UI ngay lập tức
     const io = req.app.get('io');
     if (io) {
-      io.to(`user_${order.user}`).emit('payment_success', {
-        orderId: order._id,
+      io.to(`user_${order.user.toString()}`).emit('payment_success', {
+        orderId: order._id.toString(),
         orderNumber: order.orderNumber,
         amount: amount
       });
