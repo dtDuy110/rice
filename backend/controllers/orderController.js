@@ -54,6 +54,7 @@ const addOrderItems = async (req, res) => {
       items,
       shippingAddress,
       totalAmount,
+      paymentMethod: paymentMethod || 'COD',
       status: 'pending'
     });
 

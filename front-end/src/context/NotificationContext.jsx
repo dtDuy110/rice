@@ -80,7 +80,8 @@ export function NotificationProvider({ children }) {
       notifications,
       unreadCount,
       markAsRead,
-      markAllAsRead
+      markAllAsRead,
+      socket
     }}>
       {children}
     </NotificationContext.Provider>

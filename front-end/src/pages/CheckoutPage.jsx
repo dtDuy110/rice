@@ -22,6 +22,7 @@ export default function CheckoutPage() {
     city: 'Hồ Chí Minh',
     note: ''
   })
+  const [paymentMethod, setPaymentMethod] = useState('COD')
   const [couponCode, setCouponCode] = useState('')
   const [appliedCoupon, setAppliedCoupon] = useState(null)
   const [couponError, setCouponError] = useState('')
@@ -83,13 +84,19 @@ export default function CheckoutPage() {
           postalCode: '700000',
           country: 'Vietnam'
         },
-        paymentMethod: 'COD',
+        paymentMethod,
         totalPrice: total,
       })
       if (res.data.success) {
         await fetchCart()
-        showToast('Đặt hàng thành công! Đang chuyển đến trang đơn hàng...', 'success')
-        setTimeout(() => navigate('/tai-khoan'), 1500)
+        
+        if (paymentMethod === 'SEPAY') {
+          showToast('Đang chuyển đến trang thanh toán...', 'success')
+          navigate(`/thanh-toan-sepay/${res.data.data._id}`) // The order ID from backend
+        } else {
+          showToast('Đặt hàng thành công! Đang chuyển đến trang đơn hàng...', 'success')
+          setTimeout(() => navigate('/tai-khoan?tab=orders'), 1500)
+        }
       }
     } catch (error) {
       console.error('Checkout error:', error)
@@ -174,13 +181,23 @@ export default function CheckoutPage() {
               <h2 className="text-on-surface mb-4 flex items-center gap-2" style={{ fontFamily: 'var(--font-family-heading)', fontSize: '22px', fontWeight: 700 }}>
                 <ShieldCheck size={20} className="text-primary" /> Phương thức thanh toán
               </h2>
-              <label className="flex items-center gap-3 p-4 rounded-xl border-2 border-primary bg-primary/5 cursor-pointer">
-                <input type="radio" checked readOnly className="accent-primary w-4 h-4" />
-                <div>
-                  <p className="text-on-surface font-semibold">Thanh toán khi nhận hàng (COD)</p>
-                  <p className="text-on-surface-variant text-label-sm">Thanh toán bằng tiền mặt khi nhận được hàng</p>
-                </div>
-              </label>
+              <div className="space-y-3">
+                <label className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-colors ${paymentMethod === 'COD' ? 'border-primary bg-primary/5' : 'border-outline-variant/30 hover:border-primary/50'}`}>
+                  <input type="radio" name="payment" value="COD" checked={paymentMethod === 'COD'} onChange={() => setPaymentMethod('COD')} className="accent-primary w-4 h-4" />
+                  <div>
+                    <p className="text-on-surface font-semibold">Thanh toán khi nhận hàng (COD)</p>
+                    <p className="text-on-surface-variant text-label-sm">Thanh toán bằng tiền mặt khi nhận được hàng</p>
+                  </div>
+                </label>
+                
+                <label className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-colors ${paymentMethod === 'SEPAY' ? 'border-primary bg-primary/5' : 'border-outline-variant/30 hover:border-primary/50'}`}>
+                  <input type="radio" name="payment" value="SEPAY" checked={paymentMethod === 'SEPAY'} onChange={() => setPaymentMethod('SEPAY')} className="accent-primary w-4 h-4" />
+                  <div>
+                    <p className="text-on-surface font-semibold">Chuyển khoản tự động (SEpay)</p>
+                    <p className="text-on-surface-variant text-label-sm">Xác nhận đơn hàng tức thì bằng mã VietQR</p>
+                  </div>
+                </label>
+              </div>
             </div>
           </div>
 

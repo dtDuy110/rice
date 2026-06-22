@@ -44,6 +44,7 @@ app.use('/api/wishlist', require('./routes/wishlistRoutes'));
 app.use('/api/coupons', require('./routes/couponRoutes'));
 app.use('/api/notifications', require('./routes/notificationRoutes'));
 app.use('/api/blogs', require('./routes/blogRoutes'));
+app.use('/api/sepay', require('./routes/sepayRoutes'));
 
 // Temporary seed route (REMOVE after seeding!)
 app.get('/api/seed', async (req, res) => {

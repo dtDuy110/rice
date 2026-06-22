@@ -21,6 +21,7 @@ import BlogDetailPage from './pages/BlogDetailPage'
 import FAQPage from './pages/FAQPage'
 import OrderTrackingPage from './pages/OrderTrackingPage'
 import PolicyPage from './pages/PolicyPage'
+import OrderPaymentPage from './pages/OrderPaymentPage'
 import { AuthProvider } from './context/AuthContext'
 import { CartProvider } from './context/CartContext'
 import { ToastProvider } from './context/ToastContext'
@@ -68,6 +69,11 @@ function App() {
               <Route path="thanh-toan" element={
                 <ProtectedRoute>
                   <CheckoutPage />
+              </ProtectedRoute>
+            } />
+            <Route path="thanh-toan-sepay/:id" element={
+              <ProtectedRoute>
+                <OrderPaymentPage />
               </ProtectedRoute>
             } />
             <Route path="tai-khoan" element={
