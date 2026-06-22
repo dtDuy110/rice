@@ -106,9 +106,46 @@ const getRelatedProducts = async (req, res) => {
   }
 };
 
+// @desc    Fetch best-selling products
+// @route   GET /api/products/best-sellers
+// @access  Public
+const getBestSellers = async (req, res) => {
+  try {
+    const products = await Product.find({ status: 'active' })
+      .sort({ reviews: -1, rating: -1 })
+      .limit(8);
+    res.json({ success: true, data: products });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+// @desc    Get search suggestions
+// @route   GET /api/products/search-suggestions
+// @access  Public
+const getSearchSuggestions = async (req, res) => {
+  try {
+    const { q } = req.query;
+    if (!q || q.trim().length < 2) {
+      return res.json({ success: true, data: [] });
+    }
+    const products = await Product.find({
+      name: { $regex: q, $options: 'i' },
+      status: 'active'
+    })
+      .select('name price images category')
+      .limit(5);
+    res.json({ success: true, data: products });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 module.exports = {
   getProducts,
   getFeaturedProducts,
   getProductById,
-  getRelatedProducts
+  getRelatedProducts,
+  getBestSellers,
+  getSearchSuggestions
 };

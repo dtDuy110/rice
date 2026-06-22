@@ -1,17 +1,21 @@
 import { useState, useEffect } from 'react'
-import { Plus, ShieldCheck, Truck, ArrowRight } from 'lucide-react'
+import { Plus, ShieldCheck, Truck, ArrowRight, Heart } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import Badge from '../components/ui/Badge'
 import Button from '../components/ui/Button'
 import QuantitySelector from '../components/ui/QuantitySelector'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import ProductDetailSkeleton from '../components/ui/ProductDetailSkeleton'
+import RecentlyViewed from '../components/home/RecentlyViewed'
+import ShareButton from '../components/ui/ShareButton'
 
 import api from '../services/api'
 import { useCart } from '../context/CartContext'
+import { useWishlist } from '../context/WishlistContext'
 import { useToast } from '../context/ToastContext'
 import { formatVND } from '../utils/formatCurrency'
 import ReviewSection from '../components/ui/ReviewSection'
+import useRecentlyViewed from '../hooks/useRecentlyViewed'
 
 export default function ProductDetailPage() {
   const { id } = useParams()
@@ -23,6 +27,8 @@ export default function ProductDetailPage() {
   const [relatedProducts, setRelatedProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const { addToCart } = useCart()
+  const { isInWishlist, toggleWishlist } = useWishlist()
+  const { addRecentlyViewed } = useRecentlyViewed()
   const [error, setError] = useState(null)
 
   const fetchProductDetails = async () => {
@@ -33,6 +39,7 @@ export default function ProductDetailPage() {
       ])
       if (productRes.data.success) {
         setProduct(productRes.data.data)
+        addRecentlyViewed(productRes.data.data)
       }
       if (relatedRes.data.success) {
         setRelatedProducts(relatedRes.data.data)
@@ -85,6 +92,14 @@ export default function ProductDetailPage() {
                 <Badge type={product.badgeType}>{product.badge}</Badge>
               </div>
             )}
+            <button
+              onClick={(e) => { e.preventDefault(); toggleWishlist(product); }}
+              className={`absolute top-4 right-4 w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-sm transition-all shadow-sm
+                ${isInWishlist(product._id) ? 'bg-error/10 text-error' : 'bg-surface/50 text-on-surface-variant hover:bg-surface/80 hover:text-error'}
+              `}
+            >
+              <Heart size={24} className={isInWishlist(product._id) ? 'fill-error' : ''} />
+            </button>
           </div>
           {/* Thumbnails */}
           {product.images && product.images.length > 1 && (
@@ -153,16 +168,19 @@ export default function ProductDetailPage() {
             </Button>
           </div>
 
-          {/* Trust Badges */}
-          <div className="flex flex-wrap items-center gap-6 text-label-sm text-on-surface-variant">
-            <span className="flex items-center gap-2">
-              <Truck size={16} className="text-primary" />
-              Miễn phí ship đơn trên 500k
-            </span>
-            <span className="flex items-center gap-2">
-              <ShieldCheck size={16} className="text-primary" />
-              Đảm bảo hài lòng 100%
-            </span>
+          {/* Trust Badges & Share */}
+          <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-6 mt-6 pt-6 border-t border-outline-variant/30">
+            <div className="flex flex-wrap items-center gap-6 text-label-sm text-on-surface-variant">
+              <span className="flex items-center gap-2">
+                <Truck size={16} className="text-primary" />
+                Miễn phí ship đơn trên 500k
+              </span>
+              <span className="flex items-center gap-2">
+                <ShieldCheck size={16} className="text-primary" />
+                Đảm bảo hài lòng 100%
+              </span>
+            </div>
+            <ShareButton title={product.name} />
           </div>
         </div>
       </div>
@@ -312,6 +330,8 @@ export default function ProductDetailPage() {
           ))}
         </div>
       </div>
+      
+      <RecentlyViewed />
     </div>
   )
 }

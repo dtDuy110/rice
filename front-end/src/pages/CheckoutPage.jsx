@@ -22,15 +22,51 @@ export default function CheckoutPage() {
     city: 'Hồ Chí Minh',
     note: ''
   })
+  const [couponCode, setCouponCode] = useState('')
+  const [appliedCoupon, setAppliedCoupon] = useState(null)
+  const [couponError, setCouponError] = useState('')
+  const [couponLoading, setCouponLoading] = useState(false)
 
   const items = cart?.items || []
   const subtotal = items.reduce((s, i) => s + (i.product?.price || 0) * i.quantity, 0)
   const shipping = items.length > 0 ? 30000 : 0
-  const tax = subtotal * 0.08
-  const total = subtotal + shipping + tax
+  
+  // Calculate discount
+  let discountAmount = 0
+  if (appliedCoupon) {
+    if (appliedCoupon.type === 'fixed') {
+      discountAmount = appliedCoupon.value
+    } else if (appliedCoupon.type === 'percent') {
+      discountAmount = (subtotal * appliedCoupon.value) / 100
+    }
+  }
+
+  const tax = (subtotal - discountAmount) * 0.08
+  const total = subtotal - discountAmount + shipping + tax
 
   const handleChange = (e) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  const applyCoupon = async () => {
+    if (!couponCode.trim()) return
+    setCouponLoading(true)
+    setCouponError('')
+    try {
+      const { data } = await api.post('/coupons/validate', {
+        code: couponCode,
+        orderAmount: subtotal
+      })
+      if (data.success) {
+        setAppliedCoupon(data.data)
+        showToast('Áp dụng mã giảm giá thành công!', 'success')
+      }
+    } catch (err) {
+      setCouponError(err.response?.data?.error || 'Mã giảm giá không hợp lệ')
+      setAppliedCoupon(null)
+    } finally {
+      setCouponLoading(false)
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -47,7 +83,8 @@ export default function CheckoutPage() {
           postalCode: '700000',
           country: 'Vietnam'
         },
-        paymentMethod: 'COD'
+        paymentMethod: 'COD',
+        totalPrice: total,
       })
       if (res.data.success) {
         await fetchCart()
@@ -167,13 +204,48 @@ export default function CheckoutPage() {
               })}
             </div>
 
+            {/* Coupon Code */}
+            <div className="mb-6 border-t border-outline-variant/30 pt-6">
+              <label className="text-label-sm font-semibold mb-2 block">Mã giảm giá</label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value)}
+                  placeholder="Nhập mã giảm giá..."
+                  className="flex-1 bg-surface-container-lowest border border-outline-variant/50 rounded-xl px-4 py-2 text-body-md focus:outline-none focus:border-primary uppercase"
+                  disabled={appliedCoupon}
+                />
+                {!appliedCoupon ? (
+                  <Button type="button" variant="secondary" onClick={applyCoupon} disabled={couponLoading || !couponCode.trim()}>
+                    {couponLoading ? 'Đang kiểm tra...' : 'Áp dụng'}
+                  </Button>
+                ) : (
+                  <Button type="button" variant="outline" onClick={() => { setAppliedCoupon(null); setCouponCode(''); }}>
+                    Hủy
+                  </Button>
+                )}
+              </div>
+              {couponError && <p className="text-error text-xs mt-2">{couponError}</p>}
+              {appliedCoupon && (
+                <p className="text-primary text-xs mt-2 font-medium">
+                  Đã áp dụng mã {appliedCoupon.code} (giảm {appliedCoupon.type === 'percent' ? `${appliedCoupon.value}%` : formatVND(appliedCoupon.value)})
+                </p>
+              )}
+            </div>
+
             <div className="space-y-3 border-t border-outline-variant/30 pt-4 mb-6">
-              <div className="flex justify-between text-body-md"><span className="text-on-surface-variant">Tạm tính</span><span>${subtotal.toFixed(2)}</span></div>
-              <div className="flex justify-between text-body-md"><span className="text-on-surface-variant">Vận chuyển</span><span>${shipping.toFixed(2)}</span></div>
-              <div className="flex justify-between text-body-md"><span className="text-on-surface-variant">Thuế (7%)</span><span>${tax.toFixed(2)}</span></div>
+              <div className="flex justify-between text-body-md"><span className="text-on-surface-variant">Tạm tính</span><span>{formatVND(subtotal)}</span></div>
+              {discountAmount > 0 && (
+                <div className="flex justify-between text-body-md text-error">
+                  <span>Giảm giá</span><span>-{formatVND(discountAmount)}</span>
+                </div>
+              )}
+              <div className="flex justify-between text-body-md"><span className="text-on-surface-variant">Vận chuyển</span><span>{formatVND(shipping)}</span></div>
+              <div className="flex justify-between text-body-md"><span className="text-on-surface-variant">Thuế (8%)</span><span>{formatVND(tax)}</span></div>
               <div className="border-t border-outline-variant/30 pt-3 flex justify-between">
                 <span className="text-on-surface font-bold text-lg" style={{ fontFamily: 'var(--font-family-heading)' }}>Tổng cộng</span>
-                <span className="text-primary font-bold text-xl" style={{ fontFamily: 'var(--font-family-heading)' }}>${total.toFixed(2)}</span>
+                <span className="text-primary font-bold text-xl" style={{ fontFamily: 'var(--font-family-heading)' }}>{formatVND(total)}</span>
               </div>
             </div>
 

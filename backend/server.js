@@ -36,9 +36,14 @@ app.get('/', (req, res) => {
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/products/:productId/reviews', require('./routes/reviewRoutes'));
+app.use('/api/reviews', require('./routes/topReviewRoutes'));
 app.use('/api/cart', require('./routes/cartRoutes'));
 app.use('/api/orders', require('./routes/orderRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
+app.use('/api/wishlist', require('./routes/wishlistRoutes'));
+app.use('/api/coupons', require('./routes/couponRoutes'));
+app.use('/api/notifications', require('./routes/notificationRoutes'));
+app.use('/api/blogs', require('./routes/blogRoutes'));
 
 // Temporary seed route (REMOVE after seeding!)
 app.get('/api/seed', async (req, res) => {
@@ -64,6 +69,33 @@ app.get('/api/seed', async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+// Socket.io Setup
+const http = require('http');
+const { Server } = require('socket.io');
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: allowedOrigins,
+    credentials: true,
+  },
+});
+
+app.set('io', io); // Make io available in routes
+
+io.on('connection', (socket) => {
+  console.log('A user connected via socket:', socket.id);
+  
+  socket.on('join_user_room', (userId) => {
+    socket.join(`user_${userId}`);
+    console.log(`Socket ${socket.id} joined room user_${userId}`);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+  });
+});
+
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

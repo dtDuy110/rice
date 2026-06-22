@@ -1,40 +1,75 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Plus } from 'lucide-react'
+import { Plus, Heart, Eye } from 'lucide-react'
 import Badge from './Badge'
 import { useCart } from '../../context/CartContext'
+import { useWishlist } from '../../context/WishlistContext'
 import { formatVND } from '../../utils/formatCurrency'
+import QuickViewModal from './QuickViewModal'
 
 export default function ProductCard({ product, variant = 'home' }) {
+  const [isQuickViewOpen, setIsQuickViewOpen] = useState(false)
+
   if (variant === 'shop') {
-    return <ShopCard product={product} />
+    return (
+      <>
+        <ShopCard product={product} onQuickView={() => setIsQuickViewOpen(true)} />
+        <QuickViewModal product={product} isOpen={isQuickViewOpen} onClose={() => setIsQuickViewOpen(false)} />
+      </>
+    )
   }
-  return <HomeCard product={product} />
+  return (
+    <>
+      <HomeCard product={product} onQuickView={() => setIsQuickViewOpen(true)} />
+      <QuickViewModal product={product} isOpen={isQuickViewOpen} onClose={() => setIsQuickViewOpen(false)} />
+    </>
+  )
 }
 
-function HomeCard({ product }) {
+function HomeCard({ product, onQuickView }) {
   const { addToCart } = useCart()
+  const { isInWishlist, toggleWishlist } = useWishlist()
+  const isWishlisted = isInWishlist(product._id || product.id)
 
   return (
-    <Link
-      to={`/san-pham/${product._id || product.id}`}
-      className="group bg-surface rounded-2xl overflow-hidden shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 border border-surface-variant block"
-    >
+    <div className="group bg-surface rounded-2xl overflow-hidden shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 border border-surface-variant block relative">
       {/* Image */}
-      <div className="h-56 md:h-64 overflow-hidden relative">
-        <img
-          src={product.images?.[0] || product.image}
-          alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-        />
+      <div className="h-56 md:h-64 overflow-hidden relative block">
+        <Link to={`/san-pham/${product._id || product.id}`} className="block w-full h-full">
+          <img
+            src={product.images?.[0] || product.image}
+            alt={product.name}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+        </Link>
         {product.badge && (
           <div className="absolute top-4 left-4">
             <Badge type={product.badgeType}>{product.badge}</Badge>
           </div>
         )}
+        
+        {/* Quick View Button overlay on hover */}
+        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+          <button
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); onQuickView(); }}
+            className="bg-surface/90 text-on-surface backdrop-blur-md px-4 py-2 rounded-full font-semibold text-sm flex items-center gap-2 hover:bg-primary hover:text-white transition-colors pointer-events-auto transform translate-y-4 group-hover:translate-y-0 duration-300"
+          >
+            <Eye size={16} /> Xem nhanh
+          </button>
+        </div>
+
+        <button
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleWishlist(product); }}
+          className={`absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition-all shadow-sm z-10
+            ${isWishlisted ? 'bg-error/10 text-error' : 'bg-surface/50 text-on-surface-variant hover:bg-surface/80 hover:text-error'}
+          `}
+        >
+          <Heart size={20} className={isWishlisted ? 'fill-error' : ''} />
+        </button>
       </div>
 
       {/* Content */}
-      <div className="p-6 md:p-8">
+      <Link to={`/san-pham/${product._id || product.id}`} className="p-6 md:p-8 block">
         <h3
           className="text-headline-md text-on-surface mb-2"
           style={{ fontFamily: 'var(--font-family-heading)', fontSize: '20px' }}
@@ -58,35 +93,55 @@ function HomeCard({ product }) {
             <Plus size={20} />
           </button>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   )
 }
 
-function ShopCard({ product }) {
+function ShopCard({ product, onQuickView }) {
   const { addToCart } = useCart()
+  const { isInWishlist, toggleWishlist } = useWishlist()
+  const isWishlisted = isInWishlist(product._id || product.id)
 
   return (
-    <Link
-      to={`/san-pham/${product._id || product.id}`}
-      className="group bg-surface rounded-2xl overflow-hidden shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 border border-surface-variant block"
-    >
+    <div className="group bg-surface rounded-2xl overflow-hidden shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 border border-surface-variant block relative">
       {/* Image */}
-      <div className="h-56 md:h-72 overflow-hidden relative">
-        <img
-          src={product.images?.[0] || product.image}
-          alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-        />
+      <div className="h-56 md:h-72 overflow-hidden relative block">
+        <Link to={`/san-pham/${product._id || product.id}`} className="block w-full h-full">
+          <img
+            src={product.images?.[0] || product.image}
+            alt={product.name}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+        </Link>
         {product.badge && (
           <div className="absolute top-4 left-4">
             <Badge type={product.badgeType}>{product.badge}</Badge>
           </div>
         )}
+
+        {/* Quick View Button overlay on hover */}
+        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+          <button
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); onQuickView(); }}
+            className="bg-surface/90 text-on-surface backdrop-blur-md px-4 py-2 rounded-full font-semibold text-sm flex items-center gap-2 hover:bg-primary hover:text-white transition-colors pointer-events-auto transform translate-y-4 group-hover:translate-y-0 duration-300"
+          >
+            <Eye size={16} /> Xem nhanh
+          </button>
+        </div>
+
+        <button
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleWishlist(product); }}
+          className={`absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm transition-all shadow-sm z-10
+            ${isWishlisted ? 'bg-error/10 text-error' : 'bg-surface/50 text-on-surface-variant hover:bg-surface/80 hover:text-error'}
+          `}
+        >
+          <Heart size={20} className={isWishlisted ? 'fill-error' : ''} />
+        </button>
       </div>
 
       {/* Content */}
-      <div className="p-6">
+      <Link to={`/san-pham/${product._id || product.id}`} className="p-6 block">
         <div className="flex justify-between items-start mb-2">
           <h3
             className="text-on-surface font-semibold text-lg leading-tight"
@@ -126,14 +181,14 @@ function ShopCard({ product }) {
 
         {/* Add to Cart Button */}
         <button
-          onClick={(e) => { e.preventDefault(); addToCart(product._id || product.id, 1); }}
-          className="w-full bg-primary text-on-primary py-3 rounded-xl text-label-md font-semibold hover:bg-primary-container transition-colors flex items-center justify-center gap-2"
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCart(product._id || product.id, 1); }}
+          className="w-full bg-primary text-on-primary py-3 rounded-xl text-label-md font-semibold hover:bg-primary-container transition-colors flex items-center justify-center gap-2 relative z-10"
         >
           <ShoppingCartIcon />
           Thêm vào giỏ
         </button>
-      </div>
-    </Link>
+      </Link>
+    </div>
   )
 }
 

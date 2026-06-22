@@ -1,33 +1,72 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { ShoppingCart, User, Menu, X, LogOut, Search } from 'lucide-react'
+import { ShoppingCart, User, Menu, X, LogOut, Search, Heart } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { useCart } from '../../context/CartContext'
+import { useWishlist } from '../../context/WishlistContext'
+import NotificationDropdown from './NotificationDropdown'
+import api from '../../services/api'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const { user, logout } = useAuth()
   const { cart } = useCart()
+  const { wishlist } = useWishlist()
   const navigate = useNavigate()
+  
+  // Search state
   const [searchQuery, setSearchQuery] = useState('')
-
-  const handleSearch = (e) => {
-    e.preventDefault()
-    if (searchQuery.trim()) {
-      navigate(`/san-pham?search=${encodeURIComponent(searchQuery)}`)
-      setSearchQuery('')
-      setMobileOpen(false)
-    }
-  }
+  const [suggestions, setSuggestions] = useState([])
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  const searchRef = useRef(null)
 
   const cartCount = cart ? cart.items.reduce((acc, item) => acc + item.quantity, 0) : 0;
+  const wishlistCount = wishlist?.length || 0;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setShowSuggestions(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      if (searchQuery.trim().length < 2) {
+        setSuggestions([])
+        return
+      }
+      try {
+        const { data } = await api.get(`/products/search-suggestions?q=${encodeURIComponent(searchQuery)}`)
+        if (data.success) setSuggestions(data.data)
+      } catch (error) {
+        console.error('Error fetching search suggestions:', error)
+      }
+    }
+    
+    const timer = setTimeout(fetchSuggestions, 300)
+    return () => clearTimeout(timer)
+  }, [searchQuery])
+
+  const handleSearch = (e) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      navigate(`/san-pham?search=${encodeURIComponent(searchQuery)}`)
+      setSearchQuery('')
+      setShowSuggestions(false)
+      setMobileOpen(false)
+    }
+  }
 
   const navLinks = [
     { to: '/', label: 'Trang chủ' },
@@ -75,36 +114,80 @@ export default function Navbar() {
         {/* Right Icons & Search */}
         <div className="flex items-center space-x-2 md:space-x-3">
           {/* Desktop Search */}
-          <form onSubmit={handleSearch} className="hidden lg:flex relative mr-2">
-            <input
-              type="text"
-              placeholder="Tìm kiếm..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-surface-container-high border-none rounded-full pl-10 pr-4 py-2 text-label-md w-48 xl:w-64 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-            />
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-outline" />
-          </form>
+          <div className="hidden lg:block relative mr-2" ref={searchRef}>
+            <form onSubmit={handleSearch} className="relative">
+              <input
+                type="text"
+                placeholder="Tìm kiếm..."
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value)
+                  setShowSuggestions(true)
+                }}
+                onFocus={() => setShowSuggestions(true)}
+                className="bg-surface-container-high border-none rounded-full pl-10 pr-4 py-2 text-label-md w-48 xl:w-64 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+              />
+              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-outline" />
+            </form>
+            
+            {/* Search Suggestions Dropdown */}
+            {showSuggestions && suggestions.length > 0 && (
+              <div className="absolute top-full left-0 right-0 mt-2 bg-surface rounded-xl shadow-[var(--shadow-dropdown)] border border-outline-variant/30 overflow-hidden">
+                {suggestions.map(item => (
+                  <button
+                    key={item._id}
+                    onClick={() => {
+                      navigate(`/san-pham/${item._id}`)
+                      setShowSuggestions(false)
+                      setSearchQuery('')
+                    }}
+                    className="w-full flex items-center gap-3 p-2 hover:bg-surface-container-high transition-colors text-left"
+                  >
+                    <img src={item.images[0]} alt={item.name} className="w-10 h-10 object-cover rounded-md" />
+                    <div className="flex-1 overflow-hidden">
+                      <p className="text-sm text-on-surface font-semibold truncate" style={{ fontFamily: 'var(--font-family-heading)' }}>{item.name}</p>
+                      <p className="text-xs text-primary">{item.price.toLocaleString('vi-VN')}đ</p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <Link
+            to="/yeu-thich"
+            className="text-primary hover:text-primary-container transition-colors p-2 rounded-full hover:bg-surface-container-high relative"
+          >
+            <Heart size={22} />
+            {wishlistCount > 0 && (
+              <span className="absolute top-0 right-0 w-4 h-4 bg-error text-on-error rounded-full text-[10px] font-bold flex items-center justify-center transform translate-x-1/4 -translate-y-1/4">
+                {wishlistCount}
+              </span>
+            )}
+          </Link>
 
           <Link
             to="/gio-hang"
-            className="text-primary hover:text-primary-container transition-colors p-2 rounded-lg hover:bg-surface-container-high relative"
+            className="text-primary hover:text-primary-container transition-colors p-2 rounded-full hover:bg-surface-container-high relative"
           >
             <ShoppingCart size={22} />
             {cartCount > 0 && (
-              <span className="absolute top-0 right-0 w-5 h-5 bg-error text-on-error rounded-full text-[10px] font-bold flex items-center justify-center transform translate-x-1/4 -translate-y-1/4 border-2 border-surface">
+              <span className="absolute top-0 right-0 w-4 h-4 bg-error text-on-error rounded-full text-[10px] font-bold flex items-center justify-center transform translate-x-1/4 -translate-y-1/4">
                 {cartCount}
               </span>
             )}
           </Link>
+
+          {user && <NotificationDropdown />}
+
           {user ? (
-            <div className="flex items-center gap-2">
-              <Link to="/tai-khoan" className="hidden md:flex items-center gap-1 text-label-sm font-semibold text-on-surface hover:text-primary transition-colors">
+            <div className="flex items-center gap-1">
+              <Link to="/tai-khoan" className="hidden md:flex items-center gap-1 text-label-sm font-semibold text-on-surface hover:text-primary transition-colors px-2">
                 <User size={16} /> {user.name}
               </Link>
               <button
                 onClick={() => { logout(); navigate('/dang-nhap'); }}
-                className="text-primary hover:text-primary-container transition-colors p-2 rounded-lg hover:bg-surface-container-high"
+                className="text-primary hover:text-primary-container transition-colors p-2 rounded-full hover:bg-surface-container-high"
                 title="Đăng xuất"
               >
                 <LogOut size={22} />
@@ -113,7 +196,7 @@ export default function Navbar() {
           ) : (
             <Link
               to="/dang-nhap"
-              className="text-primary hover:text-primary-container transition-colors p-2 rounded-lg hover:bg-surface-container-high"
+              className="text-primary hover:text-primary-container transition-colors p-2 rounded-full hover:bg-surface-container-high"
             >
               <User size={22} />
             </Link>

@@ -120,8 +120,31 @@ const cancelOrder = async (req, res) => {
   }
 };
 
+// @desc    Track order by ID (Public)
+// @route   GET /api/orders/track/:id
+// @access  Public
+const trackOrder = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id)
+      .populate('orderItems.product', 'name images')
+      .populate('user', 'name email');
+
+    if (!order) {
+      return res.status(404).json({ success: false, error: 'Không tìm thấy đơn hàng' });
+    }
+
+    res.json({ success: true, data: order });
+  } catch (error) {
+    if (error.name === 'CastError') {
+      return res.status(404).json({ success: false, error: 'Mã đơn hàng không hợp lệ' });
+    }
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 module.exports = {
   addOrderItems,
   getMyOrders,
-  cancelOrder
+  cancelOrder,
+  trackOrder
 };

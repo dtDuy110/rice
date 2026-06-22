@@ -60,7 +60,25 @@ const getProductReviews = async (req, res) => {
   }
 };
 
+// @desc    Get top reviews (for testimonials)
+// @route   GET /api/reviews/top
+// @access  Public
+const getTopReviews = async (req, res) => {
+  try {
+    const reviews = await Review.find({ rating: { $gte: 4 } })
+      .populate('user', 'name')
+      .populate('product', 'name images')
+      .sort({ rating: -1, createdAt: -1 })
+      .limit(6);
+
+    res.json({ success: true, data: reviews });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 module.exports = {
   createReview,
-  getProductReviews
+  getProductReviews,
+  getTopReviews
 };

@@ -15,17 +15,27 @@ import DashboardPage from './pages/admin/DashboardPage'
 import OrdersPage from './pages/admin/OrdersPage'
 import ProductManagementPage from './pages/admin/ProductManagementPage'
 import NotFoundPage from './pages/NotFoundPage'
+import WishlistPage from './pages/WishlistPage'
+import BlogPage from './pages/BlogPage'
+import BlogDetailPage from './pages/BlogDetailPage'
+import FAQPage from './pages/FAQPage'
+import OrderTrackingPage from './pages/OrderTrackingPage'
+import PolicyPage from './pages/PolicyPage'
 import { AuthProvider } from './context/AuthContext'
 import { CartProvider } from './context/CartContext'
 import { ToastProvider } from './context/ToastContext'
+import { WishlistProvider } from './context/WishlistContext'
+import { NotificationProvider } from './context/NotificationContext'
 import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
   return (
     <ToastProvider>
       <AuthProvider>
-        <CartProvider>
-          <Router>
+        <NotificationProvider>
+          <WishlistProvider>
+            <CartProvider>
+              <Router>
         <Routes>
           {/* Auth - no layout */}
           <Route path="/dang-nhap" element={<SignInPage />} />
@@ -42,17 +52,22 @@ function App() {
             <Route path="san-pham" element={<ProductManagementPage />} />
           </Route>
 
-          {/* Main public layout */}
-          <Route path="/" element={<MainLayout />}>
-            <Route index element={<HomePage />} />
-            <Route path="san-pham" element={<ProductsPage />} />
-            <Route path="san-pham/:id" element={<ProductDetailPage />} />
-            <Route path="gioi-thieu" element={<AboutPage />} />
-            <Route path="lien-he" element={<ContactPage />} />
-            <Route path="gio-hang" element={<CartPage />} />
-            <Route path="thanh-toan" element={
-              <ProtectedRoute>
-                <CheckoutPage />
+            <Route path="/" element={<MainLayout />}>
+              <Route index element={<HomePage />} />
+              <Route path="san-pham" element={<ProductsPage />} />
+              <Route path="san-pham/:id" element={<ProductDetailPage />} />
+              <Route path="gioi-thieu" element={<AboutPage />} />
+              <Route path="lien-he" element={<ContactPage />} />
+              <Route path="gio-hang" element={<CartPage />} />
+              <Route path="yeu-thich" element={<WishlistPage />} />
+              <Route path="tin-tuc" element={<BlogPage />} />
+              <Route path="tin-tuc/:slug" element={<BlogDetailPage />} />
+              <Route path="cau-hoi-thuong-gap" element={<FAQPage />} />
+              <Route path="theo-doi-don-hang" element={<OrderTrackingPage />} />
+              <Route path="chinh-sach" element={<PolicyPage />} />
+              <Route path="thanh-toan" element={
+                <ProtectedRoute>
+                  <CheckoutPage />
               </ProtectedRoute>
             } />
             <Route path="tai-khoan" element={
@@ -63,8 +78,10 @@ function App() {
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
-          </Router>
-        </CartProvider>
+              </Router>
+            </CartProvider>
+          </WishlistProvider>
+        </NotificationProvider>
       </AuthProvider>
     </ToastProvider>
   )
