@@ -106,6 +106,11 @@ io.on('connection', (socket) => {
     console.log(`Socket ${socket.id} joined room user_${userId}`);
   });
 
+  socket.on('join_admin_room', () => {
+    socket.join('admin_room');
+    console.log(`Socket ${socket.id} joined admin_room`);
+  });
+
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
   });

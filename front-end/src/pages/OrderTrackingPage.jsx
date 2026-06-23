@@ -3,6 +3,7 @@ import { Search, MapPin, Truck, CheckCircle2, PackageSearch } from 'lucide-react
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import Button from '../components/ui/Button'
 import api from '../services/api'
+import { formatVND } from '../utils/formatCurrency'
 
 export default function OrderTrackingPage() {
   const [orderId, setOrderId] = useState('')
@@ -131,7 +132,7 @@ export default function OrderTrackingPage() {
                     <p className="font-semibold text-on-surface text-sm line-clamp-1">{item.name}</p>
                     <p className="text-on-surface-variant text-sm">SL: {item.quantity}</p>
                   </div>
-                  <p className="font-bold text-primary">${(item.price * item.quantity).toFixed(2)}</p>
+                  <p className="font-bold text-primary">{formatVND(item.price * item.quantity)}</p>
                 </div>
               ))}
             </div>

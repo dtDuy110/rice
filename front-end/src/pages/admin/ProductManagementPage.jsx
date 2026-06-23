@@ -6,6 +6,7 @@ import Button from '../../components/ui/Button'
 import ProductModal from '../../components/admin/ProductModal'
 import api from '../../services/api'
 import { useToast } from '../../context/ToastContext'
+import { formatVND } from '../../utils/formatCurrency'
 
 export default function ProductManagementPage() {
   const [products, setProducts] = useState([])
@@ -156,7 +157,7 @@ export default function ProductManagementPage() {
                         <span className="text-body-md text-on-surface-variant whitespace-nowrap">{product.stock} {product.unit}</span>
                       </div>
                     </td>
-                      <td className="py-4 px-6 text-body-md text-on-surface font-medium">${product.price.toFixed(2)}/{product.unit}</td>
+                      <td className="py-4 px-6 text-body-md text-on-surface font-medium">{formatVND(product.price)}/{product.unit}</td>
                       <td className="py-4 px-6"><Badge type={product.status === 'active' ? 'active' : 'draft'}>{product.status === 'active' ? 'Active' : 'Draft'}</Badge></td>
                       <td className="py-4 px-6">
                         <div className="flex items-center gap-2">

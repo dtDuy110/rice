@@ -5,9 +5,29 @@ const Notification = require('../models/Notification');
 // @access  Private
 const getNotifications = async (req, res) => {
   try {
-    const notifications = await Notification.find({ user: req.user._id })
+    const notifications = await Notification.find({ 
+      user: req.user._id,
+      recipient: 'user' 
+    })
       .sort({ createdAt: -1 })
       .limit(20);
+    res.json({ success: true, data: notifications });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+// @desc    Get admin notifications
+// @route   GET /api/admin/notifications
+// @access  Private/Admin
+const getAdminNotifications = async (req, res) => {
+  try {
+    const notifications = await Notification.find({ 
+      user: req.user._id, 
+      recipient: 'admin' 
+    })
+      .sort({ createdAt: -1 })
+      .limit(30);
     res.json({ success: true, data: notifications });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
@@ -49,6 +69,7 @@ const markAllAsRead = async (req, res) => {
 
 module.exports = {
   getNotifications,
+  getAdminNotifications,
   markAsRead,
   markAllAsRead
 };

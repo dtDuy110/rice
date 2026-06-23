@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react'
-import { TrendingUp, Package, Truck, MoreVertical } from 'lucide-react'
+import { TrendingUp, Package, Truck, MoreVertical, Loader2 } from 'lucide-react'
 import Badge from '../../components/ui/Badge'
 import api from '../../services/api'
+import { formatVND } from '../../utils/formatCurrency'
 
 const tabs = ['Tất cả', 'Đang chờ', 'Đã giao', 'Đã hủy']
-const statusMap = { processing: 'Đang xử lý', delivery: 'Đang giao', delivered: 'Đã giao', cancelled: 'Đã hủy' }
+const statusMap = { pending: 'Chờ xác nhận', processing: 'Đang xử lý', delivery: 'Đang giao', delivered: 'Đã giao', cancelled: 'Đã hủy' }
 
 export default function OrdersPage() {
   const [activeTab, setActiveTab] = useState('Tất cả')
   const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(true)
+  const [updatingId, setUpdatingId] = useState(null)
+  const [toast, setToast] = useState(null)
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -27,6 +30,38 @@ export default function OrdersPage() {
     fetchOrders()
   }, [])
 
+  // Auto-hide toast after 3 seconds
+  useEffect(() => {
+    if (toast) {
+      const timer = setTimeout(() => setToast(null), 3000)
+      return () => clearTimeout(timer)
+    }
+  }, [toast])
+
+  const handleStatusChange = async (orderId, newStatus) => {
+    const prevOrders = [...orders]
+    // Optimistic update — immediately reflect the change in UI
+    setOrders(prev => prev.map(o => o._id === orderId ? { ...o, status: newStatus } : o))
+    setUpdatingId(orderId)
+    try {
+      const res = await api.put(`/admin/orders/${orderId}/status`, { status: newStatus })
+      if (res.data.success) {
+        setToast({ type: 'success', message: `Đã cập nhật trạng thái thành "${statusMap[newStatus] || newStatus}"` })
+      } else {
+        // API returned success: false — rollback
+        setOrders(prevOrders)
+        setToast({ type: 'error', message: 'Cập nhật thất bại. Vui lòng thử lại.' })
+      }
+    } catch (err) {
+      console.error('Error updating status:', err)
+      // Rollback on error
+      setOrders(prevOrders)
+      setToast({ type: 'error', message: 'Lỗi khi cập nhật trạng thái. Vui lòng thử lại.' })
+    } finally {
+      setUpdatingId(null)
+    }
+  }
+
   // Calculate Stats
   const todayOrders = orders.filter(o => new Date(o.createdAt).toDateString() === new Date().toDateString())
   const pendingOrders = orders.filter(o => o.status === 'processing')
@@ -37,7 +72,7 @@ export default function OrdersPage() {
     { label: "ĐƠN HÀNG HÔM NAY", value: todayOrders.length.toString(), color: 'bg-surface' },
     { label: "CHỜ XỬ LÝ", value: pendingOrders.length.toString(), color: 'bg-surface' },
     { label: "ĐANG GIAO", value: deliveryOrders.length.toString(), color: 'bg-surface' },
-    { label: "DOANH THU HÔM NAY", value: `$${todayRevenue.toFixed(2)}`, color: 'bg-primary text-on-primary' },
+    { label: "DOANH THU HÔM NAY", value: formatVND(todayRevenue), color: 'bg-primary text-on-primary' },
   ]
 
   // Filter orders by tab
@@ -108,27 +143,28 @@ export default function OrdersPage() {
                     <td className="py-5 px-6 text-body-md text-on-surface font-medium">#{order._id.slice(-6).toUpperCase()}</td>
                     <td className="py-5 px-6 text-body-md text-on-surface-variant">{order.shippingAddress?.fullName || order.user?.name || 'Khách hàng'}</td>
                     <td className="py-5 px-6 text-body-md text-on-surface-variant">{new Date(order.createdAt).toLocaleDateString('vi-VN')}</td>
-                    <td className="py-5 px-6 text-body-md text-on-surface font-medium">${order.totalAmount.toFixed(2)}</td>
+                    <td className="py-5 px-6 text-body-md text-on-surface font-medium">{formatVND(order.totalAmount)}</td>
                     <td className="py-5 px-6"><Badge type={order.status}>{statusMap[order.status] || order.status}</Badge></td>
                     <td className="py-5 px-6">
-                      <select
-                        value={order.status}
-                        onChange={async (e) => {
-                          try {
-                            await api.put(`/admin/orders/${order._id}/status`, { status: e.target.value })
-                            setOrders(prev => prev.map(o => o._id === order._id ? { ...o, status: e.target.value } : o))
-                          } catch (err) {
-                            console.error('Error updating status:', err)
-                          }
-                        }}
-                        className="bg-surface border border-outline-variant/50 rounded-lg px-2 py-1.5 text-label-sm focus:outline-none focus:border-primary cursor-pointer"
-                      >
-                        <option value="pending">Chờ xác nhận</option>
-                        <option value="processing">Đang xử lý</option>
-                        <option value="delivery">Đang giao</option>
-                        <option value="delivered">Đã giao</option>
-                        <option value="cancelled">Đã hủy</option>
-                      </select>
+                      <div className="relative inline-flex items-center">
+                        <select
+                          value={order.status}
+                          disabled={updatingId === order._id}
+                          onChange={(e) => handleStatusChange(order._id, e.target.value)}
+                          className={`bg-surface border border-outline-variant/50 rounded-lg px-2 py-1.5 text-label-sm focus:outline-none focus:border-primary cursor-pointer transition-opacity ${
+                            updatingId === order._id ? 'opacity-50 cursor-wait' : ''
+                          }`}
+                        >
+                          <option value="pending">Chờ xác nhận</option>
+                          <option value="processing">Đang xử lý</option>
+                          <option value="delivery">Đang giao</option>
+                          <option value="delivered">Đã giao</option>
+                          <option value="cancelled">Đã hủy</option>
+                        </select>
+                        {updatingId === order._id && (
+                          <Loader2 size={14} className="absolute -right-5 animate-spin text-primary" />
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -146,6 +182,17 @@ export default function OrdersPage() {
           </div>
         </div>
       </div>
+
+      {/* Toast Notification */}
+      {toast && (
+        <div className={`fixed bottom-6 right-6 z-50 px-5 py-3 rounded-xl shadow-lg text-label-md font-medium animate-fade-in flex items-center gap-2 ${
+          toast.type === 'success'
+            ? 'bg-primary text-on-primary'
+            : 'bg-error text-on-error'
+        }`}>
+          {toast.type === 'success' ? '✓' : '✕'} {toast.message}
+        </div>
+      )}
     </div>
   )
 }

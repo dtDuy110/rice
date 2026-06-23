@@ -14,9 +14,14 @@ const notificationSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  recipient: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: 'user'
+  },
   type: {
     type: String,
-    enum: ['order', 'system', 'promotion'],
+    enum: ['order', 'system', 'promotion', 'new_order', 'payment_success'],
     default: 'system'
   },
   isRead: {

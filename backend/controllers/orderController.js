@@ -89,6 +89,28 @@ const addOrderItems = async (req, res) => {
     cart.items = [];
     await cart.save();
 
+    // --- Gửi thông báo cho admin ---
+    const User = require('../models/User');
+    const Notification = require('../models/Notification');
+
+    const admins = await User.find({ role: 'admin' });
+    const io = req.app.get('io');
+
+    for (const admin of admins) {
+      const notification = await Notification.create({
+        user: admin._id,
+        recipient: 'admin',
+        title: 'Đơn hàng mới',
+        message: `${shippingAddress.fullName || req.user.name} vừa đặt đơn hàng #${orderNumber} — ${totalAmount.toLocaleString('vi-VN')}₫`,
+        type: 'new_order',
+        link: '/admin/don-hang'
+      });
+
+      if (io) {
+        io.to('admin_room').emit('new_admin_notification', notification);
+      }
+    }
+
     res.status(201).json({ success: true, data: createdOrder });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

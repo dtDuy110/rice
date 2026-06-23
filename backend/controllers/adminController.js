@@ -23,7 +23,7 @@ const getDashboardStats = async (req, res) => {
       success: true,
       data: {
         stats: [
-          { label: 'DOANH THU', value: `$${revenue.toFixed(2)}`, change: '+0%', icon: 'wallet' },
+          { label: 'DOANH THU', value: `${revenue.toLocaleString('vi-VN')} ₫`, change: '+0%', icon: 'wallet' },
           { label: 'ĐƠN HÀNG', value: orders.length.toString(), change: '+0%', icon: 'package' },
           { label: 'KHÁCH HÀNG', value: usersCount.toString(), change: '+0%', icon: 'users' },
         ],
@@ -59,6 +59,32 @@ const updateOrderStatus = async (req, res) => {
     if (order) {
       order.status = status;
       const updatedOrder = await order.save();
+
+      // --- Send notification to user ---
+      const Notification = require('../models/Notification');
+      const io = req.app.get('io');
+      
+      const statusMap = {
+        pending: 'Chờ xác nhận',
+        processing: 'Đang xử lý',
+        delivery: 'Đang giao',
+        delivered: 'Đã giao',
+        cancelled: 'Đã hủy'
+      };
+
+      const notification = await Notification.create({
+        user: order.user,
+        recipient: 'user',
+        title: 'Cập nhật trạng thái đơn hàng',
+        message: `Đơn hàng #${order.orderNumber} của bạn đã được cập nhật sang trạng thái: ${statusMap[status] || status}`,
+        type: 'order',
+        link: '/tai-khoan' 
+      });
+
+      if (io) {
+        io.to(`user_${order.user}`).emit('new_notification', notification);
+      }
+
       res.json({ success: true, data: updatedOrder });
     } else {
       res.status(404).json({ success: false, error: 'Order not found' });

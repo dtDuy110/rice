@@ -317,7 +317,7 @@ export default function ProductDetailPage() {
               <p className="text-label-sm text-on-surface-variant mb-2">{item.subtitle}</p>
               <div className="flex justify-between items-center">
                 <span className="text-primary font-bold" style={{ fontFamily: 'var(--font-family-heading)' }}>
-                  ${item.price.toFixed(2)}
+                  {formatVND(item.price)}
                 </span>
                 <button 
                   onClick={(e) => { e.preventDefault(); addToCart(item._id, 1); }}

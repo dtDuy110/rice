@@ -9,6 +9,7 @@ const {
   updateProduct,
   deleteProduct
 } = require('../controllers/adminController');
+const { getAdminNotifications, markAsRead, markAllAsRead } = require('../controllers/notificationController');
 const { protect, admin } = require('../middleware/authMiddleware');
 
 router.use(protect, admin);
@@ -28,5 +29,10 @@ router.route('/products')
 router.route('/products/:id')
   .put(updateProduct)
   .delete(deleteProduct);
+
+// Notification routes
+router.get('/notifications', getAdminNotifications);
+router.put('/notifications/:id/read', markAsRead);
+router.put('/notifications/read-all', markAllAsRead);
 
 module.exports = router;

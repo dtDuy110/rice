@@ -1,6 +1,7 @@
 import { Outlet, useLocation } from 'react-router-dom'
 import AdminSidebar from './AdminSidebar'
-import { Bell, Moon, Settings, Search } from 'lucide-react'
+import { Moon, Settings, Search } from 'lucide-react'
+import AdminNotificationDropdown from '../admin/AdminNotificationDropdown'
 
 export default function AdminLayout() {
   const location = useLocation()
@@ -30,9 +31,7 @@ export default function AdminLayout() {
                 className="bg-transparent outline-none text-body-md text-on-surface placeholder:text-outline w-48"
               />
             </div>
-            <button className="p-2 rounded-xl hover:bg-surface-container-high text-on-surface-variant transition-colors">
-              <Bell size={20} />
-            </button>
+            <AdminNotificationDropdown />
             <button className="p-2 rounded-xl hover:bg-surface-container-high text-on-surface-variant transition-colors">
               <Moon size={20} />
             </button>

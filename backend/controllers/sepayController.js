@@ -67,6 +67,26 @@ const handleWebhook = async (req, res) => {
       });
     }
 
+    // --- Gửi thông báo cho admin ---
+    const User = require('../models/User');
+    const Notification = require('../models/Notification');
+    const admins = await User.find({ role: 'admin' });
+
+    for (const admin of admins) {
+      const notification = await Notification.create({
+        user: admin._id,
+        recipient: 'admin',
+        title: 'Thanh toán thành công',
+        message: `Đơn hàng #${order.orderNumber} vừa được thanh toán ${Number(amount).toLocaleString('vi-VN')}₫ qua SEPay`,
+        type: 'payment_success',
+        link: '/admin/don-hang'
+      });
+
+      if (io) {
+        io.to('admin_room').emit('new_admin_notification', notification);
+      }
+    }
+
     return res.status(200).json({ success: true, message: 'Webhook processed successfully' });
   } catch (error) {
     console.error('SEpay Webhook Error:', error);

@@ -223,7 +223,7 @@ export default function CheckoutPage() {
                       <p className="text-body-md text-on-surface truncate">{p.name}</p>
                       <p className="text-label-sm text-on-surface-variant">x{item.quantity}</p>
                     </div>
-                    <span className="text-body-md font-medium">${((p.price || 0) * item.quantity).toFixed(2)}</span>
+                    <span className="text-body-md font-medium">{formatVND((p.price || 0) * item.quantity)}</span>
                   </div>
                 )
               })}

@@ -27,6 +27,7 @@ import { CartProvider } from './context/CartContext'
 import { ToastProvider } from './context/ToastContext'
 import { WishlistProvider } from './context/WishlistContext'
 import { NotificationProvider } from './context/NotificationContext'
+import { AdminNotificationProvider } from './context/AdminNotificationContext'
 import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
@@ -45,7 +46,9 @@ function App() {
           {/* Admin layout */}
           <Route path="/admin" element={
             <ProtectedRoute requireAdmin={true}>
-              <AdminLayout />
+              <AdminNotificationProvider>
+                <AdminLayout />
+              </AdminNotificationProvider>
             </ProtectedRoute>
           }>
             <Route index element={<DashboardPage />} />

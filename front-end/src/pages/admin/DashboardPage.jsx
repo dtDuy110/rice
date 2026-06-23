@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { TrendingUp, Wallet, Package, Users, Target, MoreVertical } from 'lucide-react'
 import Badge from '../../components/ui/Badge'
 import api from '../../services/api'
+import { formatVND } from '../../utils/formatCurrency'
 
 const iconMap = { wallet: Wallet, package: Package, users: Users, target: Target }
 
@@ -118,7 +119,7 @@ export default function DashboardPage() {
                     <td className="py-4 px-2 text-body-md text-on-surface font-medium">#{order._id.slice(-6).toUpperCase()}</td>
                     <td className="py-4 px-2 text-body-md text-on-surface-variant">{order.shippingAddress?.fullName || 'Khách hàng'}</td>
                     <td className="py-4 px-2 text-body-md text-on-surface-variant">{new Date(order.createdAt).toLocaleDateString('vi-VN')}</td>
-                    <td className="py-4 px-2 text-body-md text-on-surface font-medium">${order.totalAmount.toFixed(2)}</td>
+                    <td className="py-4 px-2 text-body-md text-on-surface font-medium">{formatVND(order.totalAmount)}</td>
                     <td className="py-4 px-2"><Badge type={order.status}>{order.status === 'processing' ? 'Đang chờ' : order.status === 'delivered' ? 'Thành công' : order.status}</Badge></td>
                   </tr>
                 ))}
