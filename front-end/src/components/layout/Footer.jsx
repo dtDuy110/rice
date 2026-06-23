@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 export default function Footer() {
   return (
     <footer className="bg-surface-container-highest border-t border-outline-variant/30">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-20 px-4 md:px-12 py-16 md:py-20 max-w-[1280px] mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-12 md:gap-20 px-4 md:px-12 py-16 md:py-20 max-w-[1280px] mx-auto">
         {/* Brand */}
         <div className="col-span-1 md:col-span-2">
           <Link
@@ -52,6 +52,27 @@ export default function Footer() {
             <li>
               <Link to="/chinh-sach" className="text-label-sm text-on-surface-variant hover:text-primary transition-colors hover:underline decoration-2 underline-offset-4">
                 Đổi trả & Bảo mật
+              </Link>
+            </li>
+          </ul>
+        </div>
+        {/* Social */}
+        <div>
+          <h4 className="text-label-md text-on-surface font-bold mb-4">Liên hệ </h4>
+          <ul className="space-y-3">
+            <li>
+              <Link to="/lien-he" className="text-label-sm text-on-surface-variant hover:text-primary transition-colors hover:underline decoration-2 underline-offset-4">
+                Liên hệ với chúng tôi
+              </Link>
+            </li>
+            <li>
+              <Link to="" className="text-label-sm text-on-surface-variant hover:text-primary transition-colors hover:underline decoration-2 underline-offset-4">
+                Phone: 098888888
+              </Link>
+            </li>
+            <li>
+              <Link to="" className="text-label-sm text-on-surface-variant hover:text-primary transition-colors hover:underline decoration-2 underline-offset-4">
+                Mail: thanhphat@gmail.com
               </Link>
             </li>
           </ul>

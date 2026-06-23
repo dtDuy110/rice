@@ -5,7 +5,7 @@ export default function AboutPage() {
     <div className="animate-fade-in">
       {/* Hero Section */}
       <section className="relative h-[40vh] min-h-[400px] flex items-center justify-center overflow-hidden">
-        <img src="/images/signin-bg.png" alt="Cánh đồng lúa" className="absolute inset-0 w-full h-full object-cover" />
+        <img src="/images/signin.png" alt="Cánh đồng lúa" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]" />
         <div className="relative z-10 text-center px-4 max-w-3xl mx-auto">
           <h1 className="text-white text-5xl md:text-6xl font-bold mb-4" style={{ fontFamily: 'var(--font-family-heading)' }}>
@@ -56,7 +56,7 @@ export default function AboutPage() {
           <h3 className="text-on-surface text-3xl md:text-4xl font-bold mb-16" style={{ fontFamily: 'var(--font-family-heading)' }}>
             Cam Kết Từ Thành Phát
           </h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-surface p-8 rounded-3xl shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all">
               <div className="w-16 h-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mx-auto mb-6">
@@ -65,7 +65,7 @@ export default function AboutPage() {
               <h4 className="text-on-surface font-bold text-xl mb-3" style={{ fontFamily: 'var(--font-family-heading)' }}>Thuần Tự Nhiên</h4>
               <p className="text-on-surface-variant text-body-md">Sản phẩm hữu cơ, không sử dụng hóa chất độc hại, tôn trọng hệ sinh thái.</p>
             </div>
-            
+
             <div className="bg-surface p-8 rounded-3xl shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all">
               <div className="w-16 h-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <ShieldCheck size={32} />

@@ -49,7 +49,7 @@ export default function SignUpPage() {
     <div className="min-h-screen flex">
       {/* Left - Image Panel */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-        <img src="/images/signin-bg.png" alt="Cánh đồng lúa" className="w-full h-full object-cover" />
+        <img src="/images/signin.png" alt="Cánh đồng lúa" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
         <div className="absolute top-8 left-8 flex items-center gap-2">
           <div className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center text-white">

@@ -14,7 +14,7 @@ export default function Navbar() {
   const { cart } = useCart()
   const { wishlist } = useWishlist()
   const navigate = useNavigate()
-  
+
   // Search state
   const [searchQuery, setSearchQuery] = useState('')
   const [suggestions, setSuggestions] = useState([])
@@ -53,7 +53,7 @@ export default function Navbar() {
         console.error('Error fetching search suggestions:', error)
       }
     }
-    
+
     const timer = setTimeout(fetchSuggestions, 300)
     return () => clearTimeout(timer)
   }, [searchQuery])
@@ -78,8 +78,8 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed top-0 w-full z-50 transition-all duration-300  ${scrolled
-          ? 'bg-surface/95 backdrop-blur-md shadow-sm border-b border-outline-variant/20'
-          : 'bg-surface/80 backdrop-blur-md border-b border-outline-variant/10'
+        ? 'bg-surface/95 backdrop-blur-md shadow-sm border-b border-outline-variant/20'
+        : 'bg-surface/80 backdrop-blur-md border-b border-outline-variant/10'
         }`}
     >
       <div className="flex justify-between items-center px-4 md:px-12 py-4 max-w-[1280px] mx-auto">
@@ -129,7 +129,7 @@ export default function Navbar() {
               />
               <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-outline" />
             </form>
-            
+
             {/* Search Suggestions Dropdown */}
             {showSuggestions && suggestions.length > 0 && (
               <div className="absolute top-full left-0 right-0 mt-2 bg-surface rounded-xl shadow-[var(--shadow-dropdown)] border border-outline-variant/30 overflow-hidden">
@@ -156,7 +156,7 @@ export default function Navbar() {
 
           <Link
             to="/yeu-thich"
-            className="text-primary hover:text-primary-container transition-colors p-2 rounded-full hover:bg-surface-container-high relative"
+            className="text-primary hover:text-danger-container transition-colors p-2 rounded-full hover:bg-surface-container-high relative"
           >
             <Heart size={22} />
             {wishlistCount > 0 && (
@@ -168,7 +168,7 @@ export default function Navbar() {
 
           <Link
             to="/gio-hang"
-            className="text-primary hover:text-primary-container transition-colors p-2 rounded-full hover:bg-surface-container-high relative"
+            className="text-primary hover:text-danger-container transition-colors p-2 rounded-full hover:bg-surface-container-high relative"
           >
             <ShoppingCart size={22} />
             {cartCount > 0 && (
@@ -187,7 +187,7 @@ export default function Navbar() {
               </Link>
               <button
                 onClick={() => { logout(); navigate('/dang-nhap'); }}
-                className="text-primary hover:text-primary-container transition-colors p-2 rounded-full hover:bg-surface-container-high"
+                className="text-primary hover:text-danger-container transition-colors p-2 rounded-full hover:bg-surface-container-high"
                 title="Đăng xuất"
               >
                 <LogOut size={22} />
