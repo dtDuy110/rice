@@ -14,6 +14,7 @@ import ContactPage from './pages/ContactPage'
 import DashboardPage from './pages/admin/DashboardPage'
 import OrdersPage from './pages/admin/OrdersPage'
 import ProductManagementPage from './pages/admin/ProductManagementPage'
+import AnalyticsPage from './pages/admin/AnalyticsPage'
 import NotFoundPage from './pages/NotFoundPage'
 import WishlistPage from './pages/WishlistPage'
 import BlogPage from './pages/BlogPage'
@@ -29,6 +30,7 @@ import { WishlistProvider } from './context/WishlistContext'
 import { NotificationProvider } from './context/NotificationContext'
 import { AdminNotificationProvider } from './context/AdminNotificationContext'
 import ProtectedRoute from './components/ProtectedRoute'
+import UserActivityTracker from './components/UserActivityTracker'
 
 function App() {
   return (
@@ -38,6 +40,7 @@ function App() {
           <WishlistProvider>
             <CartProvider>
               <Router>
+                <UserActivityTracker />
         <Routes>
           {/* Auth - no layout */}
           <Route path="/dang-nhap" element={<SignInPage />} />
@@ -54,6 +57,7 @@ function App() {
             <Route index element={<DashboardPage />} />
             <Route path="don-hang" element={<OrdersPage />} />
             <Route path="san-pham" element={<ProductManagementPage />} />
+            <Route path="thong-ke" element={<AnalyticsPage />} />
           </Route>
 
             <Route path="/" element={<MainLayout />}>

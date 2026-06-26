@@ -16,7 +16,7 @@ const navItems = [
   { to: '/admin/san-pham', icon: Package, label: 'Sản phẩm' },
   { to: '/admin/don-hang', icon: ShoppingBag, label: 'Đơn hàng' },
   { to: '#', icon: Users, label: 'Khách hàng' },
-  { to: '#', icon: BarChart3, label: 'Thống kê' },
+  { to: '/admin/thong-ke', icon: BarChart3, label: 'Thống kê & Theo dõi' },
   { to: '#', icon: Settings, label: 'Cài đặt' },
 ]
 

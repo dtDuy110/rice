@@ -8,6 +8,7 @@ export default function AdminLayout() {
   let title = "Tổng Quan"
   if (location.pathname.includes('/don-hang')) title = "Quản lý đơn hàng"
   else if (location.pathname.includes('/san-pham')) title = "Quản lý sản phẩm"
+  else if (location.pathname.includes('/thong-ke')) title = "Thống kê & Theo dõi người dùng"
 
   return (
     <div className="min-h-screen bg-surface-container-low flex">
