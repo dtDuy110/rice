@@ -95,4 +95,4 @@ Dự án được tích hợp sâu với cổng thanh toán SEpay, mang lại lu
 *   Dự án được phát triển nhằm mục đích xây dựng nền tảng E-Commerce hiện đại, tối ưu hóa quy trình thanh toán tại Việt Nam.
 
 ---
-⭐ Nếu bạn thấy dự án này hữu ích, hãy cho một sao (Star) trên GitHub nhé!
+⭐ Nếu bạn thấy dự án này hữu ích, hãy cho một sao (Star) trên GitHub nhé!!!
